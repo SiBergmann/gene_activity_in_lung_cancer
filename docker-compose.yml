@@ -1,0 +1,16 @@
+services:
+  bachelor-neo4j:
+    image: neo4j:5.20.0
+    environment:
+      - NEO4J_PLUGINS=["graph-data-science"]
+      - NEO4J_server_memory_pagecache_size=5G
+      - NEO4J_server_memory_heap_initial__size=10G
+      - NEO4J_server_memory_heap_max__size=10G
+      - NEO4J_AUTH=neo4j/theBestNeo4JPassword4ever
+
+    volumes:
+      - ./graphdb_data/neo4j-import:/var/lib/neo4j/import/
+      - ./docker-import_data/neo4j:/var/lib/neo4j/import_data
+    ports:
+      - "7474:7474"
+      - "7687:7687"
