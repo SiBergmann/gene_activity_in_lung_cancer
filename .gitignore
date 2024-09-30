@@ -1,0 +1,11 @@
+# idea Folder
+/.idea/
+
+# Data Folder
+/import_data/
+
+# Model Folder
+/models/
+
+# latex files
+/tex/auxil
