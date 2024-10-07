@@ -1,0 +1,53 @@
+\subsection{Methodology} \label{subsec:methodology}
+% This subsection should focus on describing the preprocessing steps taken to create nodes and edges in your graph database.
+% It includes information about merging datasets, filtering data, normalizing TPM values, calculating delta TPM values,
+% creating gene nodes, protein-gene edges, protein nodes, and protein-protein edges.
+
+% Steps taken to merge datasets and create a combined dataset
+% Filtering criteria used to select genes for analysis
+% Methods used to normalize TPM values and calculate delta TPM values
+% Creation of gene nodes and their properties (e.g. name, ENS ID, mean TPM)
+% Creation of protein-gene edges and their properties (e.g. gene stable ID, protein stable ID)
+% Creation of protein nodes and their properties (e.g. protein stable ID)
+% Methods used to calculate z-scores for delta TPM values
+% Thresholds used to determine relevance (e.g. z-score of 1.96 or higher)
+
+{\color{lightgray}
+
+Datasets to nodes and edges
+    * genes as nodes
+        * eigenschaft: name, gene stable id, norm healyth tpm, norm cancerous tpm, delta tpm, z score, delta tpm relevant
+        * merging the GTEx (healthy) and CMP (cancerous) data to get a list of all genes that are in both datasets
+        * filtering for genes that have a gene-protein connection
+        * normalizing the TPM Values with log scaling
+        * calculate a delta TPM value for every gene as the difference between the mean tpm value in the healthy and the cancerous dataset
+        * NOT THE ABSOLUTE
+        * to find out which genes have a relevant change in the healthy and cancerous tpm value we calculate the z score for the delta tpm values for every gene
+        * z score is calculated as the difference between the delta tpm value and the mean delta tpm value divided by the standard deviation of the delta tpm values
+        * z score is a measure of how many standard deviations an element is from the mean
+        * XXX genes with a z score of 1,96 or higher are considered as delta tpm relevant (p Wert damit 0,05 and Konfidenzniveau 95%)
+    → 17.626 gene Nodes
+
+    * protein-gene connection as edges
+        * eigenschaft: gene stable id, protein stable id
+        * proteins are needed as a second node type to get a connection between the genes.
+        * downloaded protein file from biomart with gene stable ID and protein stable ID
+        * filtered for those gene stable IDs that are in the gene node list.
+        * we only have those proteins that have a connection (was sagt die tabelle genau aus?)
+    → 101.731 protein gene edges (means: every protein is connected to exactly one gene, but every gene can have multiple proteins)
+
+    * proteins as nodes
+        * eigenschaft: protein stable id
+        * use the protein gene table as base
+        * only use the column with the protein stable ID
+    → 101.731 protein Nodes
+
+    * protein protein connection as edges
+        * eigenschaft: protein stable id 1, protein stable id 2
+        * downloaded protein protein interaction file from STRING database
+        * filtered for those protein stable IDs that are in the protein node list
+    → 11.247.242 protein protein edges
+    (not every protein is connected to another one → but since every gene could have multiple proteins, the connected gene may have a connection to another protein)
+    TODO: are those genes that are not connected to another gene relevant for the analysis?
+
+}

@@ -1,0 +1,43 @@
+\subsection{Data} \label{subsec:data}
+% This subsection should focus on describing the original datasets used in your study, their characteristics,
+% and any preprocessing steps taken to prepare them for analysis.
+% It includes information about the GTEx and CMP datasets, how they were downloaded, formatted, and processed.
+
+% Description of the original datasets used (GTEx and CMP)
+% Characteristics of the datasets (number of genes, tissues, TPM values, etc.)
+% Steps taken to download and preprocess the data
+% Data quality control and any issues encountered
+% Methods used to handle missing or duplicate data
+% Any transformations or normalizations applied to the data
+% Sources of external data (e.g. Ensembl, Biomart) and how they were integrated
+
+
+{\color{lightgray}
+
+preparation of the Datasets for the graph db
+* for every dataset we need the format genes as rows and at least the ENS ID and a mean tpm for every gene row
+    * GTEX (Genotype-Tissue Expression) - healthy tissues
+        * downloaded bulk-tissue-expression file (... more about the data)
+        * format was: Gene / ENS ID as rows and tissues as columns - tpm value for every gene in every tissue
+        * melted down to genes as rows and tissue and tpm value as columns
+        * grouped by tissues to get a single tpm value for every gene (eigentlich sum and count to get mean)
+    → 56.156 human genes with mean values for healthy tpm
+
+    * CMP (Cell Model Passport) - cancerous tissues
+        * downloaded all RNA-Seq processed data - which contain data from Sanger Institute and from Broad Institute
+        * format was: genes with CMP IDs as rows and tpms, tissues (called model), ... per column
+        * separate file loaded with model annotation to get a list of all models (tissues) that have lung cancer as cancer type
+        * filtered the data to get only the lung cancer models
+        * grouped all models (tissues) to get a mean tpm value for every gene
+        * needed to add ENS ID to the genes for further processing
+        * separate ensemble file downloaded from biomart (https://www.ensembl.org/biomart/martview/)
+        * contains Gene stable ID and gene symbol (name)
+        * idea is to add the Gene stable ID by merging both tables by the gene name
+        * daher gehen wir davon aus, dass jeder gen name eindeutig ist
+        * war es nicht - 10.605/48.311 rows in the ensemble file had a not unique gene name
+        * rows with names that are not unique were removed
+        * merging the ensemble file with the CMP data to get the ENS ID for every gene
+        * 3.760 / 37.262 genes had no ENS ID → missing IDs could be added by synonymes maybe because of duplicate removement
+        * these genes are removed
+    → 33.502 human genes with mean values tpm for lung cancer
+}

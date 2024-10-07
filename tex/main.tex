@@ -64,88 +64,13 @@ Key facts:
 
 \input{capitle/02_0_background}
 
-\input{capitle/03_experimental_setup}
+\input{capitle/03_0_experimental_setup}
 
 \input{capitle/04_results}
 
 \input{capitle/05_0_discussion}
 
 \input{capitle/06_conclusion}
-
-\section{Notes:}
-{\color{lightgray}
-
-preparation of the Datasets for the graph db
-* for every dataset we need the format genes as rows and at least the ENS ID and a mean tpm for every gene row
-    * GTEX (Genotype-Tissue Expression) - healthy tissues
-        * downloaded bulk-tissue-expression file (... more about the data)
-        * format was: Gene / ENS ID as rows and tissues as columns - tpm value for every gene in every tissue
-        * melted down to genes as rows and tissue and tpm value as columns
-        * grouped by tissues to get a single tpm value for every gene (eigentlich sum and count to get mean)
-    → 56.156 human genes with mean values for healthy tpm
-
-    * CMP (Cell Model Passport) - cancerous tissues
-        * downloaded all RNA-Seq processed data - which contain data from Sanger Institute and from Broad Institute
-        * format was: genes with CMP IDs as rows and tpms, tissues (called model), ... per column
-        * separate file loaded with model annotation to get a list of all models (tissues) that have lung cancer as cancer type
-        * filtered the data to get only the lung cancer models
-        * grouped all models (tissues) to get a mean tpm value for every gene
-        * needed to add ENS ID to the genes for further processing
-        * separate ensemble file downloaded from biomart (https://www.ensembl.org/biomart/martview/)
-        * contains Gene stable ID and gene symbol (name)
-        * idea is to add the Gene stable ID by merging both tables by the gene name
-        * daher gehen wir davon aus, dass jeder gen name eindeutig ist
-        * war es nicht - 10.605/48.311 rows in the ensemble file had a not unique gene name
-        * rows with names that are not unique were removed
-        * merging the ensemble file with the CMP data to get the ENS ID for every gene
-        * 3.760 / 37.262 genes had no ENS ID → missing IDs could be added by synonymes maybe because of duplicate removement
-        * these genes are removed
-    → 33.502 human genes with mean values tpm for lung cancer
-
-Datasets to nodes and edges
-    * genes as nodes
-        * eigenschaft: name, gene stable id, norm healyth tpm, norm cancerous tpm, delta tpm, z score, delta tpm relevant
-        * merging the GTEx (healthy) and CMP (cancerous) data to get a list of all genes that are in both datasets
-        * filtering for genes that have a gene-protein connection
-        * normalizing the TPM Values with log scaling
-        * calculate a delta TPM value for every gene as the difference between the mean tpm value in the healthy and the cancerous dataset
-        * NOT THE ABSOLUTE
-        * to find out which genes have a relevant change in the healthy and cancerous tpm value we calculate the z score for the delta tpm values for every gene
-        * z score is calculated as the difference between the delta tpm value and the mean delta tpm value divided by the standard deviation of the delta tpm values
-        * z score is a measure of how many standard deviations an element is from the mean
-        * XXX genes with a z score of 1,96 or higher are considered as delta tpm relevant (p Wert damit 0,05 and Konfidenzniveau 95%)
-    → 17.626 gene Nodes
-
-    * protein-gene connection as edges
-        * eigenschaft: gene stable id, protein stable id
-        * proteins are needed as a second node type to get a connection between the genes.
-        * downloaded protein file from biomart with gene stable ID and protein stable ID
-        * filtered for those gene stable IDs that are in the gene node list.
-        * we only have those proteins that have a connection (was sagt die tabelle genau aus?)
-    → 101.731 protein gene edges (means: every protein is connected to exactly one gene, but every gene can have multiple proteins)
-
-    * proteins as nodes
-        * eigenschaft: protein stable id
-        * use the protein gene table as base
-        * only use the column with the protein stable ID
-    → 101.731 protein Nodes
-
-    * protein protein connection as edges
-        * eigenschaft: protein stable id 1, protein stable id 2
-        * downloaded protein protein interaction file from STRING database
-        * filtered for those protein stable IDs that are in the protein node list
-    → 11.247.242 protein protein edges
-    (not every protein is connected to another one → but since every gene could have multiple proteins, the connected gene may have a connection to another protein)
-    TODO: are those genes that are not connected to another gene relevant for the analysis?
-
-Graph database
-    * Neo4J
-    * gene nodes query:
-    * protein nodes query:
-    * gene protein edges query:
-    * protein protein edges query:
-
-}
 
 
 \newpage
