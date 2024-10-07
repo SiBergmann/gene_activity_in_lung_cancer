@@ -14,6 +14,8 @@
 \usepackage{natbib}
 \usepackage{lmodern}
 \usepackage{bmpsize-base}
+\usepackage{xcolor}
+
 
 
 
@@ -25,7 +27,7 @@ Simone Bergmann, 3957624 \\
 \texttt{simone.bergmann@uni-bielefeld.de}%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%
-\twocolumn
+% \twocolumn
 \begin{document}
 \maketitle
 
@@ -37,19 +39,21 @@ Simone Bergmann, 3957624 \\
 % ca 30 Quellen
 % Jedes Kapitel am Anfang und am Ende zusammenfassen aber Fokus auf Ende
 
-\cite{page1999pagerank}
 
+
+{\color{lightgray}
 Task:
 Creation of a data model and integration of genes and proteins with interactions in an appropriate form within a graph database,
 which is to be used for the identification of relevant genes for distinguishing between healthy tissue and lung cancer.
 
 Key facts:
-* cancerous mean tpm from Cell Model Passport
-* healthy mean tpm from Genotype-Tissue Expression
-* delta tpm as difference between healthy and cancerous tpm
-* genes are connected with proteins and proteins are connected with each other (STRING database)
-* neo4J as graph database
-* pagerank as graph algorithm to identify relevant genes
+* cancerous mean tpm from Cell Model Passport \\
+* healthy mean tpm from Genotype-Tissue Expression \\
+* delta tpm as difference between healthy and cancerous tpm \\
+* genes are connected with proteins and proteins are connected with each other (STRING database) \\
+* neo4J as graph database \\
+* pagerank as graph algorithm to identify relevant genes \\
+}
 
 % TODO
 % Abstact soll kursiv sein
@@ -68,7 +72,8 @@ Key facts:
 
 \input{capitle/06_conclusion}
 
-Content:
+\section{Notes:}
+{\color{lightgray}
 
 preparation of the Datasets for the graph db
 * for every dataset we need the format genes as rows and at least the ENS ID and a mean tpm for every gene row
@@ -97,27 +102,21 @@ preparation of the Datasets for the graph db
         * these genes are removed
     → 33.502 human genes with mean values tpm for lung cancer
 
-    * HPA (Human Protein Atlas) - cancerous tissues
-        * downloaded RNA HPA cell line cancer gene data from the HPA website
-        * format was: genes with ENS ID as rows and Gene Names, Cancertype and TPM value as columns
-        * data filtered for lung cancer
-    → 20.162 human genes with tpm values for lung cancer
-    → DELETED!!!
-
 Datasets to nodes and edges
     * genes as nodes
         * eigenschaft: name, gene stable id, norm healyth tpm, norm cancerous tpm, delta tpm, z score, delta tpm relevant
         * merging the GTEx (healthy) and CMP (cancerous) data to get a list of all genes that are in both datasets
+        * filtering for genes that have a gene-protein connection
         * normalizing the TPM Values with log scaling
         * calculate a delta TPM value for every gene as the difference between the mean tpm value in the healthy and the cancerous dataset
         * NOT THE ABSOLUTE
         * to find out which genes have a relevant change in the healthy and cancerous tpm value we calculate the z score for the delta tpm values for every gene
         * z score is calculated as the difference between the delta tpm value and the mean delta tpm value divided by the standard deviation of the delta tpm values
         * z score is a measure of how many standard deviations an element is from the mean
-        * 1.643(?!) genes with a z score of 1,96 or higher are considered as delta tpm relevant (p Wert damit 0,05 and Konfidenzniveau 95%)
-    → 32.865 gene Nodes
+        * XXX genes with a z score of 1,96 or higher are considered as delta tpm relevant (p Wert damit 0,05 and Konfidenzniveau 95%)
+    → 17.626 gene Nodes
 
-    * protein gene connection as edges
+    * protein-gene connection as edges
         * eigenschaft: gene stable id, protein stable id
         * proteins are needed as a second node type to get a connection between the genes.
         * downloaded protein file from biomart with gene stable ID and protein stable ID
@@ -146,11 +145,7 @@ Graph database
     * gene protein edges query:
     * protein protein edges query:
 
-
-
-
-ANALYSIS
-IN ONENOTE
+}
 
 
 \newpage
