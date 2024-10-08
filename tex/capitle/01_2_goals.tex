@@ -1,9 +1,38 @@
-\subsection{Problem Statement and Goals} \label{subsec:problem_statement_and_goals}
-% description of the problem / idea
+\subsection{Goals} \label{subsec:goals}
+% TODO support krebs Forschung
 
-% goals of the thesis:
-    % Main: identify genes that are relevant for research in lung cancer
-    % to reach this I will:
-        % 1. create a graph database with gene and protein information → to take advantage of the relationships between genes and proteins
-        % 2. use a graph algorithm → to identify relevant genes for distinguishing between healthy and lung cancer
-        % 3. compare identified genes with other papers → to validate the results
+The main goal of this thesis is to identify genes that have a high likelihood
+of being associated with lung cancer development or progression.
+
+
+To achieve this, we have three strategic objectives:
+\begin{enumerate}
+    \item \textbf{Objective - Find significant changes in gene activity:}
+    % Find a appropriate measurement for cancer related changes in gene activty.
+    We will calculate the change in this measurement between healthy and cancerous tissues
+    and define if this difference is significant
+    to be able to later focus on these genes.
+    \label{obj:delta_tpm}
+
+    \item \textbf{Objective - Application of a graph algorithm:}
+    % We will create a graph database that contains genetic information with interactions between genes and proteins.
+    We will use a graph algorithm to identify genes that are most central in the network
+    to find candidates that are most likely to be biomarkers for lung cancer.
+    \label{obj:graph_algorithm}
+
+    \item \textbf{Objective - Validation of results through study comparison:}
+    We will compare the identified genes,
+    which exhibit significant changes in activity (\ref{obj:delta_tpm})
+    and are highly influential in the network (\ref{obj:graph_algorithm}) with other studies
+    to validate our results and ensure that their reproducible.
+    \label{obj:validation}
+\end{enumerate}
+
+
+% TODO Expected Outcomes
+
+{\color{lightgray}
+Our expected outcomes are:
+A list of genes with high likelihood as potential biomarkers for lung cancer can be identified.
+This gene list is confirmed by a comprehensive analysis of the literature and comparisons with existing research papers.
+}
