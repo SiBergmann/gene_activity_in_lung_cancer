@@ -9,20 +9,68 @@
 % Data quality control and any issues encountered
 % Methods used to handle missing or duplicate data
 % Any transformations or normalizations applied to the data
-% Sources of external data (e.g. Ensembl, Biomart) and how they were integrated
+
+% TODO wieso habe ich diese Datasets gewählt? Ehr Abgrenzung?
+% TODO Warum habe ich TPM wert genommen?
+
+Our study consists of two main datasets.
+One includes healthy tissue data from the Genotype-Tissue Expression (GTEx) project,
+and the other includes cancerous tissue data from the Cell Model Passport (CMP) project.
+These two datasets are the base for the gene nodes in our graph database.
+For these, we need to have a single table with each gene as row and a single value for healthy and cancerous tpm values for every gene in every tissue.
+To have a unique name for every gene, we use the Ensemble ID (ENS ID) as the primary key for the gene nodes.
+These are a unique erkennung for genes, proteins and other genetic elements collected in the Ensemble database
+from 1999 by the European Bioinformatics Institute and the Wellcome Trust Sanger Institute \cite{ensembl_project}.
+\\
+
+% Genotype-Tissue Expression (GTEx) dataset
+% todo file name too long for line
+For the healthy tissue samples used in this study,
+we downloaded the \texttt{GTEx\_Analysis\_2017-06-05\_v8\_RNASeQCv1.1.9\_gene\_tpm} dataset from the GTEx portal \cite{gtex_download}.
+The \textbf{GTEx portal} is a large-scale, publicly available resource for studying gene activity.
+The Adult GTEx project aims to characterize the gene expression patterns in healthy tissues across different individuals and ages,
+providing valuable insights into the underlying biology of human development and disease.
+This dataset is part of the Bulk Tissue Expression data in the V8 release,
+which provides RNA sequencing data for a large number of tissue samples.
+% genommen weil in der Wissenschaft üblich
+
+
+The dataset is a .gct file that contains TPM values for 56,156 genes identified by ENS ID as rows in 17,382 different tissues as columns.
+The data was initially stored in a file in wide format where each tissue had its own column.
+% TODO more?
+The TPM values for the tissues are between 0 and 747,400.
+Since there are no missing values in the dataset, we did not need to handle any missing data.
+To process this data into a suitable format, we employed the following steps:
+\begin{itemize}
+    \item \textbf{Reshaping the data to length format:} We read the data from the original file in chunks of 3,000 rows at a time to avoid memory issues.
+    For each chunk of data, we transformed the columns for each tissue into individual rows,
+    resulting in a dataset with three columns (ENS ID, Tissue, TPM) and 56,156 * 17,382 rows.
+    \item \textbf{Grouping by genes:} Once all chunks had been processed, we separated the combined dataset in new chunks of approximately 200 million rows.
+    These chunks have been grouped by gene using an aggregate function that calculated both the sum and count of TPM values for each gene.
+    \item \textbf{Calculating mean tpm:} To handle genes that had been split across multiple chunks,
+    we performed a global aggregation on the genes of the sum of the dataset.
+    We then calculated the mean TPM value for each gene by dividing the sum by the count of each observation.
+    %TODO unklar
+\end{itemize}
+The resulting dataset with 56,156 genes and a mean TPM value for every gene was saved as a CSV file for further processing.
+% TODO insert example Rows - as image or as text - Schaubild mit Steps
+\\
+
+
+% Cell Model Passport
+The cancerous tissue samples used in this study were obtained from the \textbf{Cell Model Passport (CMP) project}.
+The CMP project...
+
+The used file was downloaded from the CMP portal \cite{cmp_download} under the section Expression Data
+with the name \texttt{rnaseq\_all\_data\_20220624}.
+It contains data from the Sanger Institute and as well as from the Broad Institute.
+% TODO Mehr Infos ? https://depmap.sanger.ac.uk/documentation/datasets/expression/
+The file is a .csv file that contains TPM values for genes infected with different cancer types.
+The data was initially stored in long format where CMP ID for genes, Tissues, TPM Values and more information.
+
 
 
 {\color{lightgray}
-
-preparation of the Datasets for the graph db
-* for every dataset we need the format genes as rows and at least the ENS ID and a mean tpm for every gene row
-    * GTEX (Genotype-Tissue Expression) - healthy tissues
-        * downloaded bulk-tissue-expression file (... more about the data)
-        * format was: Gene / ENS ID as rows and tissues as columns - tpm value for every gene in every tissue
-        * melted down to genes as rows and tissue and tpm value as columns
-        * grouped by tissues to get a single tpm value for every gene (eigentlich sum and count to get mean)
-    → 56.156 human genes with mean values for healthy tpm
-
     * CMP (Cell Model Passport) - cancerous tissues
         * downloaded all RNA-Seq processed data - which contain data from Sanger Institute and from Broad Institute
         * format was: genes with CMP IDs as rows and tpms, tissues (called model), ... per column
