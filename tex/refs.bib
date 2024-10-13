@@ -14,7 +14,7 @@
 }
 
 
-
+##############################
 # 02 - Background
 @misc{who_cancer_fact_sheet,
   title = {Cancer},
@@ -87,7 +87,68 @@
   note = {Accessed: 23.09.2024}
 }
 
-% 3 Expreimental Setup
+@article{simpson2020applying,
+    author = {Simpson, Claire M and Gnad, Florian},
+    title = "{Applying graph database technology for analyzing perturbed co-expression networks in cancer}",
+    journal = {Database},
+    volume = {2020},
+    pages = {baaa110},
+    year = {2020},
+    month = {12},
+    abstract = "{Graph representations provide an elegant solution to capture and analyze complex molecular mechanisms in the cell. Co-expression networks are undirected graph representations of transcriptional co-behavior indicating (co-)regulations, functional modules or even physical interactions between the corresponding gene products. The growing avalanche of available RNA sequencing (RNAseq) data fuels the construction of such networks, which are usually stored in relational databases like most other biological data. Inferring linkage by recursive multiple-join statements, however, is computationally expensive and complex to design in relational databases. In contrast, graph databases store and represent complex interconnected data as nodes, edges and properties, making it fast and intuitive to query and analyze relationships. While graph-based database technologies are on their way from a fringe domain to going mainstream, there are only a few studies reporting their application to biological data. We used the graph database management system Neo4j to store and analyze co-expression networks derived from RNAseq data from The Cancer Genome Atlas. Comparing co-expression in tumors versus healthy tissues in six cancer types revealed significant perturbation tracing back to erroneous or rewired gene regulation. Applying centrality, community detection and pathfinding graph algorithms uncovered the destruction or creation of central nodes, modules and relationships in co-expression networks of tumors. Given the speed, accuracy and straightforwardness of managing these densely connected networks, we conclude that graph databases are ready for entering the arena of biological data.}",
+    issn = {1758-0463},
+    doi = {10.1093/database/baaa110},
+    url = {https://doi.org/10.1093/database/baaa110},
+    eprint = {https://academic.oup.com/database/article-pdf/doi/10.1093/database/baaa110/34862539/baaa110.pdf},
+}
+
+@article{rout2024systematic,
+  author = {Rout, Trilochan and Mohapatra, Anjali and Kar, Madhabananda},
+  title = {{A systematic review of graph-based explorations of PPI networks: methods, resources, and best practices}},
+  journal = {{Network Modeling Analysis in Health Informatics and Bioinformatics}},
+  volume = {13},
+  number = {1},
+  pages = {29-?},
+  year = {2024},
+  month = may,
+  day = 30,
+  doi = {10.1007/s13721-024-00467-0},
+  publisher = {{Springer Nature}},
+  abstract = {
+    This systematic review aims to provide a comprehensive overview of graph-based methodologies utilized in the analysis of protein–protein interaction (PPI) networks.
+    The primary objective is to synthesize existing literature and identify key methodologies, resources, and best practices in the field, with a focus on their application in uncovering essential cancer proteins.
+    A systematic literature search was conducted across various databases to identify relevant studies focusing on graph-based explorations of PPI networks.
+    The selected articles were critically reviewed, and data were extracted regarding the methodologies employed, resources utilized, and best practices identified.
+    The review proceeds to outline a workflow that illustrates the systematic process from the compilation of gene/protein datasets to the generation of essential cancer proteins.
+    A case study on “uncovering essential cancer proteins in breast cancer” was included to exemplify the application of graph-based methodologies in a real-world scenario.
+    The review revealed various graph-based methodologies utilized in PPI network analysis, including centrality measures, pathway enrichment analyses, and network visualization techniques.
+    Essential resources such as databases, software tools, and repositories were identified, along with best practices for data preprocessing, network construction, and analysis.
+    The synthesis of findings, complemented by the case study, provides researchers with a comprehensive understanding of the current landscape of graph-based PPI network analysis and its application in cancer research.
+    This systematic review contributes to the field by offering a holistic overview of graph-based explorations in PPI network research, with a specific focus on cancer protein identification.
+    By synthesizing existing knowledge and identifying essential resources and best practices, this review serves as a valuable resource for researchers, facilitating informed decision-making and enhancing research quality and reproducibility.
+    The inclusion of the case study underscores the practical application of graph-based methodologies in uncovering essential cancer proteins.
+  },
+  issn = {2192-6670},
+  url = {https://doi.org/10.1007/s13721-024-00467-0}
+}
+
+@article{shan2020network,
+    title = {Network-based prioritization of cancer genes by integrative ranks from multi-omics data},
+    journal = {Computers in Biology and Medicine},
+    volume = {119},
+    pages = {103692},
+    year = {2020},
+    issn = {0010-4825},
+    doi = {https://doi.org/10.1016/j.compbiomed.2020.103692},
+    url = {https://www.sciencedirect.com/science/article/pii/S0010482520300822},
+    author = {Haixia Shang and Zhi-Ping Liu},
+    keywords = {Cancer gene prioritization, Multi-omics data integration, Multiplex networks, Constrained PageRank},
+    abstract = {Finding disease genes related to cancer is of great importance for diagnosis and treatment. With the development of high-throughput technologies, more and more multiple-level omics data have become available. Thus, it is urgent to develop computational methods to identify cancer genes by integrating these data. We propose an integrative rank-based method called iRank to prioritize cancer genes by integrating multi-omics data in a unified network-based framework. The method was used to identify the disease genes of hepatocellular carcinoma (HCC) in humans using the multi-omics data for HCC from TCGA after building up integrated networks in the corresponding molecular levels. The kernel of iRank is based on an improved PageRank algorithm with constraints. To demonstrate the validity and the effectiveness of the method, we performed experiments for comparison between single-level omics data and multiple omics data as well as with other algorithms: random walk (RW), random walk with restart on heterogeneous network (RWH), PRINCE and PhenoRank. We also performed a case study on another cancer, prostate adenocarcinoma (PRAD). The results indicate the effectiveness and efficiency of iRank which demonstrates the significance of integrating multi-omics data and multiplex networks in cancer gene prioritization.}
+}
+
+
+##############################
+# 3 Expreimental Setup
 @misc{ensembl_project,
   title = {The Ensembl Project},
   howpublished = {\url{https://www.ebi.ac.uk/training/online/courses/ensembl-browsing-genomes/what-is-ensembl/ensembl-project/}},
@@ -105,6 +166,15 @@
   howpublished = {\url{https://cellmodelpassports.sanger.ac.uk/downloads}},
   note = {Accessed: 09.10.2024}
 }
+
+@misc{cmp_tissue_models,
+  title = {GTEx Portal},
+  howpublished = {\url{https://www.gtexportal.org/home/}},
+  note = {Accessed: 09.10.2024}
+}
+
+
+
 
 
 
