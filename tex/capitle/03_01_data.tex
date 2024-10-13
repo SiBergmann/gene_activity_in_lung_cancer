@@ -41,7 +41,7 @@ The data was initially stored in a file in wide format where each tissue had its
 The TPM values for the tissues are between 0 and 747,400.
 Since there are no missing values in the dataset, we did not need to handle any missing data.
 To process this data into a suitable format, we employed the following steps:
-\begin{itemize}
+\begin{enumerate}
     \item \textbf{Reshaping the data to length format:} We read the data from the original file in chunks of 3,000 rows at a time to avoid memory issues.
     For each chunk of data, we transformed the columns for each tissue into individual rows,
     resulting in a dataset with three columns (ENS ID, Tissue, TPM) and 56,156 * 17,382 rows.
@@ -51,41 +51,48 @@ To process this data into a suitable format, we employed the following steps:
     we performed a global aggregation on the genes of the sum of the dataset.
     We then calculated the mean TPM value for each gene by dividing the sum by the count of each observation.
     %TODO unklar
-\end{itemize}
+\end{enumerate}
 The resulting dataset with 56,156 genes and a mean TPM value for every gene was saved as a CSV file for further processing.
 % TODO insert example Rows - as image or as text - Schaubild mit Steps
 \\
 
 
+
+
 % Cell Model Passport
-The cancerous tissue samples used in this study were obtained from the \textbf{Cell Model Passport (CMP) project}.
-The CMP project...
+For the analysis of gene activity in lung cancer, we utilized data from the \textbf{Cell Model Passport (CMP) project},
+a comprehensive resource for studying cancer-related gene expression.
+% TODO wirte more about "The CMP project..."
 
-The used file was downloaded from the CMP portal \cite{cmp_download} under the section Expression Data
+We obtained the dataset from the CMP portal \cite{cmp_download}, specifically the $`$Expression Data$'$ section,
 with the name \texttt{rnaseq\_all\_data\_20220624}.
-It contains data from the Sanger Institute and as well as from the Broad Institute.
-% TODO Mehr Infos ? https://depmap.sanger.ac.uk/documentation/datasets/expression/
-The file is a .csv file that contains TPM values for genes infected with different cancer types.
-The data was initially stored in long format where CMP ID for genes, Tissues, TPM Values and more information.
+This dataset contains data from the Sanger Institute and the Broad Institute and
+consists of a large CSV file containing TPM values for genes associated with diverse cancer types, including lung cancer.
+Initially, the data was stored in long format with columns for CMP IDs for genes, tissues, TPM values, and additional information.
+To focus on lung cancer-specific data, we loaded an additional file containing model annotations. \cite{cmp_download}
+We then filtered the CMP dataset to include only models from the annotation file with lung cancer as the cancer type.
 
+The resulting dataset comprises 7,564,389 rows containing genes and tissues with associated TPM values for lung cancer.
+Specifically, the dataset includes information on 37,262 unique genes across 203 distinct tissue types.
+Notably, this dataset is free from missing values, and the TPM values span a wide range of 0 and 132,676.
 
+To prepare the data for further processing, we performed the following steps:
+\begin{enumerate}
+    \item \textbf{Grouping by genes:} We grouped the dataset by genes to obtain a mean TPM value for every gene.
+    This step involved aggregating the data by gene names, resulting in a new dataset with a mean TPM value for each gene.
+    \item \textbf{Adding ENS ID:}
+    The original dataset contained only CMP ID per gene but lacked the universal Ensembl ID required for matching genes across datasets.
+    To address this limitation, we needed to add corresponding Ensembl IDs to our genes using their gene\_symbol.
+    For this purpose we downloaded an Ensemble file from biomart (https://www.ensembl.org/biomart/martview/),
+    which contains the gene stable ID (ENS ID) and gene\_symbol.
 
-{\color{lightgray}
-    * CMP (Cell Model Passport) - cancerous tissues
-        * downloaded all RNA-Seq processed data - which contain data from Sanger Institute and from Broad Institute
-        * format was: genes with CMP IDs as rows and tpms, tissues (called model), ... per column
-        * separate file loaded with model annotation to get a list of all models (tissues) that have lung cancer as cancer type
-        * filtered the data to get only the lung cancer models
-        * grouped all models (tissues) to get a mean tpm value for every gene
-        * needed to add ENS ID to the genes for further processing
-        * separate ensemble file downloaded from biomart (https://www.ensembl.org/biomart/martview/)
-        * contains Gene stable ID and gene symbol (name)
-        * idea is to add the Gene stable ID by merging both tables by the gene name
-        * daher gehen wir davon aus, dass jeder gen name eindeutig ist
-        * war es nicht - 10.605/48.311 rows in the ensemble file had a not unique gene name
-        * rows with names that are not unique were removed
-        * merging the ensemble file with the CMP data to get the ENS ID for every gene
-        * 3.760 / 37.262 genes had no ENS ID → missing IDs could be added by synonymes maybe because of duplicate removement
-        * these genes are removed
-    → 33.502 human genes with mean values tpm for lung cancer
-}
+    By analyzing the file, we encountered an issue where some gene\_symbols were not unique in the Ensemble file.
+    To resolve this problem, we dropped all rows with duplicate gene\_symbols. %, which reduced the number of rows in the Ensemble file by a significant amount. % 10.605/48.311 rows
+    We then merged the Ensemble table with our CMP data on gene\_symbols to retrieve the ENS IDs for each gene.
+
+    \item \textbf{Removing missing ENS ID:} After merging the data, we found that 3,760 genes had no ENS ID associated with them.
+    Since these genes were likely duplicates or did not exist in the Ensemble file,
+    we removed them from our dataset to ensure consistency and accuracy of our analysis.
+    % wie viele der missing data wären in den duplicate gewesen
+\end{enumerate}
+The resulting dataset contains 33,502 genes with mean TPM values for lung cancer and was saved as a CSV file for further processing.
