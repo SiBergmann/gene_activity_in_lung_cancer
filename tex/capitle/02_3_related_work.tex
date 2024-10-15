@@ -2,7 +2,7 @@
 The investigation of tumors and the identification of biomarkers for diagnosis and treatment are crucial tasks in oncology.
 Over the past few years, various approaches have been explored to address these challenges.
 Notably, graph-based methods have gained popularity for analyzing genetic data.
-This chapter presents a brief overview of studies in this field from the last years,
+This section presents a brief overview of studies in this field from the last years,
 focusing on the use of graph databases and their algorithms for biological applications and cancer research.
 By reviewing existing literature, we aim to provide a comprehensive understanding of the current state of the art in this area.
 
@@ -11,7 +11,7 @@ By reviewing existing literature, we aim to provide a comprehensive understandin
 % A systematic review of graph-based explorations of PPI networks: methods, resources, and best practices
 The recent systematic review by Rout et al. (2024) \cite{rout2024systematic} provides an extensive overview of
 various graph-based methodologies for analyzing Protein-Protein Interaction networks,
-emphasizing best practices and common challenges in integrating multi-omics data.
+emphasizing best practices and common challenges in integrating multi-omics data. % TODO eklären?
 The authors highlight the importance of graph databases in storing and querying large-scale biological networks
 and essential graph algorithms such as centrality measures and community detection that are relevant to my work using PageRank.
 % gute Basis für mein Projekt, da sie die wichtigsten Graph-Algorithmen und Best Practices für die Analyse von PPI-Netzwerken hervorheben
@@ -23,11 +23,11 @@ A study by Simpson et al. (2020) \cite{simpson2020applying} investigated the mol
 through the analysis of gene expression data sourced from the TCGA database.
 The authors employed co-expression networks, using Pearson correlation to establish relationships between genes based on their expression patterns.
 However, our thesis will take a distinct approach by concentrating specifically on lung cancer
-and utilizing Protein-Protein Interaction (PPI) networks instead of co-expression networks.
+and utilizing PPI networks instead of co-expression networks.
 % Additionally, we have opted for TPM (Transcripts Per Million) as the gene expression metric, differing from FPKM used in their study.
 In contrast to Simpson et al.'s comprehensive application of multiple graph algorithms, including PageRank,
 Louvain community detection and Dijkstra's algorithm in each cancer type, we will focus on a more targeted approach.
-Specifically, we will apply the Pagerank algorithm to identify key genes within our PPI networks,
+Specifically, we will apply the Pagerank algorithm to identify key genes within our PPI networks.
 
 
 % Network-based prioritization of cancer genes by integrative ranks from multi-omics data
@@ -41,6 +41,5 @@ Similar to their approach, we will employ the PageRank algorithm to identify imp
 
 % TODO Abschluss
 In summary, the studies mentioned above provide valuable insights into the application of graph-based methods for analyzing biological data.
-Each with a slightly different focus, they demonstrate the versatility of graph databases and algorithms in cancer research, so as we will do in our work.
-
-\newline
+Each with a slightly different focus, they demonstrate the versatility of graph databases and algorithms in cancer research,
+so as we will do in our work.\\
