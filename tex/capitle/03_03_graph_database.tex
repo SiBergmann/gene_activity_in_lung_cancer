@@ -2,19 +2,69 @@
 % This subsection should focus on describing the Cypher queries used to create and populate your graph database.
 % It includes information about creating indexes, constraints, relationships between nodes, and loading data into the database.
 
-% Description of the graph database schema (nodes, relationships, properties)
-% Cypher queries used to create indexes and constraints in the database
-% Methods used to load data into the database
-% Relationships between nodes (e.g. protein-gene edges)
-% Any optimizations or indexing strategies used to improve query performance
-% Methods used to visualize or query the graph database (e.g. using Neo4J's built-in tools)
+% Intro
+* Objective!
+* all 4 xxx we are creating are huge datasets, so we need to optimize the generation of the database
 
-{\color{lightgray}
-Graph database
-    * Neo4J
-    * gene nodes query:
-    * protein nodes query:
-    * gene protein edges query:
-    * protein protein edges query:
+% protein nodes query:
+* 101.731 nodes of the type protein with the property id
+* create index on protein property id for faster query
+* load data as list
+* batch size of 500
+* create nodes in batches
 
-}
+\begin{lstlisting}[language=Cypher, label={lst:protein_nodes}]
+    CREATE (p:protein {id: 'Protein stable ID'})
+\end{lstlisting}
+
+% protein protein edges query:
+% todo check numbers!!current number is only proteins directly on genes
+* 11.247.242 Edges between protein nodes with the property id
+* load data as list of protein tuples
+* batch size of 1.000.000
+* for each tuple search for both protein nodes by ID and create an edge
+% MATCH only search not create
+
+\begin{lstlisting}[language=Cypher, label={lst:protein_edges}]
+    MATCH (s:protein{id:'protein1'})
+    MATCH (s:protein{id:'protein2'})
+    CREATE (s)-[:INTERACTS]->(t)
+\end{lstlisting}
+
+-> PPI Network
+
+
+% gene nodes query:
+* 17.626 nodes of the type gene with the property id,
+* create index on gene property id for faster query
+* load data as list
+* batch size of 1000
+* create nodes in batches
+
+%TODO check if this is the final version of the query
+\begin{lstlisting}[language=Cypher, label={lst:gene_nodes}]
+    CREATE (p:gene {
+    id: id,
+    gene_name: gene_name,
+    norm_healthy_tpm: norm_healthy_tpm,
+    norm_cancerous_tpm: norm_cancerous_tpm,
+    delta_tpm: delta_tpm,
+    delta_type: delta_type,
+    delta_tpm_relevant: delta_tpm_relevant})
+\end{lstlisting}
+
+
+% gene protein edges query:
+* 101.731 Edges between gene and protein nodes with the property id
+* load data as list of gene-protein tuples
+* batch size of 100.000
+* for each tuple search for the gene node and the protein node by ID and create an edge
+
+\begin{lstlisting}[language=Cypher, label={lst:gene_protein_edges}]
+    MATCH (s:protein{id:'id'})
+    MATCH (s:gene{id:'id'})
+    CREATE (s)-[:CONNECTION]-(t)
+\end{lstlisting}
+
+% TODO Bezeichnung der IDs zb nochmal anpassen, da nicht schön
+

@@ -99,21 +99,6 @@ The resulting dataset with 56,156 genes and a mean TPM value for every gene was 
         \hline
         & & & \\[1mm] % adding more space to the row
 
-        % as schema
-        %\includegraphics{figures/gtex_1} & \includegraphics{figures/gtex_2} &
-        %\includegraphics{figures/gtex_3} & \includegraphics{figures/gtex_4} \\
-
-        %& & & \\[1mm] % adding more space to the row
-        %\hline
-        %& & & \\[1mm] % adding more space to the row
-
-        % as dataframe
-        %\includegraphics{figures/gtex_df_1} & \includegraphics{figures/gtex_df_2} &
-        %\includegraphics{figures/gtex_df_3} & \includegraphics{figures/gtex_df_4} \\
-
-        %& & & \\[1mm] % adding more space to the row
-        %\hline
-
         % Example Matrix Representation
         $ A = \begin{bmatrix}
             %\text{GTEX-1117F} & \text{GTEX-1122O} & \text{GTEX-113IC} \\
@@ -139,6 +124,15 @@ The resulting dataset with 56,156 genes and a mean TPM value for every gene was 
     \end{tabular}
     }
 \end{table}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=\dfheight]{figures/03_01_GTEX_healthy_mean}
+    \caption{Example data of processed Genotype-Tissue Expression dataset}
+    \label{fig:03_01_df_GTEX_healthy_mean}
+\end{figure}
+
+
 
 
 % Cell Model Passport
@@ -179,5 +173,13 @@ To prepare the data for further processing, we performed the following steps:
 \end{enumerate}
 The resulting dataset contains 33,502 genes with mean TPM values for lung cancer and was saved as a CSV file for further processing.
 
-% Table for CMP processing steps
+% TODO Table for CMP processing steps
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=\dfheight]{figures/03_01_CMP_cancer_mean}
+    \caption{Example data of processed Cell Modell Passport dataset}
+    \label{fig:03_01_df_CMP_cancer_mean}
+\end{figure}
 

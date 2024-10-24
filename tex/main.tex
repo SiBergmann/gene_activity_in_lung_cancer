@@ -17,12 +17,36 @@
 \usepackage{xcolor}
 \usepackage{hhline}
 \setlength{\parindent}{0em}
+\usepackage{listings}
+
+
+% Define Cypher syntax highlighting
+\lstdefinelanguage{Cypher}{
+  keywords={CREATE, MATCH, MERGE, RETURN, WITH, WHERE, DELETE, DETACH, OPTIONAL, SET, UNWIND, AS, ON, DO, FOREACH, REMOVE, CALL, YIELD},
+  keywordstyle=\bfseries\color{blue},
+  morecomment=[l]{//},
+  commentstyle=\color{gray},
+  stringstyle=\color{orange},
+  morestring=[b]',
+}
+
+% Configure general listing style
+\lstset{
+  basicstyle=\ttfamily\small, % Use a typewriter font for the listings
+  breaklines=true,            % Automatic line breaking
+  columns=fullflexible,
+  %frame=single,               % Frame the code with a box
+  showstringspaces=false,     % Do not show spaces in strings
+  captionpos=b                % Caption below the listing
+}
+
+\newcommand{\dfheight}{2.8cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 \title{Graph-Based Analysis of Gene Activity in Lung Cancer based on Protein-Interaction Networks}
 \author{
-Simone Bergmann, 3957624 \\
+Simone Bergmann\\
 \texttt{simone.bergmann@uni-bielefeld.de}%
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%
