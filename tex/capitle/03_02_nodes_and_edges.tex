@@ -4,7 +4,7 @@ As a next step we focus on describing how to create the base information for our
 The graph database contains gene and protein node types.
 The Edges between the proteins build a classical PPI Network and are called Interactions. % mehr biologische Erklärung?
 The second type of Edges, called Connections, are the Link between Proteins and Genes.
-As Shown in the Figure \ref{fig:03_02_Network}.
+As Shown in the Figure~\ref{fig:03_02_Network}.
 % TODO Wir machen das, weil …
 
 \begin{figure}[h]
@@ -21,7 +21,7 @@ For creating the \textbf{gene nodes} we need to use the preprocessed CMP and GTE
 which contain mean TPM values for cancerous and healthy genes.
 We build the intersection of both datasets on their ENS ID to get a subset that only contains genes with TPM values for both conditions.
 % filtering for genes that have a gene-protein connection
-To fulfill our first objective \ref{obj:delta_tpm},
+To fulfill our first objective~\ref{obj:delta_tpm},
 we need to calculate a measure that captures significant changes between cancerous and healthy gene activity.
 When examining the mean TPM values per dataset, we observe a right-skewed distribution, with most values close to zero
 and a long tail extending towards higher values.
@@ -33,34 +33,31 @@ To normalize the TPM values from both datasets and enable better comparability, 
 
 \begin{equation}
 \label{eq:tpm_normalization}
-f(x) = \frac{\log(1 + x) - \log(1 + x_{min})}{\log(1 + x_{max}) - \log(1 + x_{min})}
+log\_norm(x) = \frac{\log(1 + x) - \log(1 + x_{min})}{\log(1 + x_{max}) - \log(1 + x_{min})}
 \end{equation}
-% TODO Naming log_norm(x) - entsptechend Funktion im Code anpassen
 
-where $x_{max}$ and $x_{min}$ are the maximum and minimum TPM values across both datasets.
-After applying the normalization, the distribution of the TPM values is more balanced, as shown in Figure \ref{fig:03_02_normalized_tpm_both}.
+where $x_{\max}$ and $x_{\min}$ are the maximum and minimum TPM values across both datasets.
+After applying the normalization, the distribution of the TPM values is more balanced, as shown in Figure~\ref{fig:03_02_normalized_tpm_both}.
 
-%TODO Bilder nebeneinander
 \begin{figure}[h]
-    \centering
-    \subfigure[Histogram of TPM Values of GTEx Dataset]{
-       \includegraphics[width=0.45\textwidth]{figures/03_02_normalized_gtex_tpm}
-        \label{fig:03_02_normalized_tpm_gtex}
-    }
-    \caption{Comparison of TPM Values from CMP and GTEx Datasets}
-    \hfill
-    \subfigure[Histogram of TPM Values of CMP Dataset]{
-       \includegraphics[width=0.45\textwidth]{figures/03_02_normalized_cmp_tpm}
-        \label{fig:03_02_normalized_tpm_cmp}
-    }
-    \label{fig:03_02_normalized_tpm_both}
+\minipage{0.45\textwidth}
+    \includegraphics[width=\linewidth]{figures/03_02_normalized_gtex_tpm}
+    \caption{Histogram of TPM Values of GTEx Dataset}
+\endminipage
+\hfill
+\minipage{0.45\textwidth}
+  \includegraphics[width=\linewidth]{figures/03_02_normalized_cmp_tpm}
+  \caption{Histogram of TPM Values of CMP Dataset}
+\endminipage
+\label{fig:03_02_normalized_tpm_both}
 \end{figure}
+
 
 
 
 Next, we calculate the difference between the normalized mean healthy and cancerous TPM values per gene
 by subtracting the two values and call it $\Delta_{TPM}$.
-The distribution of $\Delta_{TPM}$ values is shown in Figure \ref{fig:03_02_delta_tpm}.
+The distribution of $\Delta_{TPM}$ values is shown in Figure~\ref{fig:03_02_delta_tpm}.
 
 \begin{figure}[h]
 \centering
@@ -69,23 +66,25 @@ The distribution of $\Delta_{TPM}$ values is shown in Figure \ref{fig:03_02_delt
 \label{fig:03_02_delta_tpm}
 \end{figure}
 
-We then define a $\Delta_{type}$ as either $increase$ or $decrease$, depending on whether the delta value is positive or negative.
+We then define an $\Delta_{type}$ as either $increase$ or $decrease$, depending on whether the delta value is positive or negative.
 
-As a final step for our first objective \ref{obj:delta_tpm}, we need to determine if a change in gene activity is significant. % Doppelt
+As a final step for our first objective~\ref{obj:delta_tpm}, we need to determine if a change in gene activity is significant. % Doppelt
 To do this, we use the z score measure, which calculates how many standard deviations a delta TPM value is away
 from the mean of all delta TPM values.
 The $z score$ is given by:
 
 \begin{subequations}
-\begin{equation} \label{eq:z_score}
-z score (x) = \frac{x - {\mu}}{\sigma}
-\end{equation}
-\begin{equation}
-\text{where } \mu = \frac{1}{n} \sum_{i=1}^{n} x_i
-\end{equation}
-\begin{equation}
-\text{where } \sigma = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \mu)^2}
-\end{equation}
+    \begin{equation} \label{eq:z_score}
+        z score (x) = \frac{x - {\mu}}{\sigma}
+    \end{equation}
+    \begin{equation}
+        \text{where } \mu = \frac{1}{n} \sum_{i=1}^{n} x_i
+        \label{eq:mean}
+    \end{equation}
+    \begin{equation}
+        \text{where } \sigma = \sqrt{\frac{1}{n-1} \sum_{i=1}^{n} (x_i - \mu)^2}
+        \label{eq:std}
+    \end{equation}
 \end{subequations}
 % TODO check formular | mean(x) = and std(x) =
 
@@ -97,7 +96,7 @@ Genes with delta TPM values exceeding this threshold will be flagged as $true$ i
 
 The resulting table contains 17.626 Gene Nodes as rows with their associated attributes,
 including TPM values and derived metrics such as Delta TPM or Z-Score.
-The head of the table is shown in Figure \ref{fig:03_02_df_gene_nodes}.
+The head of the table is shown in Figure~\ref{fig:03_02_df_gene_nodes}.
 
 \begin{figure}[h]
 \centering
@@ -115,7 +114,7 @@ For this purpose we downloaded a file from biomart with Gene IDs and their Prote
 First we filtered for a subset (Intersection) to only include rows where the Ensembl ID for the gene matched an existing gene node
 Since we have some genes without an entry for proteins, we need to drop them ; otherwise, there will not be an edge.
 
-The final gene-protein edge table features 101,731 rows as edges and two columns:
+The final gene-protein edge table~\ref{fig:03_02_df_gene_protein_edges} features 101,731 rows as edges and two columns:
 Ensembl ID for the gene and Ensembl ID for the protein translation.
 The dataset highlights a key aspect of protein biology - one gene can be translated into multiple proteins.
 
@@ -134,7 +133,7 @@ To do this, we filter out the Gene colum from the previous file and check if the
 Since there are no duplicate proteins our data indicates that every protein is uniquely translated by a single gene.
 We do not need any additional attributes for these protein nodes because are focusing on the edges of this network.
 
-The resulting table is a list of 101.731 unique Protein Ensembl IDs as shown in Figure \ref{fig:03_02_df_protein_nodes}.
+The resulting table is a list of 101.731 unique Protein Ensembl IDs as shown in Figure~\ref{fig:03_02_df_protein_nodes}.
 \begin{figure}[h]
 \centering
 \includegraphics[height=\dfheight]{figures/03_02_protein_nodes}
@@ -144,10 +143,10 @@ The resulting table is a list of 101.731 unique Protein Ensembl IDs as shown in 
 \\
 
 % protein protein edges
-To create the \textbf{protein-protein edges} we download the String Database [LINK] with the information about the Protein Protein Interaction.
+To create the \textbf{protein-protein edges} we download the String Database [LINK] with the information about the Protein-Protein Interaction.
 We ensure that there are no duplicate entries.
 
-The resulting file consists of 11.247.242 rows of protein-protein edges with a column for both protein IDs for the edge.
+The resulting file~\ref{fig:03_02_df_protein_edges} consists of 11.247.242 rows of protein-protein edges with a column for both protein IDs for the edge.
 \begin{figure}[h]
 \centering
 \includegraphics[height=\dfheight]{figures/03_02_protein_edges}

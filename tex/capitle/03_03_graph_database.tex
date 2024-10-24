@@ -3,31 +3,30 @@
 % It includes information about creating indexes, constraints, relationships between nodes, and loading data into the database.
 
 % Intro
-* Objective!
-* all 4 xxx we are creating are huge datasets, so we need to optimize the generation of the database
+* For our next Objective~\ref we need to create a graph db on which we can perform the Page rank as a graph algorithm.
+In the last subsection we created the data models for the graph database.
+* Sll 4 models are huge datasets, so we need to optimize the generation of the database
 
 % protein nodes query:
 * 101.731 nodes of the type protein with the property id
 * create index on protein property id for faster query
 * load data as list
-* batch size of 500
 * create nodes in batches
 
 \begin{lstlisting}[language=Cypher, label={lst:protein_nodes}]
-    CREATE (p:protein {id: 'Protein stable ID'})
+    CREATE (p:protein {id: 'Protein ID'})
 \end{lstlisting}
 
 % protein protein edges query:
 % todo check numbers!!current number is only proteins directly on genes
 * 11.247.242 Edges between protein nodes with the property id
 * load data as list of protein tuples
-* batch size of 1.000.000
-* for each tuple search for both protein nodes by ID and create an edge
+* for each tuple search for both protein nodes by ID and create an edges in batches
 % MATCH only search not create
 
 \begin{lstlisting}[language=Cypher, label={lst:protein_edges}]
-    MATCH (s:protein{id:'protein1'})
-    MATCH (s:protein{id:'protein2'})
+    MATCH (s:protein{id:'left Protein ID'})
+    MATCH (s:protein{id:'right Protein ID'})
     CREATE (s)-[:INTERACTS]->(t)
 \end{lstlisting}
 
@@ -38,7 +37,6 @@
 * 17.626 nodes of the type gene with the property id,
 * create index on gene property id for faster query
 * load data as list
-* batch size of 1000
 * create nodes in batches
 
 %TODO check if this is the final version of the query
@@ -57,14 +55,12 @@
 % gene protein edges query:
 * 101.731 Edges between gene and protein nodes with the property id
 * load data as list of gene-protein tuples
-* batch size of 100.000
-* for each tuple search for the gene node and the protein node by ID and create an edge
+* for each tuple search for the gene node and the protein node by ID and create an edge in batches
 
 \begin{lstlisting}[language=Cypher, label={lst:gene_protein_edges}]
-    MATCH (s:protein{id:'id'})
-    MATCH (s:gene{id:'id'})
+    MATCH (s:protein{id:'Protein ID'})
+    MATCH (s:gene{id:'Gene ID'})
     CREATE (s)-[:CONNECTION]-(t)
 \end{lstlisting}
 
 % TODO Bezeichnung der IDs zb nochmal anpassen, da nicht schön
-

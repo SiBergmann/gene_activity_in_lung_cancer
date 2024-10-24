@@ -7,16 +7,16 @@ One includes healthy tissue data from the Genotype-Tissue Expression (GTEx) proj
 and the other includes cancerous tissue data from the Cell Model Passport (CMP) project.
 These two datasets are the base for the gene nodes in our graph database.
 For these, we need to have a single table with each gene as row and a single value for healthy and cancerous TPM values for every gene in every tissue.
-To have a identifier for every gene, we use the Ensemble ID (ENS ID) as the primary key for the gene nodes.
+To have an identifier for every gene, we use the Ensemble ID (ENS ID) as the primary key for the gene nodes.
 These are unique id for genes, proteins and other genetic elements collected in the Ensemble database
-from 1999 by the European Bioinformatics Institute and the Wellcome Trust Sanger Institute \cite{ensembl_project}.
+from 1999 by the European Bioinformatics Institute and the Wellcome Trust Sanger Institute~\cite{ensembl_project}.
 \\
 
 
 % Genotype-Tissue Expression (GTEx) dataset
 For the healthy tissue samples used in this study,
 we utilized the $"$GTEx\_Analysis\_2017-06-05\_v8\_\newline
-RNASeQCv1.1.9\_gene\_tpm$"$ dataset from the GTEx portal \cite{gtex_download}.
+RNASeQCv1.1.9\_gene\_tpm$"$ dataset from the GTEx portal~\cite{gtex_download}.
 The \textbf{GTEx portal} is a large-scale, publicly available resource for studying gene activity.
 The Adult GTEx project aims to characterize the gene expression patterns in healthy tissues across different individuals and ages,
 providing valuable insights into the underlying biology of human development and disease.
@@ -40,7 +40,7 @@ To process this data into a suitable format, we employed the following steps:
     We then calculated the mean TPM value for each gene by dividing the sum by the count of each observation.
     %TODO unklar
 \end{enumerate}
-The resulting dataset with 56,156 genes and a mean TPM value for every gene was saved as a CSV file for further processing.\\
+The resulting dataset~\ref{fig:03_01_df_GTEX_healthy_mean} with 56,156 genes and a mean TPM value for every gene was saved as a CSV file for further processing.\\
 
 \begin{table}[h]
     \centering
@@ -138,9 +138,9 @@ The resulting dataset with 56,156 genes and a mean TPM value for every gene was 
 % Cell Model Passport
 For the analysis of gene activity in lung cancer, we utilized data from the \textbf{Cell Model Passport (CMP) project},
 a comprehensive resource for studying cancer-related gene expression.
-% TODO wirte more about "The CMP project..."
+% TODO wirte more about The CMP project...
 
-We obtained the dataset from the CMP portal \cite{cmp_download}, specifically the $"$Expression Data$"$ section,
+We obtained the dataset from the CMP portal~\cite{cmp_download}, specifically the $"$Expression Data$"$ section,
 with the name \texttt{rnaseq\_all\_data\_20220624}.
 This dataset contains data from the Sanger Institute and the Broad Institute and
 consists of a large CSV file containing TPM values for genes associated with diverse cancer types, including lung cancer.
@@ -159,7 +159,7 @@ To prepare the data for further processing, we performed the following steps:
     \item \textbf{Adding ENS ID:}
     The original dataset contained only CMP ID per gene but lacked the universal Ensembl ID required for matching genes across datasets.
     To address this limitation, we needed to add corresponding Ensembl IDs to our genes using their gene\_symbol.
-    For this purpose we downloaded an Ensemble file from biomart \cite{bio_marts},
+    For this purpose we downloaded an Ensemble file from biomart~\cite{bio_marts},
     which contains the ENS ID and gene\_symbol.
 
     By analyzing the file, we encountered an issue where some gene\_symbols were not unique in the Ensemble file.
@@ -171,7 +171,7 @@ To prepare the data for further processing, we performed the following steps:
     we removed them from our dataset to ensure consistency and accuracy of our analysis.
     % wie viele der missing data wären in den duplicate gewesen
 \end{enumerate}
-The resulting dataset contains 33,502 genes with mean TPM values for lung cancer and was saved as a CSV file for further processing.
+The resulting dataset~\ref{fig:03_01_df_CMP_cancer_mean} contains 33,502 genes with mean TPM values for lung cancer and was saved as a CSV file for further processing.
 
 % TODO Table for CMP processing steps
 
