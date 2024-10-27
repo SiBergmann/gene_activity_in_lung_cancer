@@ -1,4 +1,7 @@
 \subsection{Nodes and Edges} \label{subsec:nodes_and_edges}
+% TODO update protein Nodes - first nodes from genes, then nodes from proteins, than both
+% TODO draw a picture of thoses proteins and how they are important
+% TODO Protein Nodes is single column - can library also save this?
 
 As a next step we focus on describing how to create the base information for our advanced PPI Network.
 The graph database contains gene and protein node types.
@@ -15,7 +18,6 @@ As Shown in the Figure~\ref{fig:03_02_Network}.
 \end{figure}
 
 For each of those 4 components we will create a table that will serve as base for creating the graph database.\\
-
 
 For creating the \textbf{gene nodes} we need to use the preprocessed CMP and GTEx datasets,
 which contain mean TPM values for cancerous and healthy genes.
@@ -53,17 +55,15 @@ After applying the normalization, the distribution of the TPM values is more bal
 \end{figure}
 
 
-
-
 Next, we calculate the difference between the normalized mean healthy and cancerous TPM values per gene
 by subtracting the two values and call it $\Delta_{TPM}$.
 The distribution of $\Delta_{TPM}$ values is shown in Figure~\ref{fig:03_02_delta_tpm}.
 
 \begin{figure}[h]
-\centering
-\includegraphics[width=0.5\textwidth]{figures/03_02_delta_tpm}
-\caption{Distribution of $\Delta_{TPM}$ Values}
-\label{fig:03_02_delta_tpm}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/03_02_delta_tpm}
+    \caption{Distribution of $\Delta_{TPM}$ Values}
+    \label{fig:03_02_delta_tpm}
 \end{figure}
 
 We then define an $\Delta_{type}$ as either $increase$ or $decrease$, depending on whether the delta value is positive or negative.
@@ -88,23 +88,23 @@ The $z score$ is given by:
 \end{subequations}
 % TODO check formular | mean(x) = and std(x) =
 
-where $x$ is the delta TPM value, $\mu$ is the mean of all delta TPM values, $\sigma$ is the standard deviation of all delta TPM values,
+where $x$ is the delta TPM value, $\mu$ is the mean of all delta TPM values, $\sigma$ is the standard deviation of all delta TPM values.
 
 We define a threshold of  $z score = 1.96$ to indicate significant changes in gene activity,
 which corresponds to a confidence level of 95\% (p = 0.05).
-Genes with delta TPM values exceeding this threshold will be flagged as $true$ in the $\Delta_{tpm} relevant$ column.
+Genes with delta TPM values exceeding this threshold will be flagged as $true$ in the $\Delta_{TPM} relevant$ column.
+By this we fulfilled our first objective~\ref{obj:delta_tpm} by finding 1.034 genes with significant changes in gene activity.
 
 The resulting table contains 17.626 Gene Nodes as rows with their associated attributes,
-including TPM values and derived metrics such as Delta TPM or Z-Score.
+including TPM values and derived metrics such as $\Delta TPM$ or $z score$.
 The head of the table is shown in Figure~\ref{fig:03_02_df_gene_nodes}.
 
 \begin{figure}[h]
-\centering
-\includegraphics[height=\dfheight]{figures/03_02_gene_nodes}
-\caption{Example data of Gene Nodes Table}
-\label{fig:03_02_df_gene_nodes}
+    \centering
+    \includegraphics[height=\dfheight]{figures/03_02_gene_nodes}
+    \caption{Example data of Gene Nodes Table}
+    \label{fig:03_02_df_gene_nodes}
 \end{figure}
-
 
 % Gene Protein Edges
 To construct the \textbf{gene-protein edges} we need a table that links the gene to the corresponding protein
@@ -116,42 +116,39 @@ Since we have some genes without an entry for proteins, we need to drop them ; o
 
 The final gene-protein edge table~\ref{fig:03_02_df_gene_protein_edges} features 101,731 rows as edges and two columns:
 Ensembl ID for the gene and Ensembl ID for the protein translation.
-The dataset highlights a key aspect of protein biology - one gene can be translated into multiple proteins.
+%The dataset highlights a key aspect of protein biology - one gene can be translated into multiple proteins.
 
 \begin{figure}[h]
-\centering
-\includegraphics[height=\dfheight]{figures/03_02_gene_protein_edges}
-\caption{Example data of Gene Protein Edges Table}
-\label{fig:03_02_df_gene_protein_edges}
+    \centering
+    \includegraphics[height=\dfheight]{figures/03_02_gene_protein_edges}
+    \caption{Example data of Gene Protein Edges Table}
+    \label{fig:03_02_df_gene_protein_edges}
+\end{figure}
+
+
+% protein protein edges
+To create the \textbf{protein-protein edges} we download the String Database [LINK] with the information about the Protein-Protein Interaction.
+
+The resulting file~\ref{fig:03_02_df_protein_edges} consists of 13.715.404 rows of protein-protein edges with a column for both protein IDs for the edge.
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=\dfheight]{figures/03_02_protein_edges}
+    \caption{Example data of Protein-Protein Edges Table}
+    \label{fig:03_02_df_protein_edges}
 \end{figure}
 
 
 % Proteins Nodes
-We can generate the \textbf{protein nodes} from the gene-protein edges
-since we only need a PPI for those proteins that are linked to our genes of interest.
+We can generate the \textbf{protein nodes} from first ...
 To do this, we filter out the Gene colum from the previous file and check if there are any duplicate proteins.
 Since there are no duplicate proteins our data indicates that every protein is uniquely translated by a single gene.
 We do not need any additional attributes for these protein nodes because are focusing on the edges of this network.
 
-The resulting table is a list of 101.731 unique Protein Ensembl IDs as shown in Figure~\ref{fig:03_02_df_protein_nodes}.
+The resulting table is a list of 104.235 unique Protein Ensembl IDs as shown in Figure~\ref{fig:03_02_df_protein_nodes}.
 \begin{figure}[h]
-\centering
-\includegraphics[height=\dfheight]{figures/03_02_protein_nodes}
-\caption{Example data of Protein Nodes Table}
-\label{fig:03_02_df_protein_nodes}
+    \centering
+    \includegraphics[height=\dfheight]{figures/03_02_protein_nodes}
+    \caption{Example data of Protein Nodes Table}
+    \label{fig:03_02_df_protein_nodes}
 \end{figure}
-\\
-
-% protein protein edges
-To create the \textbf{protein-protein edges} we download the String Database [LINK] with the information about the Protein-Protein Interaction.
-We ensure that there are no duplicate entries.
-
-The resulting file~\ref{fig:03_02_df_protein_edges} consists of 11.247.242 rows of protein-protein edges with a column for both protein IDs for the edge.
-\begin{figure}[h]
-\centering
-\includegraphics[height=\dfheight]{figures/03_02_protein_edges}
-\caption{Example data of Protein-Protein Edges Table}
-\label{fig:03_02_df_protein_edges}
-\end{figure}
-
 

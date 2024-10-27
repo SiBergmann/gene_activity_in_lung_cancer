@@ -1,28 +1,36 @@
 \subsection{Graph Database} \label{subsec:graph_database}
-% This subsection should focus on describing the Cypher queries used to create and populate your graph database.
-% It includes information about creating indexes, constraints, relationships between nodes, and loading data into the database.
+% Checked - all edges are created with 'match' statement
+% todo check numbers of Protein Edges and Protein Nodes!! current number is only proteins directly on genes
+% TODO Bezeichnung der IDs in Cypher Queries nochmal prüfen
+% TODO check final version of the Cypher query for gene nodes with all attributes
+% TODO [BILD] von PPI network und extended network mit Genen
 
 % Intro
-* For our next Objective~\ref we need to create a graph db on which we can perform the Page rank as a graph algorithm.
-In the last subsection we created the data models for the graph database.
-* Sll 4 models are huge datasets, so we need to optimize the generation of the database
+As we have created our data models for the graph database, our next objective is to create a graph database
+that can be used to perform the PageRank algorithm as a graph algorithm.
+With four huge datasets at our disposal, optimizing the generation of the database is crucial.
 
-% protein nodes query:
-* 101.731 nodes of the type protein with the property id
-* create index on protein property id for faster query
-* load data as list
-* create nodes in batches
+In this section, we describe the Cypher queries used to create and populate our graph database,
+including information about creating indexes, constraints, relationships between nodes, and loading data into the database.\\
+
+
+% PPI Network
+First, we create a basic PPI network by generating proteins and their interactions as edges.
+To start with, we need to create protein nodes with their respective properties.
+This process involves creating an index on the protein property id for faster query execution, loading the data as a list,
+creating nodes in batches for efficient processing, and finally populating the graph database with 101,731 protein nodes.
+
+We don't require any additional properties for these protein nodes since they are solely used as connections between genes.
+The Cypher query for creating protein nodes is:
 
 \begin{lstlisting}[language=Cypher, label={lst:protein_nodes}]
     CREATE (p:protein {id: 'Protein ID'})
 \end{lstlisting}
 
-% protein protein edges query:
-% todo check numbers!!current number is only proteins directly on genes
-* 11.247.242 Edges between protein nodes with the property id
-* load data as list of protein tuples
-* for each tuple search for both protein nodes by ID and create an edges in batches
-% MATCH only search not create
+Next, we create interaction  edges between proteins by loading the data as a list of protein tuples,
+searching for both protein nodes by their IDs, and creating an edge in batches for efficient processing.
+This results in the creation of 11,247,242 edges between protein nodes.
+The Cypher query for creating protein-protein edges is:
 
 \begin{lstlisting}[language=Cypher, label={lst:protein_edges}]
     MATCH (s:protein{id:'left Protein ID'})
@@ -30,37 +38,99 @@ In the last subsection we created the data models for the graph database.
     CREATE (s)-[:INTERACTS]->(t)
 \end{lstlisting}
 
--> PPI Network
+At this point, we have a PPI network in place. \\
 
 
-% gene nodes query:
-* 17.626 nodes of the type gene with the property id,
-* create index on gene property id for faster query
-* load data as list
-* create nodes in batches
+% Extending the Network with Genes
+Our actual focus is on the genes.
+To get an extended network with genes on the edges of the protein nodes, we need to link them to the proteins.
+We start by creating gene nodes with their respective properties.
+This process involves creating an index on the gene property id for faster query execution,
+loading the data as a list, creating nodes in batches for efficient processing, and finally populating the graph database with 17,626 gene nodes.
 
-%TODO check if this is the final version of the query
+The Cypher query for creating gene nodes is:
 \begin{lstlisting}[language=Cypher, label={lst:gene_nodes}]
     CREATE (p:gene {
-    id: id,
-    gene_name: gene_name,
-    norm_healthy_tpm: norm_healthy_tpm,
-    norm_cancerous_tpm: norm_cancerous_tpm,
-    delta_tpm: delta_tpm,
-    delta_type: delta_type,
-    delta_tpm_relevant: delta_tpm_relevant})
+            id: 'id',
+            gene_name: 'gene_name',
+            norm_healthy_tpm: 'norm_healthy_tpm',
+            norm_cancerous_tpm: 'norm_cancerous_tpm',
+            delta_tpm: 'delta_tpm',
+            delta_type: 'delta_type',
+            delta_tpm_relevant: 'delta_tpm_relevant'})
 \end{lstlisting}
 
+The genes have several properties, including $gene\_name$, $norm\_healthy\_tpm$, $norm\_cancerous\_tpm$, $delta\_tpm$, and $delta\_type$.
+These attributes are used to calculate a more relevant attribute called $delta\_tpm\_relevant$, which will be the primary focus of our PageRank analysis.
+While the other attributes may not be directly relevant to our current analysis, they could potentially be useful for future tasks.
 
-% gene protein edges query:
-* 101.731 Edges between gene and protein nodes with the property id
-* load data as list of gene-protein tuples
-* for each tuple search for the gene node and the protein node by ID and create an edge in batches
+To represent relationships between genes and proteins, we create edges called connections by loading the data as a list of gene-protein tuples
+and matching both gene and protein nodes by their Ids.
+This process involves creating edges in batches for efficient processing, resulting in 101,731 connections between gene and protein nodes.
 
+The Cypher query for creating gene-protein connection edges is:
 \begin{lstlisting}[language=Cypher, label={lst:gene_protein_edges}]
     MATCH (s:protein{id:'Protein ID'})
     MATCH (s:gene{id:'Gene ID'})
     CREATE (s)-[:CONNECTION]-(t)
 \end{lstlisting}
 
-% TODO Bezeichnung der IDs zb nochmal anpassen, da nicht schön
+By executing these Cypher queries, we can populate our graph database with the necessary nodes and edges to perform the PageRank algorithm.\\
+
+
+
+% PAGERANK
+% TODO Analysis of the difference between histogramm of all and histofgramm of relevant genes
+
+As our final step for the second objective, we employed the \textbf{PageRank} algorithm to measure the importance of nodes in our graph database.
+This algorithm is particularly useful for identifying key genes that play a crucial role in the network
+because it can accurately capture the hierarchical structure of gene interactions,
+allowing us to identify not only highly connected genes but also those with significant functional relevance.
+For applying PageRank analysis to our large-scale graph database,
+we create a projection of the entire graph, which enables efficient computation and scalability.
+
+To perform the PageRank analysis, we used the following Cypher query:
+
+\begin{lstlisting}[language=Cypher, label={lst:pagerank}]
+    CALL gds.pageRank.stream('gene_protein_graph')
+    YIELD nodeId, score
+    RETURN gds.util.asNode(nodeId).id AS node,
+           gds.util.asNode(nodeId).gene_name AS gene_name,
+           score,
+           gds.util.asNode(nodeId).delta_tpm AS delta_tpm,
+           gds.util.asNode(nodeId).delta_tpm_relevant AS delta_tpm_relevant
+    ORDER BY score DESC
+\end{lstlisting}
+
+This query yielded a list of nodes, including genes and proteins, along with their respective PageRank scores.
+By dropping the proteins from this list, we focused on the genes and
+further filtered them by selecting only those with a significant change in gene activity,
+indicated by the value for $delta\_tpm\_relevant$.
+
+The resulting list of genes represents those that have not only high connectivity
+within the network but also exhibit a substantial difference in gene expression.
+This subset was visualized using histograms, which demonstrate the distribution of PageRank scores for all genes
+(Figure~\ref{fig:03_02_hist_pagerank}) and only for relevant genes (Figure~\ref{fig:03_02_hist_pagerank_relevant}).
+
+\begin{figure}[h]
+\minipage{0.45\textwidth}
+    \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank}
+    \caption{Histogram of Pagerank Scores for all genes}
+	\label{fig:03_02_hist_pagerank}
+\endminipage
+\hfill
+\minipage{0.45\textwidth}
+  \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank_relevant}
+  \caption{Histogram of Pagerank Scores only for relevant genes}
+	\label{fig:03_02_hist_pagerank_relevant}
+\endminipage
+\end{figure}
+
+Lastly we filtered the top 10 genes with the highest PageRank scores and a significant change in gene activity.
+
+
+% Conclusion
+With this process, we have successfully done our second objective~\ref{obj:graph_algorithm},
+which was to apply a graph algorithm to identify key genes in the network.
+
+
