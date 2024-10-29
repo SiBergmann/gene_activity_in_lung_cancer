@@ -1,20 +1,103 @@
 \subsection{Analysis} \label{subsec:analysis}
-
-% lets rake a closer look on each of these 10 genes
-
 %general Notes
-% Maximum Pagerank for all genes: 67, 40, 37, 36, 34, dann immer Näher
+A first glance at the dataset of all genes reveals the complexity of gene expression in our study.
+To establish a foundation for interpreting the results of the top 10 most relevant genes,
+we examined the distribution of Pagerank scores and $\Delta\_TPM$ values across the entire dataset
 
-% Minimum Δ TPM value: -0.709
-% Maximum Δ TPM value: 0.423
+The PageRank scores display an initial peak at approximately 67, which stands out as a significant outlier.
+This is followed by a sharp decline to around 40, with subsequent scores showing progressively smaller differences
+as they approach the mid-30s range.
+Notably, once the scores fall to this level, the gaps between them become considerably narrower.
+%TODO This overall distribution suggests a pattern of exponential or logarithmic decay, indicating that the majority of the scores are heavily concentrated towards the higher end.
+
+The data show a symmetric distribution of $\Delta\_TPM$ values, with a pronounced peak around zero, suggesting a central tendency near the mean.
+The data ranges approximately from -0.709 to 0.423, indicating moderate variability, and appears to follow a normal-like distribution.
+\ref{fig:03_02_delta_tpm}
+\newline
 
 
-% NDRG2
+% 1 - NDRG2
 \textbf{NDRG2} (N-Myc downstream-regulated gene 2) is a tumor suppressor gene that helps control cell growth and
 prevents cancer cells from spreading to other parts of the body.
-It is particularly important in regulating cells in tissues that are more likely to develop tumors. \cite{Lee2022NDRG2}
+It is particularly important in regulating cells in tissues that are more likely to develop tumors~\cite{Lee2022NDRG2}.
 
-Our analysis reveals that NDRG2 has a PageRank score of 25.635003 and is downregulated in lung cancer cells,
-with a delta TPM value of -0.317776.
+Our analysis reveals that NDRG2 has a PageRank score of 25.635 and is downregulated in lung cancer cells,
+with a $\Delta\_TPM$ value of -0.317.
+It has the highest delta TPM value among the top 10 genes, indicating a significant decrease in expression levels in lung cancer cells.
+\newline
 
+% 2 - DMKN
+\textbf{DMKN}, also known as Dermokine, is a gene involved in skin cell function and regulation.
+It helps regulate cellular processes in the outer layer of the skin, where it plays a role in maintaining skin health~\cite{Naso2007Deromokine}.
 
+Our analysis reveals that DMKN has a PageRank score of 19.900 and is downregulated in lung cancer cells,
+with a $\Delta\_TPM$ value of -0.203.
+
+% 3 - CAPN3
+The \textbf{CAPN3} (calpain 3) gene is part of the Calpain system, which includes multiple gene products and proteins.
+It is primarily expressed in skeletal muscle cells, where it plays a crucial role in muscle function~\cite{Spinozzi2021Calpain}.
+
+Our analysis reveals that CAPN3 has a PageRank score of 18.136 and is downregulated in lung cancer cells,
+with a $\Delta\_TPM$ value of -0.310.
+It has the second-highest decrease in expression levels among the top 10 genes.
+\newline
+
+% 4 - SLC6A1
+\textbf{SLC6A1} is the shorting for the gene solute carrier family 6 member 1,
+which encodes a protein that acts as a GABA carrier,
+helping to regulate the levels of this neurotransmitter at synapses between neurons~\cite{Chen2020SLC6A1}.
+
+In our analysis the gene has a PageRank score of 14.170 and is downregulated in lung cancer cells,
+with a $\Delta\_TPM$ value of -0.267.
+\newline
+
+%5 - SLC1A2
+The \textbf{SLC1A2}, is another of the family of solute transporter proteins, which is primarily known as glutamat transporter.
+It plays a crucial role in regulating glutamate levels in the brain by removing glutamate from synapses.\cite{NCBI2017SLC1A2}
+
+In our analysis the gene has a PageRank score of 13.729 and is downregulated in lung cancer cells,
+with a $\Delta\_TPM$ value of -0.233.
+\newline
+
+%6 - BRCA1
+The \textbf{BRCA1}, Breast Cancer Gene 1, gene is a tumor suppressor gene that produces a protein involved in repairing damaged DNA\@.
+It plays a crucial role in maintaining genome stability by facilitating the correct repair of DNA breaks~\cite{NCI2020BRCA1}.
+
+Our analysis reveals that BRCA1 has a PageRank score of 13.288 and is upregulated in lung cancer cells,
+with a $\Delta\_TPM$ value of 0.214.
+In our Top 10 list it is the only gene that is upregulated in lung cancer cells.
+\newline
+
+%7 - FHL1
+The \textbf{FHL1} (four and a half LIM domains 1) gene encodes a protein that plays a crucial role in regulating muscle cell differentiation and maturation.
+It is primarily expressed in striated muscles but also found in other tissues such as the brain and testis~\cite{Storey2020FHL1}.
+
+Our analysis reveals that FHL1 has a PageRank score of 12.849 and is downregulated in lung cancer cells,
+with a $\Delta\_TPM$ value of -0.217.
+\newline
+
+%8 - MBP
+The \textbf{MBP} (Myelin Basic Protein) gene helps produce proteins that are essential for creating and maintaining the protective covering around nerve fibers,
+called myelin.
+It also plays a role in helping the body repair damaged nerve coverings and
+regulates how immune cells respond to infections or inflammation~\cite{Nye1995MBP}.
+
+Our analysis reveals that MBP has a PageRank score of 12.848 and is downregulated in lung cancer cells,
+with a $\Delta\_TPM$ value of -0.296.
+\newline
+
+%9 - ELN
+The \textbf{ELN} (Elastin) gene encodes for the protein Elastin, which is a key component of connective tissue that provides elasticity and
+flexibility to tissues such as skin, lungs, and blood vessels~\cite{Debelle1999ELN}.
+
+Our analysis reveals that ELN has a PageRank score of 11.119 and is downregulated in lung cancer cells,
+with a $\Delta\_TPM$ value of -0.246.
+\newline
+
+%10 - ARPP21
+The \textbf{ARPP21} (cAMP regulated phosphoprotein 21) gene is involved in regulating cellular processes, particularly in brain development and function.
+It plays a crucial role in shaping the complexity of neurons during development~\cite{Rehfeld2018ARPP21}.
+
+Our analysis reveals that ARPP21 has a PageRank score of 11.089 and is downregulated in lung cancer cells,
+with a $\Delta\_TPM$ value of -0.201.
+\newline
