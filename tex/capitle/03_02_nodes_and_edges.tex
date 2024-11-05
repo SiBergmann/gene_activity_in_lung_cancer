@@ -5,19 +5,20 @@
 
 As a next step we focus on describing how to create the base information for our advanced PPI Network.
 The graph database contains gene and protein node types.
-The Edges between the proteins build a classical PPI Network and are called Interactions. % mehr biologische Erklärung?
-The second type of Edges, called Connections, are the Link between Proteins and Genes.
-As Shown in the Figure~\ref{fig:03_02_Network}.
+The edges between the proteins build a classical PPI Network and are called interactions. % mehr biologische Erklärung?
+The second type of edges, called connections, are the link between proteins and genes.
+As shown in Figure~\ref{fig:03_02_Network}.
 % TODO Wir machen das, weil …
 
+% TODO longer Caption
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.8\textwidth]{figures/03_02_Network}
-\caption{Schema of the Graph Database}
+\caption{DRAFT: Schema of the Graph Database}
 \label{fig:03_02_Network}
 \end{figure}
 
-For each of those 4 components we will create a table that will serve as base for creating the graph database.\\
+For each of those four components we will create a table that will serve as base for creating the graph database.\\
 
 For creating the \textbf{gene nodes} we need to use the preprocessed CMP and GTEx datasets,
 which contain mean TPM values for cancerous and healthy genes.
@@ -41,6 +42,7 @@ log\_norm(x) = \frac{\log(1 + x) - \log(1 + x_{min})}{\log(1 + x_{max}) - \log(1
 where $x_{\max}$ and $x_{\min}$ are the maximum and minimum TPM values across both datasets.
 After applying the normalization, the distribution of the TPM values is more balanced, as shown in Figure~\ref{fig:03_02_normalized_tpm_both}.
 
+%TODO J - longer caption
 \begin{figure}[h]
 \minipage{0.45\textwidth}
     \includegraphics[width=\linewidth]{figures/03_02_normalized_gtex_tpm}
@@ -59,6 +61,7 @@ Next, we calculate the difference between the normalized mean healthy and cancer
 by subtracting the two values and call it $\Delta_{TPM}$.
 The distribution of $\Delta_{TPM}$ values is shown in Figure~\ref{fig:03_02_delta_tpm}.
 
+%TODO J - longer caption
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{figures/03_02_delta_tpm}
@@ -95,10 +98,11 @@ which corresponds to a confidence level of 95\% (p = 0.05).
 Genes with delta TPM values exceeding this threshold will be flagged as $true$ in the $\Delta_{TPM} relevant$ column.
 By this we fulfilled our first objective~\ref{obj:delta_tpm} by finding 1.034 genes with significant changes in gene activity.
 
-The resulting table contains 17.626 Gene Nodes as rows with their associated attributes,
+The resulting table contains 17,626 Gene Nodes as rows with their associated attributes,
 including TPM values and derived metrics such as $\Delta TPM$ or $z score$.
 The head of the table is shown in Figure~\ref{fig:03_02_df_gene_nodes}.
 
+%TODO J - longer caption
 \begin{figure}[h]
     \centering
     \includegraphics[height=\dfheight]{figures/03_02_gene_nodes}
@@ -107,17 +111,19 @@ The head of the table is shown in Figure~\ref{fig:03_02_df_gene_nodes}.
 \end{figure}
 
 % Gene Protein Edges
+% TODO rewrite - look at J comment
 To construct the \textbf{gene-protein edges} we need a table that links the gene to the corresponding protein
 which is translated from the transcript of this gene.
 For this purpose we downloaded a file from biomart with Gene IDs and their Protein IDs. [LINK]
 % The initial dataset comprised of XXX entries.
 First we filtered for a subset (Intersection) to only include rows where the Ensembl ID for the gene matched an existing gene node
-Since we have some genes without an entry for proteins, we need to drop them ; otherwise, there will not be an edge.
+Since we have some genes without an entry for proteins, we need to drop them; otherwise, there will not be an edge.
 
 The final gene-protein edge table~\ref{fig:03_02_df_gene_protein_edges} features 101,731 rows as edges and two columns:
 Ensembl ID for the gene and Ensembl ID for the protein translation.
 %The dataset highlights a key aspect of protein biology - one gene can be translated into multiple proteins.
 
+%TODO J - longer caption
 \begin{figure}[h]
     \centering
     \includegraphics[height=\dfheight]{figures/03_02_gene_protein_edges}
@@ -129,7 +135,8 @@ Ensembl ID for the gene and Ensembl ID for the protein translation.
 % protein protein edges
 To create the \textbf{protein-protein edges} we download the String Database [LINK] with the information about the Protein-Protein Interaction.
 
-The resulting file~\ref{fig:03_02_df_protein_edges} consists of 13.715.404 rows of protein-protein edges with a column for both protein IDs for the edge.
+The resulting file~\ref{fig:03_02_df_protein_edges} consists of 13,715,404 rows of protein-protein edges with a column for both protein IDs for the edge.
+%TODO J - longer caption
 \begin{figure}[h]
     \centering
     \includegraphics[height=\dfheight]{figures/03_02_protein_edges}
@@ -144,7 +151,8 @@ To do this, we filter out the Gene colum from the previous file and check if the
 Since there are no duplicate proteins our data indicates that every protein is uniquely translated by a single gene.
 We do not need any additional attributes for these protein nodes because are focusing on the edges of this network.
 
-The resulting table is a list of 104.235 unique Protein Ensembl IDs as shown in Figure~\ref{fig:03_02_df_protein_nodes}.
+The resulting table is a list of 104,235 unique Protein Ensembl IDs as shown in Figure~\ref{fig:03_02_df_protein_nodes}.
+%TODO J - longer caption
 \begin{figure}[h]
     \centering
     \includegraphics[height=\dfheight]{figures/03_02_protein_nodes}

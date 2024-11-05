@@ -1,162 +1,198 @@
 \subsection{Analysis} \label{subsec:analysis}
-%general Notes
-A first glance at the dataset of all genes reveals the complexity of gene expression in our study.
-To establish a foundation for interpreting the results of the top 10 most relevant genes,
-we examined the distribution of Pagerank scores and $\Delta_{TPM}$ values across the entire dataset
+% TODO one more iteration of text checking for avoiding repetitions
 
-The PageRank scores display an initial peak at approximately 67, which stands out as a significant outlier.
-This is followed by a sharp decline to around 40, with subsequent scores showing progressively smaller differences
+%general Notes
+The dataset of all genes reveals a complex landscape of gene expression in our study.
+To provide context for interpreting the results of the top 10 most relevant genes,
+we analyzed the distribution of Pagerank scores and $\Delta_{TPM}$ values across the entire dataset.
+
+The PageRank scores exhibit an initial peak at approximately 67, which stands out as a significant outlier.
+This peak is followed by a gradual decline to around 40, with subsequent scores showing progressively smaller differences
 as they approach the mid-30s range.
 Notably, once the scores fall to this level, the gaps between them become considerably narrower.
 %TODO This overall distribution suggests a pattern of exponential or logarithmic decay, indicating that the majority of the scores are heavily concentrated towards the higher end.
 
-The data show a symmetric distribution of $\Delta_{TPM}$ values, with a pronounced peak around zero, suggesting a central tendency near the mean.
-The data ranges approximately from -0.709 to 0.423, indicating moderate variability, and appears to follow a normal-like distribution.
+The $\Delta_{TPM}$ values display a symmetric distribution with a pronounced peak around zero, indicating a central tendency near the mean.
+The data ranges from approximately -0.709 to 0.423, suggesting moderate variability, and a normal-like distribution.
 \ref{fig:03_02_delta_tpm}
 \newline
 
 
 % 1 - NDRG2
-\textbf{NDRG2} (N-Myc downstream-regulated gene 2) is a tumor suppressor gene that helps control cell growth and
-prevents cancer cells from spreading to other parts of the body.
-It is particularly important in regulating cells in tissues that are more likely to develop tumors~\cite{Lee2022NDRG2}.
+The gene \textbf{NDRG2} (N-Myc downstream-regulated gene 2) plays a critical role as a tumor suppressor,
+regulating cell growth and preventing the spread of cancer cells to other parts of the body.
+Its importance is particularly pronounced in tissues that are more likely for tumorigenesis,
+highlighting its potential as a key regulator of cellular behavior~\cite{Lee2022NDRG2}
 
-Our analysis reveals that NDRG2 has a PageRank score of 25.635 and is downregulated in lung cancer cells,
-with a $\Delta_{TPM}$ value of -0.317.
-It has the highest delta TPM value among the top 10 genes, indicating a significant decrease in expression levels in lung cancer cells.
-
-NDRG2 has been increasingly studied for its role in human lung cancer.
-Research indicates that low expression of NDRG2 is associated  with more aggressive tumor behavior and
-poorer prognosis in lung cancer patients.
-For example, studies have demonstrated that NDRG2 plays a crucial role in suppressing tumor cell metastasis and
+Recent studies have shed light on NDRG2's role in human lung cancer,
+revealing that low expression levels of this gene are associated with aggressive tumor behavior and poor prognosis in patients.
+Specifically, research has demonstrated that NDRG2 acts as a crucial suppressor of tumor cell metastasis and
 functions as a negative regulator of tumor progression~\cite{Li2013NDRG2}.
-Another study showed that the gene, particularly in small-cell lung cancer,
-plays a role in inhibiting tumor progression when it is downregulated~\cite{Ma2024NDRG2}.
+Furthermore, another study has shown that downregulation of NDRG2, particularly in small-cell lung cancer,
+inhibits tumor progression, underscoring the gene's importance in this context~\cite{Ma2024NDRG2}.
+
+Our analysis highlights NDRG2 as a potential key player in the lung cancer landscape,
+with a PageRank score of 25.635 and a significant downregulation in lung cancer cells ($\Delta_{TPM}$ = -0.317).
+Notably, it boasts the highest delta TPM value among the top 10 genes,
+indicating a substantial decrease in expression levels in lung cancer cells.
 \newline
+
+% These findings suggest that NDRG2's tumor suppressor function is not only crucial for preventing cancer progression
+% but also plays a significant role in shaping the molecular landscape of lung cancer.
+% Our results provide new insights into the regulatory mechanisms governing NDRG2 expression and
+% highlight its potential as a therapeutic target for the treatment of lung cancer.
 
 
 % 2 - DMKN
-\textbf{DMKN}, also known as Dermokine, is a gene involved in skin cell function and regulation.
-It helps regulate cellular processes in the outer layer of the skin, where it plays a role in maintaining skin health~\cite{Naso2007Deromokine}.
+The gene \textbf{DMKN}, also known as Dermokine, is a gene involved in skin cell function and regulation.
+Specifically, it plays a crucial role in maintaining the integrity of the outer layer of the skin
+by regulating various cellular processes~\cite{Naso2007Deromokine}.
 
-Our analysis reveals that DMKN has a PageRank score of 19.900 and is downregulated in lung cancer cells,
-with a $\Delta_{TPM}$ value of -0.203.
+While DMKN has not been directly implicated in lung cancer, its connections to other cancers offer valuable insights into its potential function.
+Notably, research has demonstrated that DMKN-$\alpha$ is overexpressed in pancreatic cancer~\cite{Zhang2022DMKN}
+and the $\beta$ isoform is downregulated in skin cancer and serves as a biomarker for early-stage colorectal cancer~\cite{Hasegawa2012Dermokine}.
 
-There are no known studies linking DMKN to lung cancer, but it is studied in the context of skin, pancreas and colorectal cancer.
-For example, research has shown that DMKN-$\alpha$ is overexpressed in pancreatic cancer~\cite{Zhang2022DMKN}.
-Another study found that DMKN-$\beta$ is downregulated for skin cancer and is a known biomarker for early-stage colorectal cancer~\cite{Hasegawa2012Dermokine}.
+It has a PageRank score of 19.900 and is downregulated in lung cancer cells,
+with a $\Delta_{TPM}$ value of -0.203, indicating further investigation into this gene's role is warranted.
 \newline
 
-
 % 3 - CAPN3
-The \textbf{CAPN3} (calpain 3) gene is part of the Calpain system, which includes multiple gene products and proteins.
-It is primarily expressed in skeletal muscle cells, where it plays a crucial role in muscle function~\cite{Spinozzi2021Calpain}.
+The gene \textbf{CAPN3}, also known as calpain 3, is an integral component of the Calpain system,
+a complex network of gene products and proteins that play critical roles in cellular processes.
+Primarily expressed in skeletal muscle cells, CAPN3 plays a pivotal role in maintaining muscle function and integrity~\cite{Spinozzi2021Calpain}.
 
-Our analysis reveals that CAPN3 has a PageRank score of 18.136 and is downregulated in lung cancer cells,
+Although CAPN3 has been extensively studied in the context of muscle diseases,
+its involvement in cancer, particularly lung cancer, remains poorly understood.
+However, research has shown that the Calpain system, which includes CAPN3, is implicated in cancer progression and metastasis~\cite{Storr2011Calpain}.
+Notably, studies have demonstrated that another member of the Calpain system, Calpain 2, is upregulated in lung cancer~\cite{Xu2019Calpain}.
+
+Our analysis suggests that CAPN3 may be a gene of interest in lung cancer research.
+With a PageRank score of 18.136 and is downregulated in lung cancer cells,
 with a $\Delta_{TPM}$ value of -0.310.
-It has the second-highest decrease in expression levels among the top 10 genes.
-
-CAPN3 has been studied in the context of muscle diseases, but there is limited research on its role in cancer, lung cancer in particular.
-However, studies have shown that the Calpain system, which includes CAPN3, is involved in cancer progression and metastasis~\cite{Storr2011Calpain}.
-For example, research has shown that Calpain 2, another member of the Calpain system, is upregulated in lung cancer~\cite{Xu2019Calpain}.
+It holds the second-highest decrease in expression levels among the top 10 genes,
+underscoring its potential significance in lung cancer research.
 \newline
 
 % 4 - SLC6A1
-\textbf{SLC6A1} is the shorting for the gene solute carrier family 6 member 1,
-which encodes a protein that acts as a GABA carrier,
-helping to regulate the levels of this neurotransmitter at synapses between neurons~\cite{Chen2020SLC6A1}.
+The \textbf{SLC6A1} gene encodes a protein that functions as a GABA carrier,
+playing a crucial role in regulating neurotransmitter levels at synapses between neurons~\cite{Chen2020SLC6A1}.
 
-In our analysis the gene has a PageRank score of 14.170 and is downregulated in lung cancer cells,
-with a $\Delta_{TPM}$ value of -0.267.
+Research has demonstrated that SLC6A1 promotes cancer growth in certain types of tumors,
+including clear cell renal cell carcinoma, ovarian cancer, and prostate cancer~\cite{Chen2020SLC6A1}.
+This suggests a potential role for SLC6A1 in tumor progression and metastasis.
 
-Studies have shown that SLC6A1 plays a role in promoting cancer growth in certain types of tumors,
-including clear cell renal cell carcinoma, ovarian cancer and prostate cancer~\cite{Chen2020SLC6A1}
+Our analysis found that SLC6A1 is downregulated in lung cancer cells,
+with a PageRank score of 14.170 and a $\Delta_{TPM}$ value of -0.267.
+Further investigation is needed to understand the underlying mechanisms and potential implications for lung cancer research.
 \newline
 
 %5 - SLC1A2
-The \textbf{SLC1A2}, is another of the family of solute transporter proteins, which is primarily known as glutamat transporter.
-It plays a crucial role in regulating glutamate levels in the brain by removing glutamate from synapses.\cite{NCBI2017SLC1A2}
-
-In our analysis the gene has a PageRank score of 13.729 and is downregulated in lung cancer cells,
-with a $\Delta_{TPM}$ value of -0.233.
+The \textbf{SLC1A2} gene encodes a protein that functions as a glutamate transporter,
+playing a crucial role in regulating glutamate levels in the brain by removing glutamate from synapses~\cite{NCBI2017SLC1A2}.
 
 Research has identified SLC1A2 as a partner gene in fusion genes associated with certain types of cancer.
-Studies have found that CD44-SLC1A2 fusions are present in gastric cancer~\cite{Tao2011CD44} and
+Notably, studies have found that CD44-SLC1A2 fusions are present in gastric cancer~\cite{Tao2011CD44} and
 primary colorectal cancer~\cite{Shinmura2015CD44}, indicating its potential role in cancer development.
-Furthermore, an analogous APIP/SLC1A2 fusion has been identified in colon cancer~\cite{Giacomini2013Breakpoint}.
-Notably, these gene fusions were not detected in non-small cell lung cancers~\cite{Shinmura2015CD44}
+Additionally, an analogous APIP/SLC1A2 fusion has been identified in colon cancer~\cite{Giacomini2013Breakpoint}.
+Notably, these gene fusions were not detected in non-small cell lung cancers~\cite{Shinmura2015CD44}.
+
+In contrast to these findings, our analysis reveals that SLC1A2 is downregulated in lung cancer cells,
+with a PageRank score of 13.729 and a $\Delta_{TPM}$value of -0.233.
+THis finding raises questions about the gene's role in lung cancer and warrants further investigation.
 \newline
 
-%6 - !!!BRCA1
-The \textbf{BRCA1}, Breast Cancer Gene 1, gene is a tumor suppressor gene that produces a protein involved in repairing damaged DNA\@.
-It plays a crucial role in maintaining genome stability by facilitating the correct repair of DNA breaks~\cite{NCI2020BRCA1}.
+%6 - BRCA1
+The \textbf{BRCA1} gene, also known as Breast Cancer Gene 1, is a tumor suppressor gene
+that produces a protein involved in repairing damaged DNA\@.
+This process is essential for maintaining genome stability by facilitating the correct repair of DNA breaks~\cite{NCI2020BRCA1}.
 
-Our analysis reveals that BRCA1 has a PageRank score of 13.288 and is upregulated in lung cancer cells,
-with a $\Delta_{TPM}$ value of 0.214.
-In our Top 10 list it is the only gene that is upregulated in lung cancer cells.
+BRCA1 has been associated with various types of cancer, including breast and ovarian cancers\cite{Lee2020BRCA1}.
+However, its relationship to lung cancer is more complex.
+Initial research suggested a potential link between overexpressed BRCA1 and
+poor survival in non-small cell lung cancer patients\cite{Rosell2007BRCA1}.
+However, subsequent studies have contradicted this notion,
+saying that BRCA1 does not play a role in NSCLC~\cite{Gachechiladze2012BRCA1,Lee2020BRCA1}.
 
-BRCA1 is a tumor suppressor gene that has been associated with various types of cancer,
-including breast and ovarian cancers\cite{Lee2020BRCA1}.
-Research has also suggested a potential link between overexpressed BRCA1 and lung cancer,
-with some studies indicating an association with poor survival in non-small cell lung cancer patients\cite{Rosell2007BRCA1}
-However, more recent findings have contradicted this notion,
-saying that BRCA1 does not play a role in NSCLC~\cite{Gachechiladze2012BRCA1,Lee2020BRCA1}
+Interestingly, our analysis reveals a different pattern for BRCA1 in lung cancer cells.
+With a PageRank score of 13.288 and a $\Delta_{TPM}$ value of 0.214,
+BRCA1 is upregulated in these cells, making it the only gene in our Top 10 list to exhibit this behavior.
 \newline
 
 %7 - FHL1
 The \textbf{FHL1} (four and a half LIM domains 1) gene encodes a protein
-that plays a crucial role in regulating muscle cell differentiation and maturation.
+involved in regulating muscle cell differentiation and maturation,
+playing a crucial role in maintaining proper muscle function.
 It is primarily expressed in striated muscles but also found in other tissues such as the brain and testis~\cite{Storey2020FHL1}.
-
-Our analysis reveals that FHL1 has a PageRank score of 12.849 and is downregulated in lung cancer cells,
-with a $\Delta_{TPM}$ value of -0.217.
 
 FHL1 has been implicated in various types of cancer, including breast, kidney, prostate and gastric cancer.
 Research suggests that FHL1 expression is often reduced in these cancers,
 which may contribute to their development\cite{Li2008FHL1, Sakashita2008FHL1}.
 Specifically, studies have found that FHL1 is downregulated in NSCLC patients~\cite{Niu2012FHL1}.
+
+Our analysis reveals that FHL1 has a PageRank score of 12.849 and is downregulated in lung cancer cells,
+with a $\Delta_{TPM}$ value of -0.217.
 \newline
 
 %8 - MBP
-The \textbf{MBP} (Myelin Basic Protein) gene helps produce proteins that are essential for creating and
-maintaining the protective covering around nerve fibers, called myelin.
-It also plays a role in helping the body repair damaged nerve coverings and
-regulates how immune cells respond to infections or inflammation~\cite{Nye1995MBP}.
-
-Our analysis reveals that MBP has a PageRank score of 12.848 and is downregulated in lung cancer cells,
-with a $\Delta_{TPM}$ value of -0.296.
+The \textbf{MBP} (Myelin Basic Protein) gene plays a crucial role in producing proteins essential for creating and
+maintaining the protective myelin covering around nerve fibers, as well as
+facilitating repair of damaged nerve coverings and regulating immune cell responses to infections or inflammation~\cite{Nye1995MBP}.
 
 MBP has been linked to cancer research, particularly in the context of brain tumors.
-Studies suggest that MBP levels are elevated in patients with brain cancer and may serve as a potential biomarker for diagnosis.
-However, it's worth noting that increased MBP levels have also been observed in other brain diseases, such as multiple sclerosis~\cite{Zavialova2017MBP}.
-Furthermore, there is evidence suggesting a correlation between MBP expression levels and brain metastasis from lung cancer~\cite{Nakagawa1994MBP}.
+Studies have suggested that MBP levels are elevated in patients with brain cancer and may serve as a potential biomarker for diagnosis.
+However, increased MBP levels have also been observed in other brain diseases, such as multiple sclerosis~\cite{Zavialova2017MBP}.
+Furthermore, research has found a correlation between MBP expression levels and brain metastasis from lung cancer~\cite{Nakagawa1994MBP}.
+
+Interestingly, our analysis reveals that MBP is downregulated in lung cancer cells with a $\Delta_{TPM}$ value of -0.296.
+This finding appears to contradict previous research suggesting elevated MBP levels in brain tumors,
+including those metastasizing from lung cancer.
+Further investigation is needed to fully understand the role of MBP in lung cancer biology.
 \newline
 
 %9 - ELN
-The \textbf{ELN} (Elastin) gene encodes for the protein Elastin, which is a key component of connective tissue that provides elasticity and
+The \textbf{ELN} gene encodes for the protein Elastin,
+a key component of connective tissue that provides elasticity and
 flexibility to tissues such as skin, lungs, and blood vessels~\cite{Debelle1999ELN}.
 
-Our analysis reveals that ELN has a PageRank score of 11.119 and is downregulated in lung cancer cells,
-with a $\Delta_{TPM}$ value of -0.246.
-
 According to studies, elastin plays a significant role in cancer development.
-For example, research has shown that elastin gene expression is increased in tumors from colorectal cancer patients~\cite{Li2020ELN}.
+Research has shown that elastin gene expression is increased in tumors from colorectal cancer patients~\cite{Li2020ELN}.
 In breast cancer, elastosis, a condition characterized by an abnormal increase in elastin fibers,
 is a common feature that increases with tumor progression~\cite{Lepucki2022ELN}.
 Additionally, studies have found that Elastin in gastric cancer tissues is linked to changes that enable cancer cells
 to spread more easily~\cite{Fang2023ELN}.
+
+However, our study reveals a different pattern for ELN in lung cancer cells:
+despite its significance in other cancers, ELN expression is actually downregulated, with a $\Delta_{TPM}$ value of -0.246.
+This unexpected finding suggests that the role of Elastin in lung cancer biology may be more complex.
 \newline
 
 %10 - ARPP21
-The \textbf{ARPP21} (cAMP regulated phosphoprotein 21) gene is involved in regulating cellular processes, particularly in brain development and function.
+The \textbf{ARPP21} (cAMP regulated phosphoprotein 21) gene is involved in regulating cellular processes,
+particularly in brain development and function.
 It plays a crucial role in shaping the complexity of neurons during development~\cite{Rehfeld2018ARPP21}.
 
-Our analysis reveals that ARPP21 has a PageRank score of 11.089 and is downregulated in lung cancer cells,
-with a $\Delta_{TPM}$ value of -0.201.
-
-The gene ARPP21 is involved in producing a microRNA called miR-128, which has been implicated in various types of cancer~\cite{Li2013ARPP21}.
-Studies have shown that miR-128 is downregulated in prostate cancer~\cite{Khan2010ARPP21}, ovarian cancer~\cite{Woo2012ARPP21},
+In addition to its direct impact on brain development, research has uncovered an indirect link between ARPP21 and cancer.
+Specifically, the microRNA produced by ARPP21, miR-128, has been implicated in various types of cancer~\cite{Li2013ARPP21}.
+Notably, studies have shown that miR-128 is downregulated in prostate cancer~\cite{Khan2010ARPP21}, ovarian cancer~\cite{Woo2012ARPP21},
 and breast cancer~\cite{Zhu2011ARPP21}.
-Although the direct link between ARPP21 and cancer remains unclear,
+
+While the direct connection between ARPP21 and cancer remains unclear,
 its connection to miR-128 suggests an indirect role for ARPP21 in cancer development.
+Our analysis provides further insight into this relationship, revealing that ARPP21 is downregulated in lung cancer cells,
+with a $\Delta_{TPM}$ value of -0.201.
 \newline
+
+% Conclusion
+In conclusion, the analysis of our top 10 genes for lung cancer biomarkers are all genes that are known for their role in cancer.
+The genes are involved in various cellular processes, including cell growth, muscle function, and neurotransmitter regulation.
+While some genes have direct connections to lung cancer like NDRG2 and MBP,
+others show intriguing relationships with lung cancer.
+
+Interestingly, even among the top-ranked genes, their connection to lung cancer is not always clear-cut.
+For instance, BRCA1 has a controversial role in lung cancer, with some studies suggesting that it may act as an oncogene,
+while others propose a tumor suppressor function.
+
+On the other hand, several genes in our list have no known studies on their role in lung cancer,
+highlighting the need for further research to elucidate their potential involvement.
+Overall, this analysis underscores the complexity of the genetic landscape underlying lung cancer and
+highlights the importance of continued investigation into the roles of these genes in disease progression.
