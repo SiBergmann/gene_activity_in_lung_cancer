@@ -6,28 +6,27 @@
 % TODO [BILD] von PPI network und extended network mit Genen
 
 % Intro
-As we have created our data models for the graph database, our next objective is to create a graph database
+As we have created our data models for the graph database, our next objective is to create a graph database\ref{obj:graph_algorithm}
 that can be used to perform the PageRank algorithm as a graph algorithm.
 With four huge datasets at our disposal, optimizing the generation of the database is crucial.
-
-In this section, we describe the Cypher queries used to create and populate our graph database,
+In this section, we describe the queries, called cypher queries, used to create and populate our graph database,
 including information about creating indexes, constraints, relationships between nodes, and loading data into the database.\\
 
 
 % PPI Network
-First, we create a basic PPI network by generating proteins and their interactions as edges.
-To start with, we need to create protein nodes with their respective properties.
-This process involves creating an index on the protein property id for faster query execution, loading the data as a list,
-creating nodes in batches for efficient processing, and finally populating the graph database with 101,731 protein nodes.
+First, we create a \textbf{basic PPI network} by generating proteins and their interactions as edges.
+To start with, we need to create protein nodes by creating an index on the protein property id for faster query execution.
+Next we load the data as a list, create nodes in batches for efficient processing,
+and finally populate the graph database with 101,731 protein nodes.
 
-We don't require any additional properties for these protein nodes since they are solely used as connections between genes.
+We don't require any additional properties for the protein nodes since they are solely used as connections between genes.
 The Cypher query for creating protein nodes is:
 
 \begin{lstlisting}[language=Cypher, label={lst:protein_nodes}]
     CREATE (p:protein {id: 'Protein ID'})
 \end{lstlisting}
 
-Next, we create interaction  edges between proteins by loading the data as a list of protein tuples,
+Next, we create interaction edges between these protein nodes by loading the data as a list of protein tuples,
 searching for both protein nodes by their IDs, and creating an edge in batches for efficient processing.
 This results in the creation of 11,247,242 edges between protein nodes.
 The Cypher query for creating protein-protein edges is:
@@ -43,12 +42,14 @@ At this point, we have a PPI network in place. \\
 
 % Extending the Network with Genes
 Our actual focus is on the genes.
-To get an extended network with genes on the edges of the protein nodes, we need to link them to the proteins.
-We start by creating gene nodes with their respective properties.
-This process involves creating an index on the gene property id for faster query execution,
-loading the data as a list, creating nodes in batches for efficient processing, and finally populating the graph database with 17,626 gene nodes.
+For constructing our \textbf{extended PPI network} with genes on the edges of the protein nodes, we need to connect them to the proteins.
+To achieve this, we first create gene nodes with their associated attributes,
+utilizing efficient data loading techniques to facilitate faster query execution.
+Specifically, we implement an index on the gene property id to expedite querying,
+load the data as a list, create nodes in batches to optimize processing,
+and ultimately populate the graph database with 17,626 gene nodes.
 
-The Cypher query for creating gene nodes is:
+The Cypher query employed for creating these gene nodes is:
 \begin{lstlisting}[language=Cypher, label={lst:gene_nodes}]
     CREATE (p:gene {
             id: 'id',
@@ -60,13 +61,18 @@ The Cypher query for creating gene nodes is:
             delta_tpm_relevant: 'delta_tpm_relevant'})
 \end{lstlisting}
 
-The genes have several properties, including $gene\_name$, $norm\_healthy\_tpm$, $norm\_cancerous\_tpm$, $delta\_tpm$, and $delta\_type$.
-These attributes are used to calculate a more relevant attribute called $delta\_tpm\_relevant$, which will be the primary focus of our PageRank analysis.
-While the other attributes may not be directly relevant to our current analysis, they could potentially be useful for future tasks.
+The genes in our network will be characterized by several properties:
+$gene\_name$, $norm\_healthy\_tpm$, $norm\_cancerous\_tpm$, $delta\_tpm$, and $delta\_type$.
 
-To represent relationships between genes and proteins, we create edges called connections by loading the data as a list of gene-protein tuples
-and matching both gene and protein nodes by their Ids.
-This process involves creating edges in batches for efficient processing, resulting in 101,731 connections between gene and protein nodes.
+
+Among these, the calculation of $delta\_tpm\_relevant$ stands out as a pivotal factor in our analysis.
+Although other attributes may be less relevant to our current investigation, they retain potential value for future tasks.
+
+To model relationships between genes and proteins,
+we establish connections between these nodes by loading gene-protein interaction data as a list of tuples.
+This involves matching both gene and protein nodes based on their respective Ids,
+and creating edges in batches to optimize processing efficiency.
+The result is a comprehensive network of 101,731 connections between gene and protein nodes
 
 The Cypher query for creating gene-protein connection edges is:
 \begin{lstlisting}[language=Cypher, label={lst:gene_protein_edges}]
@@ -75,22 +81,22 @@ The Cypher query for creating gene-protein connection edges is:
     CREATE (s)-[:CONNECTION]-(t)
 \end{lstlisting}
 
-By executing these Cypher queries, we can populate our graph database with the necessary nodes and edges to perform the PageRank algorithm.\\
-
+Through the execution of these Cypher queries,
+we are able to populate our graph database with the necessary nodes and edges to perform the PageRank algorithm.\\
 
 
 % PAGERANK
 % TODO Analysis of the difference between histogramm of all and histofgramm of relevant genes
 
-As our final step for the second objective, we employed the \textbf{PageRank} algorithm to measure the importance of nodes in our graph database.
-This algorithm is particularly useful for identifying key genes that play a crucial role in the network
-because it can accurately capture the hierarchical structure of gene interactions,
-allowing us to identify not only highly connected genes but also those with significant functional relevance.
-For applying PageRank analysis to our large-scale graph database,
-we create a projection of the entire graph, which enables efficient computation and scalability.
+As our final step in the second objective,
+we employed the \textbf{PageRank} algorithm to measure the importance of nodes within our graph database.
+This algorithm is particularly well-suited for identifying key genes that play a crucial role in the network,
+as it can accurately capture the hierarchical structure of gene interactions,
+enabling us to identify not only highly connected genes but also those with significant functional relevance.
+For efficient computation and scalability,
+we create a projection of the entire graph prior to applying PageRank analysis to our large-scale graph database.
 
 To perform the PageRank analysis, we used the following Cypher query:
-
 \begin{lstlisting}[language=Cypher, label={lst:pagerank}]
     CALL gds.pageRank.stream('gene_protein_graph')
     YIELD nodeId, score
@@ -102,35 +108,30 @@ To perform the PageRank analysis, we used the following Cypher query:
     ORDER BY score DESC
 \end{lstlisting}
 
-This query yielded a list of nodes, including genes and proteins, along with their respective PageRank scores.
-By dropping the proteins from this list, we focused on the genes and
-further filtered them by selecting only those with a significant change in gene activity,
+This query returned a list of nodes, including genes and proteins, along with their respective PageRank scores.
+By filtering out the proteins from this list, we isolated the genes and
+further refined them to include only those exhibiting a significant change in gene activity,
 indicated by the value for $delta\_tpm\_relevant$.
 
-The resulting list of genes represents those that have not only high connectivity
+The resulting subset of genes represents a group that has not only high connectivity
 within the network but also exhibit a substantial difference in gene expression.
-This subset was visualized using histograms, which demonstrate the distribution of PageRank scores for all genes
-(Figure~\ref{fig:03_02_hist_pagerank}) and only for relevant genes (Figure~\ref{fig:03_02_hist_pagerank_relevant}).
+We visualized this subset using histograms (Figure~\ref{fig:03_02_hist_pagerank}),
+which demonstrate the distribution of PageRank scores for all genes and for the subset of relevant genes, respectively.
 
 \begin{figure}[h]
-\minipage{0.45\textwidth}
-    \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank}
-    \caption{Histogram of Pagerank Scores for all genes}
-	\label{fig:03_02_hist_pagerank}
-\endminipage
-\hfill
-\minipage{0.45\textwidth}
-  \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank_relevant}
-  \caption{Histogram of Pagerank Scores only for relevant genes}
-	\label{fig:03_02_hist_pagerank_relevant}
-\endminipage
+    \minipage{0.45\textwidth}
+        \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank}
+    \endminipage
+    \hfill
+    \minipage{0.45\textwidth}
+      \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank_relevant}
+    \endminipage
+    \caption{Comparison of the distribution of Pagerank Scores for all genes and genes with significant change in gene activity}
+    \label{fig:03_02_hist_pagerank}
 \end{figure}
 
-Lastly we filtered the top 10 genes with the highest PageRank scores and a significant change in gene activity.
-
-
 % Conclusion
-With this process, we have successfully done our second objective~\ref{obj:graph_algorithm},
-which was to apply a graph algorithm to identify key genes in the network.
-
-
+In conclusion, by successfully completing our second objective~\ref{obj:graph_algorithm},
+we have established a graph database and performed the PageRank algorithm on our network.
+This has allowed us to identify key genes within the network that exhibit both high connectivity
+and significant changes in gene activity.

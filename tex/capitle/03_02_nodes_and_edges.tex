@@ -12,10 +12,10 @@ As shown in Figure~\ref{fig:03_02_Network}.
 
 % TODO longer Caption
 \begin{figure}[h]
-\centering
-\includegraphics[width=0.8\textwidth]{figures/03_02_Network}
-\caption{DRAFT: Schema of the Graph Database}
-\label{fig:03_02_Network}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/03_02_Network}
+    \caption{DRAFT: Schema of the Graph Database - austauschen druch Skizze}
+    \label{fig:03_02_Network}
 \end{figure}
 
 For each of those four components we will create a table that will serve as base for creating the graph database.\\
@@ -42,17 +42,15 @@ log\_norm(x) = \frac{\log(1 + x) - \log(1 + x_{min})}{\log(1 + x_{max}) - \log(1
 where $x_{\max}$ and $x_{\min}$ are the maximum and minimum TPM values across both datasets.
 After applying the normalization, the distribution of the TPM values is more balanced, as shown in Figure~\ref{fig:03_02_normalized_tpm_both}.
 
-%TODO J - longer caption
 \begin{figure}[h]
 \minipage{0.45\textwidth}
     \includegraphics[width=\linewidth]{figures/03_02_normalized_gtex_tpm}
-    \caption{Histogram of TPM Values of GTEx Dataset}
 \endminipage
 \hfill
 \minipage{0.45\textwidth}
   \includegraphics[width=\linewidth]{figures/03_02_normalized_cmp_tpm}
-  \caption{Histogram of TPM Values of CMP Dataset}
 \endminipage
+\caption{Normalized TPM Values between 0 and 1 for healthy GTEx and cancerous CMP Datasets}
 \label{fig:03_02_normalized_tpm_both}
 \end{figure}
 

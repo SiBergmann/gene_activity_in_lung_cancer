@@ -2,15 +2,17 @@
 % TODO one more iteration of text checking for avoiding repetitions
 
 %general Notes
-The dataset of all genes reveals a complex landscape of gene expression in our study.
-To provide context for interpreting the results of the top 10 most relevant genes,
-we analyzed the distribution of Pagerank scores and $\Delta_{TPM}$ values across the entire dataset.
+As the last xxx of our goal we need to fulfill the last objective\ref{obj:validation} of our study by analyzing and
+validating the results of the PageRank algorithm.
+Before we delve into the analysis of the top 10 genes,
+it is essential to provide an overview of the distribution of PageRank scores and $\Delta_{TPM}$ values across the entire dataset.
 
 The PageRank scores exhibit an initial peak at approximately 67, which stands out as a significant outlier.
 This peak is followed by a gradual decline to around 40, with subsequent scores showing progressively smaller differences
 as they approach the mid-30s range.
 Notably, once the scores fall to this level, the gaps between them become considerably narrower.
-%TODO This overall distribution suggests a pattern of exponential or logarithmic decay, indicating that the majority of the scores are heavily concentrated towards the higher end.
+This overall distribution suggests a pattern of logarithmic decay,
+indicating that the majority of the scores are heavily concentrated towards the higher end\ref{fig:03_02_hist_pagerank}
 
 The $\Delta_{TPM}$ values display a symmetric distribution with a pronounced peak around zero, indicating a central tendency near the mean.
 The data ranges from approximately -0.709 to 0.423, suggesting moderate variability, and a normal-like distribution.
@@ -37,12 +39,6 @@ Notably, it boasts the highest delta TPM value among the top 10 genes,
 indicating a substantial decrease in expression levels in lung cancer cells.
 \newline
 
-% These findings suggest that NDRG2's tumor suppressor function is not only crucial for preventing cancer progression
-% but also plays a significant role in shaping the molecular landscape of lung cancer.
-% Our results provide new insights into the regulatory mechanisms governing NDRG2 expression and
-% highlight its potential as a therapeutic target for the treatment of lung cancer.
-
-
 % 2 - DMKN
 The gene \textbf{DMKN}, also known as Dermokine, is a gene involved in skin cell function and regulation.
 Specifically, it plays a crucial role in maintaining the integrity of the outer layer of the skin
@@ -57,7 +53,7 @@ with a $\Delta_{TPM}$ value of -0.203, indicating further investigation into thi
 \newline
 
 % 3 - CAPN3
-The gene \textbf{CAPN3}, also known as calpain 3, is an integral component of the Calpain system,
+The gene \textbf{CAPN3}, also known as Calpain 3, is an integral component of the Calpain system,
 a complex network of gene products and proteins that play critical roles in cellular processes.
 Primarily expressed in skeletal muscle cells, CAPN3 plays a pivotal role in maintaining muscle function and integrity~\cite{Spinozzi2021Calpain}.
 
