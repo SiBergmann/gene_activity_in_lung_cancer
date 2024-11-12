@@ -19,6 +19,18 @@ These genes are not only highly connected within the network but also exhibit a 
     \label{fig:03_03_df_pagerank_relevant}
 \end{figure}
 
+% One Example Gene
+As an illustrative example of the structure of the top genes in our network,
+we present a gene with high PageRank score and a significant change in gene activity
+(Figure~\ref{fig:04_example_gene}).
+
+% Cypher: MATCH p = (g:gene {gene_name: 'ELN'})-[r]-(related) RETURN p
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=\dfheightdouble]{figures/04_example_gene}
+    \caption{An example extract from the graph database for a gene with high PageRank score and significant change in gene activity}
+    \label{fig:04_example_gene}
+\end{figure}
 
 % Outro
 The 10 genes presented here have been identified as key players in the extended PPI network related to lung cancer.

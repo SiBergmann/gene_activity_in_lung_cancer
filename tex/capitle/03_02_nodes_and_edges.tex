@@ -3,22 +3,25 @@
 % TODO draw a picture of thoses proteins and how they are important
 % TODO Protein Nodes is single column - can library also save this?
 
-As a next step we focus on describing how to create the base information for our advanced PPI Network.
-The graph database contains gene and protein node types.
-The edges between the proteins build a classical PPI Network and are called interactions. % mehr biologische Erklärung?
-The second type of edges, called connections, are the link between proteins and genes.
-As shown in Figure~\ref{fig:03_02_Network}.
-% TODO Wir machen das, weil …
+As a next step we focus on describing how to create the base information for our extended PPI Network.
+The graph database consists of gene and protein node types, as shown in Figure~\ref{fig:03_02_Network}.
+The edges between proteins build a classical PPI Network and are called interactions. % mehr biologische Erklärung?
+The second type of edges, called connections, link proteins and genes together.
+For each of those four components we will create a table that will serve as base for creating the graph database.\\
+
+% Cypher Query:
+% MATCH (g:gene) WITH g LIMIT 4
+% MATCH (g)-[r1]-(p:protein) WITH g, p, r1 LIMIT 20
+% OPTIONAL MATCH (p)-[r2]-()
+% RETURN g, collect(r1) AS gene_edges, p, collect(r2) AS protein_edges LIMIT 50
 
 % TODO longer Caption
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/03_02_Network}
-    \caption{DRAFT: Schema of the Graph Database - austauschen druch Skizze}
+    \caption{Extract from the Graph Databse setup with gene sin dark brown and proteins in light brown and their edges}
     \label{fig:03_02_Network}
 \end{figure}
-
-For each of those four components we will create a table that will serve as base for creating the graph database.\\
 
 For creating the \textbf{gene nodes} we need to use the preprocessed CMP and GTEx datasets,
 which contain mean TPM values for cancerous and healthy genes.
@@ -29,7 +32,6 @@ we need to calculate a measure that captures significant changes between cancero
 When examining the mean TPM values per dataset, we observe a right-skewed distribution, with most values close to zero
 and a long tail extending towards higher values.
 The cancerous TPM values vary from 0 to approximately 41.173, while the healthy TPM values range from 0 to around 36.200.
-
 
 
 To normalize the TPM values from both datasets and enable better comparability, we perform a common log scaling between 0 and 1 for all TPM values combined.

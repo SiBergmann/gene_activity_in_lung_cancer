@@ -34,7 +34,7 @@ The Cypher query for creating protein-protein edges is:
 \begin{lstlisting}[language=Cypher, label={lst:protein_edges}]
     MATCH (s:protein{id:'left Protein ID'})
     MATCH (s:protein{id:'right Protein ID'})
-    CREATE (s)-[:INTERACTS]->(t)
+    CREATE (s)-[:interaction]->(t)
 \end{lstlisting}
 
 At this point, we have a PPI network in place. \\
@@ -78,7 +78,7 @@ The Cypher query for creating gene-protein connection edges is:
 \begin{lstlisting}[language=Cypher, label={lst:gene_protein_edges}]
     MATCH (s:protein{id:'Protein ID'})
     MATCH (s:gene{id:'Gene ID'})
-    CREATE (s)-[:CONNECTION]-(t)
+    CREATE (s)-[:connection]-(t)
 \end{lstlisting}
 
 Through the execution of these Cypher queries,
