@@ -1,8 +1,8 @@
-\subsection{Analysis} \label{subsec:analysis}
+\subsection{Result Analysis} \label{subsec:result_analysis}
 % TODO one more iteration of text checking for avoiding repetitions
 
 %general Notes
-As the last xxx of our goal we need to fulfill the last objective\ref{obj:validation} of our study by analyzing and
+As the final milestone of our study goal we need to fulfill the last objective\ref{obj:validation} by analyzing and
 validating the results of the PageRank algorithm.
 Before we delve into the analysis of the top 10 genes,
 it is essential to provide an overview of the distribution of PageRank scores and $\Delta_{TPM}$ values across the entire dataset.
@@ -12,11 +12,10 @@ This peak is followed by a gradual decline to around 40, with subsequent scores 
 as they approach the mid-30s range.
 Notably, once the scores fall to this level, the gaps between them become considerably narrower.
 This overall distribution suggests a pattern of logarithmic decay,
-indicating that the majority of the scores are heavily concentrated towards the higher end\ref{fig:03_02_hist_pagerank}
+indicating that the majority of the scores are heavily concentrated towards the higher end~\ref{fig:03_02_hist_pagerank}
 
 The $\Delta_{TPM}$ values display a symmetric distribution with a pronounced peak around zero, indicating a central tendency near the mean.
-The data ranges from approximately -0.709 to 0.423, suggesting moderate variability, and a normal-like distribution.
-\ref{fig:03_02_delta_tpm}
+The data ranges from approximately -0.709 to 0.423, suggesting moderate variability, and a normal-like distribution~\ref{fig:03_02_delta_tpm}.
 \newline
 
 
@@ -187,6 +186,7 @@ others show intriguing relationships with lung cancer.
 Interestingly, even among the top-ranked genes, their connection to lung cancer is not always clear-cut.
 For instance, BRCA1 has a controversial role in lung cancer, with some studies suggesting that it may act as an oncogene,
 while others propose a tumor suppressor function.
+% TODO really like this?
 
 On the other hand, several genes in our list have no known studies on their role in lung cancer,
 highlighting the need for further research to elucidate their potential involvement.
