@@ -1,0 +1,47 @@
+\subsection{Graph Database Algorithm} \label{subsec:graph_database_algo}
+
+
+% PAGERANK
+% TODO Analysis of the difference between histogramm of all and histofgramm of relevant genes
+
+As our final step in the second objective,
+we employed the \textbf{PageRank} algorithm to measure the importance of nodes within our graph database.
+This algorithm is particularly well-suited for identifying key genes that play a crucial role in the network,
+as it can accurately capture the hierarchical structure of gene interactions,
+enabling us to identify not only highly connected genes but also those with significant functional relevance.
+For efficient computation and scalability,
+we create a projection of the entire graph prior to applying PageRank analysis to our large-scale graph database.
+
+To perform the PageRank analysis, we used the following Cypher query:
+\begin{lstlisting}[language=Cypher, label={lst:pagerank}]
+    CALL gds.pageRank.stream('gene_protein_graph')
+    YIELD nodeId, score
+    RETURN gds.util.asNode(nodeId).id AS node,
+           gds.util.asNode(nodeId).gene_name AS gene_name,
+           score,
+           gds.util.asNode(nodeId).delta_tpm AS delta_tpm,
+           gds.util.asNode(nodeId).delta_tpm_relevant AS delta_tpm_relevant
+    ORDER BY score DESC
+\end{lstlisting}
+
+This query returned a list of nodes, including genes and proteins, along with their respective PageRank scores.
+By filtering out the proteins from this list, we isolated the genes and
+further refined them to include only those exhibiting a significant change in gene activity,
+indicated by the value for $delta\_tpm\_relevant$.
+
+The resulting subset of genes represents a group that has not only high connectivity
+within the network but also exhibit a substantial difference in gene expression.
+We visualized this subset using histograms (Figure~\ref{fig:03_02_hist_pagerank}),
+which demonstrate the distribution of PageRank scores for all genes and for the subset of relevant genes, respectively.
+
+\begin{figure}[h]
+    \minipage{0.45\textwidth}
+        \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank}
+    \endminipage
+    \hfill
+    \minipage{0.45\textwidth}
+      \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank_relevant}
+    \endminipage
+    \caption{Comparison of the distribution of Pagerank Scores for all genes and genes with significant change in gene activity}
+    \label{fig:03_02_hist_pagerank}
+\end{figure}
