@@ -8,8 +8,16 @@ and the other includes cancerous tissue data from the Cell Model Passport (CMP) 
 These two datasets are the base for the gene nodes in our graph database.
 For these, we need to have a single table with each gene as row and a single value for healthy and cancerous TPM values for every gene in every tissue.
 To have an identifier for every gene, we use the Ensemble ID (ENS ID) as the primary key for the gene nodes.
-These are unique id for genes, proteins and other genetic elements collected in the Ensemble database
-from 1999 by the European Bioinformatics Institute and the Wellcome Trust Sanger Institute~\cite{ensembl_project}.
+
+
+% limitations by the dataset
+% TODO - Comes from Limitation in 01
+We relied on gene expression data from the GTEx and Cell Model Passport datasets.
+While these resources are widely used and well-established, they do have limitations in terms of their scope and coverage.
+The GTEx dataset consists of only adult postmortem donor samples, with 2/3 of them between 50 and 69 years old and 2/3 being male.
+The Cell Model Passport dataset contains data from donors who are predominantly male (60\%)
+and have an age range that is biased towards older adults (50-69 years old).
+Especially the focus on the older age range may affect the generalizability of our findings to other populations.\\
 \\
 
 

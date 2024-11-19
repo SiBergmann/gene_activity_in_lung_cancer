@@ -1,11 +1,10 @@
 \subsection{Biological background} \label{subsec:biological_background}
-% TODO Quelle for TPM and Gene expression
-% TODO ENS ID Erklären
+To have a better understanding of our project, we need to have a closer look at some biological topics and concepts.
 
 % Cancer overview
-\textbf{Cancer} is a group of diseases characterized by uncontrolled cell growth.
-According to research, widespread metastases are the primary cause of death from cancer\cite{who_cancer_fact_sheet}.
-There are over 100 different types of cancer\cite{nci_cancer_types}.
+\textbf{Cancer} is complex, multifactorial disease characterized by uncontrolled cell growth.
+Research shows that widespread metastases are the primary cause of death from cancer\cite{who_cancer_fact_sheet}.
+and that cancer comes in more than 100 different types\cite{nci_cancer_types}.
 The five most common forms of cancer worldwide in 2022 were lung cancer ($>2.4$ million),
 breast cancer ($>2.2$ million), colorectal cancer ($>1.9$ million), prostate cancer ($>1.4$ million) and
 stomach cancer ($>0.9$ million).
@@ -23,24 +22,33 @@ There are two main subtypes: non-small cell carcinoma (NSCLC) and small cell car
 The primary risk factor for developing lung cancer is smoking,
 but passive smoking and environmental pollution also significantly increase the risk\cite{nci_lung_cancer_types}.
 
-Unfortunately, symptoms of lung cancer often resemble those of common colds or other minor illnesses,
+Symptoms of lung cancer often resemble those of common colds or other minor illnesses,
 such as coughing and fatigue.
-This makes it difficult to diagnose until the disease has progressed to an advanced stage\cite{who_lung_cancer}.
+This makes it challenging for patients to receive timely treatment, often leading to a diagnosis at an advanced stage\cite{who_lung_cancer}.
 \\
 
-% genetical changes in cancer
+% gene expression
 \textbf{Gene expression} is a crucial factor in the investigation of cancer.
-It describes the process by which genes are read and utilized within a cell to synthesize proteins
-that regulate cellular growth and other essential processes.
-% TODO J - Better formulation - sehr schwammig
+It describes the process of transcribing DNA into RNA molecules that code for proteins,
+which are then translated and regulated through complex interactions to control the production and function of gene products.
+\cite{nhi_gene_expression}.
 Alterations in gene expression can contribute to the uncontrolled multiplication and abnormal behavior of cancer cells,
-which ultimately leads to the development and progression of cancer.
+which ultimately leads to the development and progression of cancer\cite{ferlier2022regulation}.
 \\
 
-\textbf{Transcripts per Million (TPM)} is a measure of gene expression in a cell.
-% It indicates the number of RNA copies of a particular gene per million total transcribed RNA molecules present in a sample.
+% TODO Quelle for TPM
+% TPM
+A quantification measure of gene expression in a cell is \textbf{Transcripts per Million (TPM)}.
 A higher TPM value signifies that the corresponding gene is actively expressed and, consequently, produces more protein.
 Through this method, it is possible to determine precisely which genes are activated within a cell and
 their involvement in cancer development.
+\\
+
+% Gene IDs
+A common way to identify genes is through the use of unique identifiers known as \textbf{ENSEMBLE IDs}.
+These are unique id for genes, proteins and other genetic elements collected in the Ensemble database
+from 1999 by the European Bioinformatics Institute and the Wellcome Trust Sanger Institute~\cite{ensembl_project}.
+These make it easier to compare and analyze gene data across different datasets.
+\\
 
 %TODO Multi Omics Data?!
