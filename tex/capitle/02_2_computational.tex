@@ -1,43 +1,35 @@
 \subsection{Computational background} \label{subsec:computational_background}
-% TODO add more Quellen
+% TODO - K - noch mehr Quellen?
 
 % Graph databases
-\textbf{Graph databases} are an effective way to model and analyze complex data structures.
-In this thesis, we use a graph database to put the collected cancer data into a meaningful context.
-A graph database consists of two basic components: Nodes and edges.
-Nodes are the units that store the basic information of a certain type of object.
-In our case, it is genes and proteins that are represented as nodes in the database.
-Each gene is, therefore, a node with its own properties,
-such as an $ID$, a $name$ or a $TPM value$ for its activity.
-Relationships between the nodes are represented by edges, which can represent different types of connections.
-In our graph database, for example, there are “interactions” as connections between proteins.
-Edges can represent both one-to-many and many-to-many relationships,
-which allows us to model complex relationships between nodes.
-Edges also can have weights, a direction, or properties like $name$ or $type$.
-We do not use these metadata in our database,
-but they could be used to model more complex relationships between nodes.
-Graph databases provide several benefits when working with complex networked data.
-Notably, they enable efficient querying and visualization of complex relationships,
-facilitating a deeper understanding of these networks.
+\textbf{Graph databases} are an effective way to model and analyze graph-like data,
+which is in contrast to traditional relational databases well-suited for applications involving relationships between entities.
+For instance, social networks and biological systems can be effectively represented using these graph structures~\cite{graph_db_survey}.
+In particular, graph databases have been widely used in biological data analysis, such as modeling Protein-Protein-Interaction (PPI) networks
+that illustrate the interaction between proteins to control cellular processes.
+In this thesis, we use a graph database to put our collected cancer data into a meaningful context.
 
-In biological data analysis, graph databases are often used to analyze PPI networks.
-These networks model the interaction between proteins to control cellular processes.
-By using a graph database, we can visualize and query these networks more efficiently,
-then in traditional relational databases, allowing us to gain important insights into cellular processes.
+Just like a graph, a graph database consists of two basic components: nodes and edges between nodes.
+These components form the foundation for storing and analyzing large amounts of data.
 
-% TODO zusammenlegen
-In our project, we take advantage of graph databases to analyze the graph-like connections between genes and proteins.
-This allows us to represent and query the complex relationships more efficiently.
-% doppeltes wording
-Part of our work also involves creating and using a PPI\@.
-For our project, we used Neo4J, one of the most popular and most powerful graph databases.
-It offers a high degree of flexibility and enables us to manage our data efficiently.
+Nodes are the units that store the basic information of a certain type of entity~\cite{graph_db_survey}.
+In our case, genes and proteins are represented as two different node types in the database.
+Each gene is, therefore, a node with properties, such as an $ID$, a $name$ or a $TPM value$ for its activity.
+
+Relationships between two nodes are represented by an edge, which also can be of different types.
+In our graph database, for example, there are “interactions” as edges between proteins and “connections” as edges between a gene and a protein.
+As in common graph theory, edges can represent structures like one-to-many or many-to-many relationships.
+Edges can also have weights, directions, or properties like $name$ or $type$\cite{graph_db_power_limitations}.
+We do not use these additional metadata in our setup, but they could be used to model more complex relationships.
+
+We will implement our graph database using Neo4J, since it is a widely used graph database management system.
+% TODO - K - okay so?
 \\
 
-% TODO better intro
-\textbf{Graph database algorithms} can be broadly categorized into three primary groups.
-These categories facilitate the efficient analysis of complex networks
-by providing different perspectives on graph structure.
+
+% TODO - K - Another Sentence?
+\textbf{Graph database algorithms} enable the efficient analysis and extraction of meaningful insights from large-scale network data.
+They can be broadly categorized into three primary groups, which provide different perspectives on graph structure.
 
 Traversal and Pathfinding Algorithms enable the identification of shortest or
 most optimal paths between nodes in the graph, thereby facilitating the exploration of network topology.
@@ -55,10 +47,16 @@ Examples include Label Propagation, Louvain Modularity, and Strongly Connected C
 
 
 % PageRank algorithm
-In our analysis of gene activity networks,
-we utilize the \textbf{PageRank algorithm} to identify influential genes based on their connectivity and
-centrality within the graph.
-The PageRank score per gene is calculated using the following formula:
+In our analysis, we utilize the \textbf{PageRank algorithm} to identify influential nodes within the network
+based on their connectivity and centrality.
+The PageRank algorithm was originally a method for evaluating and prioritizing websites on the internet.
+It was developed by Larry Page and Sergey Brin in 1988 at Stanford University ~\cite{page1999pagerank},
+the founders of Google.
+The general idea behind the algorithm was that the more links pointing to a website, the more important it is.
+This concept is extended in the PageRank algorithm, which assigns a node's score by iteratively considering not only its direct connections
+but also the indirect relationships through its linked neighbors.
+
+The algorithm calculates a PageRank score per node using the following formula:
 
 \begin{align*}
 PR(A)=(1-d)+d(\frac{PR(T_1)}{C(T_1)}+\dots+\frac{PR(T_n)}{C(T_n)})
@@ -67,17 +65,12 @@ PR(A)=(1-d)+d(\frac{PR(T_1)}{C(T_1)}+\dots+\frac{PR(T_n)}{C(T_n)})
 where $PR(A)$ is the PageRank score of node $A$,
 $T_1$ to $T_n$ are nodes with edges to $A$,
 $d$ is the damping factor,
-and $C(T_1)$ represents the number of edges to node $T_1$.
+and $C(T_1)$ represents the number of edges to node $T_1$~\cite{neo4j_graph_algorithms}.
 
-The PageRank algorithm was originally a method for evaluating and prioritizing websites on the internet.
-It was developed in 1988 at Stanford University by Larry Page and Sergey Brin~\cite{page1999pagerank},
-the founders of Google.
-The idea behind the algorithm is that the more links pointing to a website, the more important it is.
 
-The PageRank algorithm assigns a higher score to genes that are connected to many other important genes,
-indicating their central role in the network.
-This allows us to identify key regulatory genes.
-By leveraging Neo4J's graph database capabilities,
-we can efficiently compute PageRank scores for our gene activity network,
-providing valuable insights into the complex relationships between genes. % TODO J - Why
+% TODO - K - needed?
+%This allows us to identify key regulatory genes.
+%By leveraging Neo4J's graph database capabilities,
+%we can efficiently compute PageRank scores for our gene activity network,
+%providing valuable insights into the complex relationships between genes.
 

@@ -2,53 +2,60 @@
 To have a better understanding of our project, we need to have a closer look at some biological topics and concepts.
 
 % Cancer overview
-\textbf{Cancer} is complex, multifactorial disease characterized by uncontrolled cell growth.
-Research shows that widespread metastases are the primary cause of death from cancer\cite{who_cancer_fact_sheet}.
-and that cancer comes in more than 100 different types\cite{nci_cancer_types}.
+\textbf{Cancer} is a complex, multifactorial disease characterized by uncontrolled cell growth.
+Research shows that widespread metastases are the primary cause of death from cancer~\cite{who_cancer_fact_sheet}
+and that cancer comes in more than 100 different types~\cite{nci_cancer_types}.
+
 The five most common forms of cancer worldwide in 2022 were lung cancer ($>2.4$ million),
 breast cancer ($>2.2$ million), colorectal cancer ($>1.9$ million), prostate cancer ($>1.4$ million) and
 stomach cancer ($>0.9$ million).
 In 2022, cancer was one of the leading causes of death globally,
-with approximately 10 million fatalities\cite{ferlay2024global}.
+with approximately 10 million fatalities~\cite{ferlay2024global}.
 
 It can be caused by a combination of genetic and environmental factors,
-such as diet, radiation, age, exposure to certain chemicals or viruses\cite{nci_cancer_risk}.
+such as diet, radiation, age, exposure to certain chemicals or viruses~\cite{nci_cancer_risk}.
 Early detection and the right treatment can significantly improve the chances of curing many types of cancer.
 \\
 
 % lung cancer
-\textbf{Lung cancer} is a type of cancer that affects the lung organ.
-There are two main subtypes: non-small cell carcinoma (NSCLC) and small cell carcinoma (SCLC)\cite{nci_lung_cancer_types}.
+In this study we will focus on \textbf{Lung cancer}, a type of cancer that affects the lung organ.
+There are two subtypes: non-small cell carcinoma (NSCLC) and small cell carcinoma (SCLC)~\cite{nci_lung_cancer_types}.
 The primary risk factor for developing lung cancer is smoking,
-but passive smoking and environmental pollution also significantly increase the risk\cite{nci_lung_cancer_types}.
+but passive smoking and environmental pollution also significantly increase the risk~\cite{nci_lung_cancer_types}.
 
-Symptoms of lung cancer often resemble those of common colds or other minor illnesses,
-such as coughing and fatigue.
-This makes it challenging for patients to receive timely treatment, often leading to a diagnosis at an advanced stage\cite{who_lung_cancer}.
+Symptoms of lung cancer often resemble those of common colds or other minor illnesses, such as coughing and fatigue.
+This makes it challenging for patients to receive timely treatment, often leading to a diagnosis at an advanced stage~\cite{who_lung_cancer}.
 \\
 
 % gene expression
 \textbf{Gene expression} is a crucial factor in the investigation of cancer.
 It describes the process of transcribing DNA into RNA molecules that code for proteins,
-which are then translated and regulated through complex interactions to control the production and function of gene products.
-\cite{nhi_gene_expression}.
+which are then translated and regulated through complex interactions to control the production
+and function of gene products~\cite{nhi_gene_expression}.
 Alterations in gene expression can contribute to the uncontrolled multiplication and abnormal behavior of cancer cells,
-which ultimately leads to the development and progression of cancer\cite{ferlier2022regulation}.
+which ultimately leads to the development and progression of cancer~\cite{ferlier2022regulation}.
 \\
 
-% TODO Quelle for TPM
-% TPM
-A quantification measure of gene expression in a cell is \textbf{Transcripts per Million (TPM)}.
-A higher TPM value signifies that the corresponding gene is actively expressed and, consequently, produces more protein.
-Through this method, it is possible to determine precisely which genes are activated within a cell and
-their involvement in cancer development.
+%TPM
+To accurately compare gene expression data across different experiments, it is essential to normalize and quantify the expression levels.
+The most commonly used metrics for this purpose include Reads per million mapped reads (RPM),
+Reads Per Kilobase Million (RPKM), Fragments Per Kilobase Million (FPKM),
+and Transcripts Per Kilobase Million (TPM)~\cite{cd_geneomics_gene_expression}.
+Among these measures, \textbf{TPM} is widely adopted in available datasets.
+Therefore, we will utilize it as our metric of choice for quantifying gene expression levels.
 \\
 
 % Gene IDs
 A common way to identify genes is through the use of unique identifiers known as \textbf{ENSEMBLE IDs}.
-These are unique id for genes, proteins and other genetic elements collected in the Ensemble database
+These are unique ids for genes, proteins and other genetic elements collected in the Ensemble database
 from 1999 by the European Bioinformatics Institute and the Wellcome Trust Sanger Institute~\cite{ensembl_project}.
 These make it easier to compare and analyze gene data across different datasets.
 \\
 
-%TODO Multi Omics Data?!
+% Multiomics data
+Omics is a collection of fields in biology that end in -omics, such as genomics, proteomics, metabolomics, etc.~\cite{subedi2022omics}.
+\textbf{Multi-omics data}, the combination of data from different omics fields,
+are used to gain a better understanding of associations between biological molecules (e.g., genes and proteins) and their interactions
+~\cite{Subramanian2020MultiomicsDI}.
+Since we will be using genes and proteins in our study, we also have a multi-omics approach.
+\\

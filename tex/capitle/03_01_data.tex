@@ -1,69 +1,67 @@
 \subsection{Data} \label{subsec:data}
-% TODO wieso habe ich diese Datasets gewählt? Ehr Abgrenzung?
-% TODO Warum habe ich TPM wert genommen?
 
 Our study consists of two main datasets.
 One includes healthy tissue data from the Genotype-Tissue Expression (GTEx) project,
-and the other includes cancerous tissue data from the Cell Model Passport (CMP) project. %TODO Quelle
-These two datasets are the base for the gene nodes in our graph database.
-For these, we need to have a single table with each gene as row and a single value for healthy and cancerous TPM values for every gene in every tissue.
-To have an identifier for every gene, we use the Ensemble ID (ENS ID) as the primary key for the gene nodes.
-
-
-% limitations by the dataset
-% TODO - Comes from Limitation in 01
-We relied on gene expression data from the GTEx and Cell Model Passport datasets.
-While these resources are widely used and well-established, they do have limitations in terms of their scope and coverage.
-The GTEx dataset consists of only adult postmortem donor samples, with 2/3 of them between 50 and 69 years old and 2/3 being male.
+and the other includes cancerous tissue data from the Cell Model Passport (CMP) project.
+While these resources are widely used and well-established in research, they do have limitations in terms of their scope and coverage.
+The GTEx dataset consists of only adult postmortem donor samples, with 2/3 of them between 50 and 69 years old and 2/3 being male~\cite{GTEX_modelannotation}.
 The Cell Model Passport dataset contains data from donors who are predominantly male (60\%)
-and have an age range that is biased towards older adults (50-69 years old).
-Especially the focus on the older age range may affect the generalizability of our findings to other populations.\\
+and have an age range that is biased towards older adults (50-69 years old)~\cite{CMP_modelannotation}.
+
+The two datasets provide the foundation for our graph database, specifically for the gene nodes.
+We aim to create a table with genes as rows,
+where each row contains a unique Ensemble ID along with one value representing healthy TPM and another value representing cancerous TPM.
 \\
 
-
 % Genotype-Tissue Expression (GTEx) dataset
+% TODO - K - i und j als numnber of genes und tissues oder als variable dafür?!
 For the healthy tissue samples used in this study,
 we utilized the $"$GTEx\_Analysis\_2017-06-05\_v8\_\newline
 RNASeQCv1.1.9\_gene\_tpm$"$ dataset from the GTEx portal~\cite{gtex_download}.
 The \textbf{GTEx portal} is a large-scale, publicly available resource for studying gene activity.
-The Adult GTEx project aims to characterize the gene expression patterns in healthy tissues across different individuals and ages,
+The Adult GTEx project aims to characterize the gene expression patterns in healthy tissues across different individuals,
 providing valuable insights into the underlying biology of human development and disease.
-% genommen weil in der Wissenschaft üblich
-The used dataset is in a .gct file format that contains TPM values for 56,156 genes identified by ENS ID as rows in 17,382 different tissues as columns.
-The data was initially stored in a file in wide format where each tissue had its own column.
-The TPM values for the tissues are between 0 and 747,400.
+
+The used dataset $A_{orig}$ is in a .gct file format that contains TPM values for 56,156 genes $i$ identified by
+Ensemble ID as rows in 17,382 different tissues $j$ as columns (see~\cref{tab:gtex_table}.0).
+The data was initially stored in a file in wide format where each tissue $j$ had its own column.
+The TPM values for these tissues range between 0 and 747,400.
 Since there are no missing values in the dataset, we did not need to handle any missing data.
 To process this data into a suitable format, we employed the following steps:
-%TODO Bezug zur Tabelle mit aufnehmen zB Verlinkung oder nummerierung, variablen nutzen, auf Formeln beziehen
-\begin{enumerate}
-    \item \textbf{Reshaping to length format:} We read the data from the original file in chunks of 3,000 rows at a time to avoid memory issues.
-    For each chunk of data, we transformed the columns for each tissue into individual rows,
-    resulting in a dataset with three columns and 56,156 * 17,382 rows.
-    \item \textbf{Grouping by genes:} Once all chunks had been processed, we separated the combined dataset in new chunks of approximately 200 million rows.
-    These chunks have been grouped by gene using an aggregate function that calculated both the sum and count of TPM values for each gene.
-    \item \textbf{Calculating mean TPM:} To handle genes that had been split across multiple chunks,
-    we performed a global aggregation on the genes of the sum of the dataset.
-    Then we calculated the mean TPM value for each gene by dividing the sum by the count of each observation.
-    %TODO unklar
-\end{enumerate}
-The resulting dataset~\ref{fig:03_01_df_GTEX_healthy_mean} with 56,156 genes and a mean TPM value for every gene was saved as a CSV file for further processing.\\
 
-% TODO J - Longer more detailed Caption
+\begin{enumerate}
+    \item \textbf{Reshaping to long format:}
+    We read the data from the original format in chunks of 3,000 rows at a time due to RAM capacity constraints.
+    For each chunk of data, we transformed the columns for each tissue $j$ into individual rows,
+    resulting in a dataset with three columns and 976.103.592 ($i * j$) rows (see~\cref{tab:gtex_table}.1).
+
+    \item \textbf{Grouping by genes:}
+    Once all chunks had been processed, we separated the combined dataset again for RAM reasons
+    in new chunks of approximately 200 million rows.
+    These chunks have been grouped by gene using an aggregate function that calculated
+    both the sum $S_i$ and count $C_i$ of TPM values for each gene $i$ (see~\cref{tab:gtex_table}.2).
+
+    \item \textbf{Calculating mean TPM:}
+    To handle genes that had been split across multiple chunks,
+    we performed a global aggregation on the genes of the sum of the dataset.
+    Then we calculated the mean TPM value $M_i$ for each gene $i$ by dividing the sum $S_i$ by the count $C_i$
+    of each observation (see~\cref{tab:gtex_table}.3).
+\end{enumerate}
+
 \begin{table}[h]
     \centering
-    \caption{GTEx processing steps}\label{tab:gtex_table}
     \resizebox{\textwidth}{!}{
     \begin{tabular}{|c|c|c|c|}
         \hline
-        \textbf{Original Format} & \textbf{Reshaping to length format} & \textbf{Grouping by genes} & \textbf{Calculating mean TPM} \\
+        \textbf{0. Original Format} & \textbf{1. Reshaping to long format} & \textbf{2. Grouping by genes} & \textbf{3. Calculating mean TPM} \\
         \hline
         & & & \\[1mm] % adding more space to the row
-        %TODO rewrite to other format - force linebreak
-        $\begin{bmatrix}
-            i \text{ - number of genes} \\
-            j \text{ - number of tissues} \\
-            a_{ij} \text{ - TPM value for gene i in tissue j} \\
-        \end{bmatrix} $ &
+        $\begin{aligned}
+        i & : \text{number of genes} \\
+        j & : \text{number of tissues} \\
+        a_{ij} & : \text{TPM for gene } i \text{ in tissue } j
+        \end{aligned}$ &
+
         $ A_{\text{long}} = (\text{Gen}_i, \text{Tissue}_j, a_{ij}) $ &
         $ A_{\text{agg}} = (\text{Gen}_i, S_i, C_i )$ &
         $ A_{\text{mean}} = (\text{Gen}_i, M_i )$ \\
@@ -74,7 +72,7 @@ The resulting dataset~\ref{fig:03_01_df_GTEX_healthy_mean} with 56,156 genes and
 
         & & & \\[1mm] % adding more space to the row
 
-        $ A = \begin{bmatrix}
+        $ A_{\text{orig}} = \begin{bmatrix}
             a_{11} & a_{12} & \dots & a_{1j} \\
             a_{21} & a_{22} & \dots & a_{2j} \\
             \vdots & \vdots & \ddots & \vdots \\
@@ -107,22 +105,21 @@ The resulting dataset~\ref{fig:03_01_df_GTEX_healthy_mean} with 56,156 genes and
         & & & \\[1mm] % adding more space to the row
 
         % Example Matrix Representation
-        $ A = \begin{bmatrix}
-            %\text{GTEX-1117F} & \text{GTEX-1122O} & \text{GTEX-113IC} \\
-            8.764 & 0.07187 & 3.215
+        $ A_{\text{orig}, i} = \begin{bmatrix}
+            8.764 & 0.07187 & \dots & 3.215
         \end{bmatrix}$ &
 
-        $ A_{\text{long}} = \begin{bmatrix}
+        $ A_{\text{long}, i} = \begin{bmatrix}
             \text{ENSG...938} & \text{GTEX-111...} & 8.764 \\
             \text{ENSG...938} & \text{GTEX-112...} & 0.07187 \\
             \text{ENSG...938} & \text{GTEX-113...} & 3.215
         \end{bmatrix}$ &
 
-        $ A_{\text{agg}} = \begin{bmatrix}
+        $ A_{\text{agg}, i} = \begin{bmatrix}
             \text{ENSG...938} & 12.051 & 3
         \end{bmatrix}$ &
 
-        $ A_{\text{mean}} = \begin{bmatrix}
+        $ A_{\text{mean}, i} = \begin{bmatrix}
             \text{ENSG...938} & 4.017
         \end{bmatrix}$ \\
 
@@ -130,7 +127,11 @@ The resulting dataset~\ref{fig:03_01_df_GTEX_healthy_mean} with 56,156 genes and
         \hline
     \end{tabular}
     }
+    \caption{Data transformation pipeline for the GTEx dataset: Formulae and example data per gene}\label{tab:gtex_table}
 \end{table}
+
+The resulting dataset (see~\cref{fig:03_01_df_GTEX_healthy_mean}) with 56,156 genes $i$
+and a mean TPM value $M_i$ was saved as a CSV file for further processing.\\
 
 \begin{figure}[h]
     \centering

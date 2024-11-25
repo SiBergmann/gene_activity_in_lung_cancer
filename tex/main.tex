@@ -16,8 +16,10 @@
 \usepackage{bmpsize-base}
 \usepackage{xcolor}
 \usepackage{hhline}
-\setlength{\parindent}{0em}
 \usepackage{listings}
+\usepackage[noabbrev, capitalise]{cleveref}
+\setlength{\parindent}{0em}
+
 
 
 % Define Cypher syntax highlighting
@@ -34,8 +36,7 @@
 \lstset{
   basicstyle=\ttfamily\small, % Use a typewriter font for the listings
   breaklines=true,            % Automatic line breaking
-  columns=fullflexible,
-  %frame=single,               % Frame the code with a box
+  columns=flexible,
   showstringspaces=false,     % Do not show spaces in strings
   captionpos=b                % Caption below the listing
 }
