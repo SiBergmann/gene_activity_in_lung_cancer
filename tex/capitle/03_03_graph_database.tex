@@ -1,12 +1,11 @@
 \subsection{Graph Database} \label{subsec:graph_database}
 % Checked - all edges are created with 'match' statement
-% todo check numbers of Protein Edges and Protein Nodes!! current number is only proteins directly on genes
+% todo check numbers of Protein Edges!! current number is only proteins directly on genes
 % TODO Bezeichnung der IDs in Cypher Queries nochmal prüfen
 % TODO check final version of the Cypher query for gene nodes with all attributes
-% TODO [BILD] von PPI network und extended network mit Genen
 
 % Intro
-As we have created our data models for the graph database, our next objective is to create a graph database\ref{obj:graph_algorithm}
+As we have created our base data models, our next objective~\ref{obj:graph_algorithm} is to create a graph database
 that can be used to perform the PageRank algorithm as a graph algorithm.
 With four huge datasets at our disposal, optimizing the generation of the database is crucial.
 In this section, we describe the queries, called cypher queries, used to create and populate our graph database,
@@ -14,22 +13,24 @@ including information about creating indexes, constraints, relationships between
 
 
 % PPI Network
-First, we create a \textbf{basic PPI network} by generating proteins and their interactions as edges.
-To start with, we need to create protein nodes by creating an index on the protein property id for faster query execution.
-Next we load the data as a list, create nodes in batches for efficient processing,
-and finally populate the graph database with 101,731 protein nodes.
+To construct the \textbf{basic PPI network}, we need to create protein nodes and their interactions as edges.
+To optimize query execution, we start with indexing the protein property $ID$.
+Next we load the data (\ref{subsubsec:protein_nodes}~-~Protein nodes) as a list and then create the nodes in batches for efficient processing.
+The graph database is populated with 104,235 protein nodes.
 
-We don't require any additional properties for the protein nodes since they are solely used as connections between genes.
-The Cypher query for creating protein nodes is:
+Since these nodes are used solely for connections between genes, no additional properties are required.
+The cypher query for creating protein nodes is:
 
 \begin{lstlisting}[language=Cypher, label={lst:protein_nodes}]
     CREATE (p:protein {id: 'Protein ID'})
 \end{lstlisting}
 
-Next, we create interaction edges between these protein nodes by loading the data as a list of protein tuples,
-searching for both protein nodes by their IDs, and creating an edge in batches for efficient processing.
-This results in the creation of 11,247,242 edges between protein nodes.
-The Cypher query for creating protein-protein edges is:
+
+We then create interaction edges by loading the saved data (\ref{subsubsec:protein_protein_edges}~-~Protein-protein edges)
+as a list of protein tuples and searching for both protein nodes by their ID in the graph database.
+The edges are created in batches for efficient processing, resulting in 11,247,242 interactions between protein nodes.
+
+The cypher query for creating protein-protein edges is:
 
 \begin{lstlisting}[language=Cypher, label={lst:protein_edges}]
     MATCH (s:protein{id:'left Protein ID'})
@@ -37,9 +38,19 @@ The Cypher query for creating protein-protein edges is:
     CREATE (s)-[:interaction]->(t)
 \end{lstlisting}
 
-At this point, we have a PPI network in place. \\
+We now have a complete PPI network in place.\\
+
+% MATCH p=()-[r:interaction]->() RETURN p LIMIT 5
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.35\textwidth]{figures/03_03_Basic_Network}
+    \caption{Extract from the graph database setup showing example protein nodes and their interactions.}
+    \label{fig:03_03_Basic_Network}
+\end{figure}
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Extending the Network with Genes
 Our actual focus is on the genes.
 For constructing our \textbf{extended PPI network} with genes on the edges of the protein nodes, we need to connect them to the proteins.
@@ -80,6 +91,14 @@ The Cypher query for creating gene-protein connection edges is:
     MATCH (s:gene{id:'Gene ID'})
     CREATE (s)-[:connection]-(t)
 \end{lstlisting}
+
+% TODO Alternativ Verlinkung zu oben
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{figures/03_02_Network_2}
+    \caption{Extract from the graph database setup ...}
+    \label{fig:03_02_Network_2}
+\end{figure}
 
 Through the execution of these Cypher queries,
 we are able to populate our graph database with the necessary nodes and edges to perform the PageRank algorithm.\\

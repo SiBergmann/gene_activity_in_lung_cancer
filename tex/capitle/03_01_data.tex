@@ -61,12 +61,12 @@ To process this data into a suitable format, we employed the following steps:
         j & : \text{number of tissues} \\
         a_{ij} & : \text{TPM for gene } i \text{ in tissue } j
         \end{aligned}$ &
-
         $ A_{\text{long}} = (\text{Gen}_i, \text{Tissue}_j, a_{ij}) $ &
         $ A_{\text{agg}} = (\text{Gen}_i, S_i, C_i )$ &
         $ A_{\text{mean}} = (\text{Gen}_i, M_i )$ \\
 
         & & & \\[1mm] % adding more space to the row
+
         & & $ S_i = \sum_{j=1}^{j} a_{ij}, \quad C_i = \sum_{j=1}^{j} 1 $ &
         $ M_i = \frac{S_i}{C_i} $ \\
 
@@ -78,21 +78,18 @@ To process this data into a suitable format, we employed the following steps:
             \vdots & \vdots & \ddots & \vdots \\
             a_{i1} & a_{i2} & \dots & a_{ij}
         \end{bmatrix} $ &
-
         $ A_{\text{long}} = \begin{bmatrix}
             \text{Gen}_1 & \text{Tissue}_1 & a_{11} \\
             \text{Gen}_1 & \text{Tissue}_2 & a_{12} \\
             \vdots & \vdots & \vdots \\
             \text{Gen}_i & \text{Tissue}_j & a_{ij}
         \end{bmatrix} $ &
-
         $ A_{\text{agg}} = \begin{bmatrix}
             \text{Gen}_1 & S_{1} & C_{1} \\
             \text{Gen}_2 & S_{2} & C_{2} \\
             \vdots & \vdots & \vdots \\
             \text{Gen}_i & S_{i} & C_{i} \\
         \end{bmatrix} $ &
-
         $ A_{\text{mean}} = \begin{bmatrix}
             \text{Gen}_1 & M_{1}\\
             \text{Gen}_2 & M_{2} \\
@@ -127,7 +124,7 @@ To process this data into a suitable format, we employed the following steps:
         \hline
     \end{tabular}
     }
-    \caption{Data transformation pipeline for the GTEx dataset: Formulae and example data per gene}\label{tab:gtex_table}
+    \caption{Data transformation pipeline for the GTEx dataset: Formular and example data per gene}\label{tab:gtex_table}
 \end{table}
 
 The resulting dataset (see~\cref{fig:03_01_df_GTEX_healthy_mean}) with 56,156 genes $i$
@@ -142,48 +139,133 @@ and a mean TPM value $M_i$ was saved as a CSV file for further processing.\\
 
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Cell Model Passport
-For the analysis of gene activity in lung cancer, we utilized data from the \textbf{CMP project},
+For the purpose of the analysis of gene activity in lung cancer, we utilized data from the \textbf{CMP project},
 a comprehensive resource for studying cancer-related gene expression.
-% TODO wirte more about The CMP project...
 
 We obtained the dataset from the CMP portal~\cite{cmp_download} with the name \texttt{rnaseq\_all\_data\_20220624}.
 This dataset contains data from the Sanger Institute and the Broad Institute and
 consists of a file containing genes associated with diverse cancer types, including lung cancer.
-Initially, the data was stored in long format with columns for IDs for genes, tissues, TPM values, and additional information.
-% TODO J - Explain that its their own ID and not ENS ID
-To focus on lung cancer-specific data, we loaded an additional file containing model annotations. \cite{cmp_tissue_models}
-Then we filtered the CMP dataset to include only models from the annotation file with lung cancer as the cancer type.
-% Todo more Details - what is the name fpor lung cancer? Small Cell Lung Carcinoma', Non-Small Cell Lung Carcinoma', Squamous Cell Lung Carcinoma'
+Initially, the data was stored in long format with columns for gene identifiers, tissues, TPM values,
+and additional information.
 
-The resulting dataset comprises 7,564,389 rows containing genes and tissues with associated TPM values for lung cancer.
-Specifically, the dataset includes information on 37,262 unique genes across 203 distinct tissue types.
-Notably, this dataset is free from missing values, and the TPM values span a range of 0 and 132,676.
+However, the CMP dataset lacked Ensemble IDs, which were crucial for our analysis.
+So we needed to add the Ensemble IDs to the dataset to ensure consistency and accuracy in our analysis.
+To focus on lung cancer-specific data, we loaded an additional file containing tissue-specific annotations. \cite{cmp_tissue_models}
+Then we filtered the CMP dataset to include only tissues from the annotation file with lung cancer as the cancer type.
+Specifically, we filtered the dataset to include only lung cancer-specific models labeled as
+Small Cell Lung Carcinoma, Non-Small Cell Lung Carcinoma or Squamous Cell Lung Carcinoma in the $cancer\_type$ column.
+
+The resulting dataset comprises 7,564,389 rows containing genes and tissues
+with associated TPM values for lung cancer (see~\cref{tab:cmp_table}.0).
+Specifically, the dataset includes information on 37,262 unique genes $i$ across 203 distinct tissue types $j$.
+The resulting dataset contains no missing values and the TPM values span a range of 0 and 132,676.
 
 To prepare the data for further processing, we performed the following steps:
 \begin{enumerate}
-    \item \textbf{Grouping by genes:} We grouped the dataset by genes to obtain a mean TPM value for every gene.
-    This step involved aggregating the data by gene names, resulting in a new dataset with a mean TPM value for each gene.
-    \item \textbf{Adding ENS ID:}
-    The original dataset contained only CMP ID per gene but lacked the universal Ensembl ID required for matching genes across datasets.
-    To address this limitation, we needed to add corresponding Ensembl IDs to our genes using their gene\_symbol.
+    \item \textbf{Grouping by genes:}
+    We grouped the dataset by genes to obtain a mean TPM value for every gene.
+    This step involved aggregating the data by gene names, resulting in a new dataset
+    with a mean TPM value for each gene (see~\cref{tab:cmp_table}.1).
+
+    \item \textbf{Adding Ensembl ID:}
+    The original dataset contained own IDs for the genes but lacked the universal Ensembl ID required for matching genes across datasets.
+    We overcame this challenge by adding the required Ensembl IDs to our dataset using gene names as a reference point.
     For this purpose we downloaded an Ensemble file from biomart~\cite{bio_marts},
-    which contains the ENS ID and gene\_symbol.
+    which contains the Ensembl ID and corresponding gene name.
 
-    By analyzing the file, we encountered an issue where some gene\_symbols were not unique in the Ensemble file.
-    To resolve this problem, we dropped all rows with duplicate gene\_symbols. %, which reduced the number of rows in the Ensemble file by a significant amount. % 10.605/48.311 rows
-    We then merged the Ensemble table with our CMP data on gene\_symbols to retrieve the ENS IDs for each gene.
+    By analyzing the Ensemble file, we encountered an issue where some gene name were not unique within the file.
+    To resolve this problem, we dropped all rows with duplicate gene names.
+    We then merged the Ensemble table with our CMP data on the gene name to retrieve the Ensemble ID for each gene (see~\cref{tab:cmp_table}.2).
 
-    \item \textbf{Removing missing ENS ID:} After merging the data, we found that 3,760 genes had no ENS ID associated with them.
+    \item \textbf{Removing missing Ensembl ID:}
+    After merging the data, we found that 3,760 of our 37,262 genes still had no Ensembl ID associated with them.
     Since these genes were likely duplicates or did not exist in the Ensemble file,
-    we removed them from our dataset to ensure consistency and accuracy of our analysis.
-    % wie viele der missing data wären in den duplicate gewesen
+    we removed them from our dataset to ensure consistency and accuracy of our analysis (see~\cref{tab:cmp_table}.3).
 \end{enumerate}
-The resulting dataset~\ref{fig:03_01_df_CMP_cancer_mean} contains 33,502 genes with mean TPM values for lung cancer and was saved as a CSV file for further processing.
 
-% TODO Table for CMP processing steps
+% TODO -K- Rest zusammen
+\begin{table}[!h]
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{0. Original Format} & \textbf{1. Grouping by genes} & \textbf{2. Adding Ensembl ID} & \textbf{3. Removing missing Ensembl ID} \\
+        \hline
+        & & & \\[1mm] % adding more space to the row
 
+        % 1. Additional formulars
+        $\begin{aligned}
+        i & : \text{number of genes} \\
+        j & : \text{number of tissues} \\
+        b_{ij} & : \text{TPM for gene } i \text{ in tissue } j
+        \end{aligned}$ &
+
+        $ M_i = \frac{1}{j}\sum_{j=1}^{j} b_{ij} $ &
+        &\\
+
+        & & & \\[1mm] % adding more space to the row
+
+        % 2. Row definitions
+        $ B_{\text{orig}} = ( \text{ID}_i, \text{Name}_i, \text{Tissue}_j, b_{ij}, \dots) $ &
+        $ B_{\text{agg}} =  ( \text{ID}_i, \text{Name}_i, M_i) $ &
+        $ B_{\text{ens}} =  ( \text{ID}_i, \text{Name}_i, \text{ENS ID}_i, M_i) $ &
+        \\
+
+        & & & \\[1mm] % adding more space to the row
+
+
+        % 3. Style of the Matrix
+        $ B_{\text{orig}} = \begin{bmatrix}
+            \text{ID}_1 & \text{Name}_1 & \text{Tissue}_1 & b_{11} \\
+            \text{ID}_1 & \text{Name}_1 & \text{Tissue}_2 & b_{12} \\
+            \vdots & \vdots & \vdots & \vdots \\
+            \text{ID}_i & \text{Name}_i & \text{Tissue}_j & b_{ij}
+        \end{bmatrix} $ &
+        $ B_{\text{agg}} = \begin{bmatrix}
+            \text{ID}_1 & \text{Name}_1 & M_{1} \\
+            \text{ID}_2 & \text{Name}_2 & M_{2} \\
+            \vdots & \vdots & \vdots \\
+            \text{ID}_i & \text{Name}_i & M_{i}
+        \end{bmatrix} $ &
+        $ B_{\text{ens}} = \begin{bmatrix}
+            \text{ID}_1 & \text{Name}_1 & \text{ENS ID}_1 & M_{1} \\
+            \text{ID}_2 & \text{Name}_2 & \text{ENS ID}_2 &  M_{2} \\
+            \vdots & \vdots & \vdots & \vdots \\
+            \text{ID}_i & \text{Name}_i & \text{ENS ID}_i & M_{i}
+        \end{bmatrix} $ &
+        \\
+
+
+        & & & \\[1mm] % adding more space to the row
+        \hline
+        & & & \\[1mm] % adding more space to the row
+
+        % 4. Example Matrix for a single gene
+        $ B_{\text{org}, i} = \begin{bmatrix}
+            \text{SIDG...16} & \text{CASP10} & \text{SIDM...13} & 14.41 \\
+            \text{SIDG...16} & \text{CASP10} & \text{SIDM...61} & 0.64 \\
+            \text{SIDG...16} & \text{CASP10} & \text{SIDM...50} & 3.26
+        \end{bmatrix}$ &
+        $ B_{\text{agg}, i} = \begin{bmatrix}
+            \text{SIDG...16} & \text{CASP10} & 5.017
+        \end{bmatrix}$ &
+        $ B_{\text{ens}, i} = \begin{bmatrix}
+            \text{SIDG...16} & \text{CASP10} & \text{ENSG...400} & 5.017
+        \end{bmatrix}$ &
+        \\
+
+
+        & & & \\[1mm] % adding more space to the row
+        \hline
+    \end{tabular}
+    }
+    \caption{Data transformation pipeline for the CMP dataset: Formular and example data per gene}\label{tab:cmp_table}
+\end{table}
+
+
+The resulting dataset (\cref{fig:03_01_df_CMP_cancer_mean}) contains 33,502 genes with mean TPM values for lung cancer and was saved as a CSV file for further processing.
 
 \begin{figure}[h]
     \centering
