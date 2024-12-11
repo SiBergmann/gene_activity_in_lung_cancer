@@ -51,7 +51,7 @@ Since no additional attributes are required for this table, we do not need to pe
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % NUMBERS CHECKED!!!
-\subsubsection*{Gene-protein edges} \label{subsubsec:gene_protein_interaction}
+\subsubsection*{Gene-protein edges} \label{subsubsec:gene_protein_connections}
 To build the connections between genes and proteins, we need to link each gene to its corresponding protein translation.
 For this purpose, we downloaded a file from biomart containing Gene IDs and their Protein IDs for the human genome~\cite{bio_marts}
 The initial dataset comprised of 185,330 entries.
@@ -83,7 +83,7 @@ The new dataset only contains genes with TPM values for both conditions.
 % TODO Code - put code for gene-protein to gene file?!
 Next we want to filter for genes that are translated into proteins.
 Because other types of genes would have no connection to the protein nodes in the network.
-Therefor we build a new subset of genes that also occur in the gene-protein edge table (\ref{subsubsec:gene_protein_interaction}~-~Gene-protein edges).
+Therefor we build a new subset of genes that also occur in the gene-protein edge table (\ref{subsubsec:gene_protein_connections}~-~Gene-protein edges).
 
 Now we have all rows we need for our gene nodes, and we want to focus on the columns that we will need as attributes.
 When examining the mean TPM values per dataset, we observe a right-skewed distribution, with most values close to zero
@@ -172,7 +172,7 @@ The head of the table is shown in~\cref{fig:03_02_df_gene_nodes}.
 % NUMBERS CHECKED!!!
 \subsubsection*{Protein nodes} \label{subsubsec:protein_nodes}
 Lastly we create the table for the protein nodes.
-To collect all protein nodes for our database creation we use the gene-protein edges(\cref{subsubsec:gene_protein_interaction}~-~Gene-protein edges)
+To collect all protein nodes for our database creation we use the gene-protein edges(\cref{subsubsec:gene_protein_connections}~-~Gene-protein edges)
 and the protein-protein edges (\ref{subsubsec:protein_protein_edges}~-~Protein-protein-edges), which we already created.
 
 From the gene-protein edge table, we extract all unique protein Ensembl IDs.
