@@ -1,37 +1,32 @@
 \subsection{Graph Database Algorithm} \label{subsec:graph_database_algo}
-
-
-% PAGERANK
-% TODO Analysis of the difference between histogramm of all and histofgramm of relevant genes
-
-As our final step in the second objective,
-we employed the \textbf{PageRank} algorithm to measure the importance of nodes within our graph database.
-This algorithm is particularly well-suited for identifying key genes that play a crucial role in the network,
-as it can accurately capture the hierarchical structure of gene interactions,
+As our final step for objective~\ref{obj:graph_algorithm},
+we employ the \textbf{PageRank} algorithm to measure the importance of nodes within our graph database.
+This algorithm is particularly well-suited for identifying genes that play a crucial role in the network,
 enabling us to identify not only highly connected genes but also those with significant functional relevance.
-For efficient computation and scalability,
-we create a projection of the entire graph prior to applying PageRank analysis to our large-scale graph database.
 
-To perform the PageRank analysis, we used the following Cypher query:
+For efficient computation and scalability,
+we start with creating a projection of the entire graph prior to applying PageRank analysis to our large-scale graph database.
+
+To perform the PageRank analysis, we use the following cypher query:
 \begin{lstlisting}[language=Cypher, label={lst:pagerank}]
     CALL gds.pageRank.stream('gene_protein_graph')
     YIELD nodeId, score
-    RETURN gds.util.asNode(nodeId).id AS node,
-           gds.util.asNode(nodeId).gene_name AS gene_name,
+    RETURN gds.util.asNode(nodeId).id AS Gene ID,
+           gds.util.asNode(nodeId).gene_name AS Gene Name,
            score,
-           gds.util.asNode(nodeId).delta_tpm AS delta_tpm,
-           gds.util.asNode(nodeId).delta_tpm_relevant AS delta_tpm_relevant
+           gds.util.asNode(nodeId).Δ_TPM AS Δ TPM,
+           gds.util.asNode(nodeId).Δ_TPM_relevant AS Δ TPM relevant
     ORDER BY score DESC
 \end{lstlisting}
 
-This query returned a list of nodes, including genes and proteins, along with their respective PageRank scores.
+This query returns a list of nodes, including genes and proteins, along with their respective PageRank scores.
 By filtering out the proteins from this list, we isolated the genes and
 further refined them to include only those exhibiting a significant change in gene activity,
 indicated by the value for $delta\_tpm\_relevant$.
 
 The resulting subset of genes represents a group that has not only high connectivity
 within the network but also exhibit a substantial difference in gene expression.
-We visualized this subset using histograms (~\cref{fig:03_02_hist_pagerank}),
+We visualize this subset using histograms (\cref{fig:03_02_hist_pagerank}),
 which demonstrate the distribution of PageRank scores for all genes and for the subset of relevant genes, respectively.
 
 \begin{figure}[h]
@@ -45,3 +40,5 @@ which demonstrate the distribution of PageRank scores for all genes and for the 
     \caption{Comparison of the distribution of Pagerank Scores for all genes and genes with significant change in gene activity}
     \label{fig:03_02_hist_pagerank}
 \end{figure}
+
+% TODO Analysis of the difference between histogramm of all and histofgramm of relevant genes ?!
