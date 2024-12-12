@@ -1,19 +1,51 @@
 \section{Results} \label{sec:results}
 % focus on the results, not on the analysis
-% TODO Feedback Johannes
 
 % intro
 Within this chapter, we present the crucial component of our study,
 where we distill the essence of the extended PPI network by identifying the top 10 genes that stand out as significant contributors.
-These genes have been selected based on their high connectivity and substantial change in gene activity within the network.
+These genes have been selected based on their high connectivity and substantial change in gene activity within the network.\\
+
+% General Result of the PageRank
+Before exploring these key genes,
+it is essential to provide an overview of the distribution of PageRank scores and $\Delta_{TPM}$ values across the gene dataset.
+This will allow us to better understand the characteristics of our data and how they relate to one another.
+
+The PageRank distribution~\cref{fig:03_02_hist_pagerank} exhibit an initial peak at a score of approximately 67,
+which stands out as an outlier in comparison to other scores.
+This peak is followed by a gradual decline to around 40, with subsequent scores showing progressively smaller differences
+as they approach the mid-30s range.
+Notably, once the scores fall to this level, the gaps between them become considerably narrower,
+suggesting a pattern of logarithmic decay.
+
+\begin{figure}[h]
+    \minipage{0.45\textwidth}
+        \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank}
+    \endminipage
+    \hfill
+    \minipage{0.45\textwidth}
+      \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank_relevant}
+    \endminipage
+    \caption{Comparison of the distribution of Pagerank Scores for all genes and genes with significant change in gene activity}
+    \label{fig:03_02_hist_pagerank}
+\end{figure}
+
+The $\Delta_{TPM}$ values display a symmetric distribution with a pronounced peak around zero, showing a central tendency near the mean
+(see~\cref{fig:03_02_delta_tpm}).
+The data ranges from approximately -0.709 to 0.423, showing moderate variability, and a normal-like distribution.
+We observe that  59\% of the genes have an increase in gene activity and exhibit 41\% a decrease of gene activity.
+\\
 
 
 % Presentation of the 10 Genes
-To identify the most significant genes, we extracted the top 10 genes with the highest PageRank scores from the list of relevant genes,
+To identify the most significant genes, we extracted the \textbf{top 10 genes} with the highest PageRank scores from the list of relevant genes,
 as shown in \cref{fig:03_03_df_pagerank_relevant}.
 These genes are not only highly connected within the network but also exhibit a substantial change in gene activity.
+The PageRank scores are between 25.635 and 11.090,
+while the $\Delta_{TPM}$ values span a range from 0.214719 to -0.317776, with only one gene showing a decrease in gene activity.
 
-\begin{figure}[h]
+
+\begin{figure}[!h]
     \centering
     \includegraphics[height=\dfheightdouble]{figures/03_03_df_pagerank_relevant}
     \caption{Top 10 genes with the highest PageRank scores and a significant change in gene activity}
@@ -23,7 +55,7 @@ These genes are not only highly connected within the network but also exhibit a 
 % One Example Gene
 As an illustrative example of the structure of the top genes in our network,
 we present a gene with high PageRank score and a significant change in gene activity
-(\cref{fig:04_example_gene}).
+(see \cref{fig:04_example_gene}).
 
 % Cypher: MATCH p = (g:gene {gene_name: 'ELN'})-[r]-(related) RETURN p
 \begin{figure}[h]
