@@ -17,6 +17,9 @@ This peak is followed by a gradual decline to around 40, with subsequent scores 
 as they approach the mid-30s range.
 Notably, once the scores fall to this level, the gaps between them become considerably narrower,
 suggesting a pattern of logarithmic decay.
+From the 1033 relevant genes 155 have a Pagerank score of 0.151, which is the lowest score in our dataset.
+These genes consist of only one edge with a single protein that has not that many connections to other proteins.\\
+
 
 \begin{figure}[h]
     \minipage{0.45\textwidth}
@@ -31,10 +34,17 @@ suggesting a pattern of logarithmic decay.
 \end{figure}
 
 The $\Delta_{TPM}$ values display a symmetric distribution with a pronounced peak around zero, showing a central tendency near the mean
-(see~\cref{fig:03_02_delta_tpm}).
+(see~\cref{fig:04_delta_tpm_relevant}).
 The data ranges from approximately -0.709 to 0.423, showing moderate variability, and a normal-like distribution.
-We observe that  59\% of the genes have an increase in gene activity and exhibit 41\% a decrease of gene activity.
-\\
+The significant change in gene activity is defined as a $\Delta_{TPM}$ value between -0.709 and -0.201 or 0.210 and 0.423.
+We observe that  59\% of the relevant genes have an increase in gene activity and 41\% a decrease of activity.\\
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[height=\dfheightdouble]{figures/04_delta_tpm_relevant}
+    \caption{Distribution of $\Delta_{TPM}$ values for genes with the area for significant change in gene activity marked in red}
+    \label{fig:04_delta_tpm_relevant}
+\end{figure}
 
 
 % Presentation of the 10 Genes
@@ -42,7 +52,7 @@ To identify the most significant genes, we extracted the \textbf{top 10 genes} w
 as shown in \cref{fig:03_03_df_pagerank_relevant}.
 These genes are not only highly connected within the network but also exhibit a substantial change in gene activity.
 The PageRank scores are between 25.635 and 11.090,
-while the $\Delta_{TPM}$ values span a range from 0.214719 to -0.317776, with only one gene showing a decrease in gene activity.
+while the $\Delta_{TPM}$ values span a range from 0.214719 to -0.317776, with only one gene showing a decrease in gene activity.\\
 
 
 \begin{figure}[!h]
@@ -55,7 +65,7 @@ while the $\Delta_{TPM}$ values span a range from 0.214719 to -0.317776, with on
 % One Example Gene
 As an illustrative example of the structure of the top genes in our network,
 we present a gene with high PageRank score and a significant change in gene activity
-(see \cref{fig:04_example_gene}).
+(see \cref{fig:04_example_gene}).\\
 
 % Cypher: MATCH p = (g:gene {gene_name: 'ELN'})-[r]-(related) RETURN p
 \begin{figure}[h]

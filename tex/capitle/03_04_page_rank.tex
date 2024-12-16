@@ -11,11 +11,11 @@ To perform the PageRank analysis, we use the following cypher query:
 \begin{lstlisting}[language=Cypher, label={lst:pagerank}]
     CALL gds.pageRank.stream('gene_protein_graph')
     YIELD nodeId, score
-    RETURN gds.util.asNode(nodeId).id AS Gene ID,
-           gds.util.asNode(nodeId).gene_name AS Gene Name,
+    RETURN gds.util.asNode(nodeId).id AS Gene_ID,
+           gds.util.asNode(nodeId).gene_name AS Gene_Name,
            score,
-           gds.util.asNode(nodeId).Δ_TPM AS Δ TPM,
-           gds.util.asNode(nodeId).Δ_TPM_relevant AS Δ TPM relevant
+           gds.util.asNode(nodeId).Δ_TPM AS Δ_TPM,
+           gds.util.asNode(nodeId).Δ_TPM_relevant AS Δ_TPM_relevant
     ORDER BY score DESC
 \end{lstlisting}
 
