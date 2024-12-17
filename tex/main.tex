@@ -41,6 +41,15 @@
   captionpos=b                % Caption below the listing
 }
 
+%
+\usepackage{fancyhdr} % Paket für Kopf- und Fußzeilen
+\pagestyle{fancy}     % Aktiviert benutzerdefinierte Kopf- und Fußzeilen
+\fancyhf{}            % Setzt alle Kopf- und Fußzeilen zurück
+
+% Kapitelüberschrift wäre \leftmark
+\fancyhead[L]{\nouppercase{\leftmark}} % Links: Kapitelüberschrift
+\fancyhead[R]{\nouppercase{\rightmark}} % Rechts: Abschnittsüberschrift
+
 
 \newcommand{\dfheight}{2.8cm}
 \newcommand{\dfheightdouble}{5.5cm}
@@ -83,7 +92,6 @@ Simone Bergmann\\
     % Eine py zum ausführen von allem Code
   % Check the number of proteins and interactrions!
 
-% Seitenanfang mit Capitel Überschift - siehe Kevins Masterarbeit Chapter 2: Background
 % Git Repo Verlinken: Text von Kevin übernehmen (Datahandling -  in Intro oder ans Ende vllt auch Result)
 
 

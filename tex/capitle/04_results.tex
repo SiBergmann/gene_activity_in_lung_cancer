@@ -11,38 +11,39 @@ Before exploring these key genes,
 it is essential to provide an overview of the distribution of PageRank scores and $\Delta_{TPM}$ values across the gene dataset.
 This will allow us to better understand the characteristics of our data and how they relate to one another.
 
-The PageRank distribution~\cref{fig:03_02_hist_pagerank} exhibit an initial peak at a score of approximately 67,
-which stands out as an outlier in comparison to other scores.
+The PageRank distribution exhibit an initial peak at a score of approximately 67,
+which stands out as an outlier in comparison to other scores (see ~\cref{fig:04_hist_pagerank}).
 This peak is followed by a gradual decline to around 40, with subsequent scores showing progressively smaller differences
 as they approach the mid-30s range.
 Notably, once the scores fall to this level, the gaps between them become considerably narrower,
 suggesting a pattern of logarithmic decay.
-From the 1033 relevant genes 155 have a Pagerank score of 0.151, which is the lowest score in our dataset.
+From the 1033 relevant genes 155 have the lowest Pagerank score of 0.151.
 These genes consist of only one edge with a single protein that has not that many connections to other proteins.\\
 
 
 \begin{figure}[h]
     \minipage{0.45\textwidth}
-        \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank}
+        \includegraphics[width=\linewidth]{figures/04_hist_pagerank}
     \endminipage
     \hfill
     \minipage{0.45\textwidth}
-      \includegraphics[width=\linewidth]{figures/03_03_hist_pagerank_relevant}
+      \includegraphics[width=\linewidth]{figures/04_hist_pagerank_relevant}
     \endminipage
-    \caption{Comparison of the distribution of Pagerank Scores for all genes and genes with significant change in gene activity}
-    \label{fig:03_02_hist_pagerank}
+    \caption{Comparison of the distribution of Pagerank Scores for all genes and genes with significant change in gene activity
+    with highlighted area for the top 10 genes with the highest PageRank scores}
+    \label{fig:04_hist_pagerank}
 \end{figure}
 
 The $\Delta_{TPM}$ values display a symmetric distribution with a pronounced peak around zero, showing a central tendency near the mean
 (see~\cref{fig:04_delta_tpm_relevant}).
-The data ranges from approximately -0.709 to 0.423, showing moderate variability, and a normal-like distribution.
+The data ranges from -0.709 to 0.423, showing moderate variability, and a normal-like distribution.
 The significant change in gene activity is defined as a $\Delta_{TPM}$ value between -0.709 and -0.201 or 0.210 and 0.423.
-We observe that  59\% of the relevant genes have an increase in gene activity and 41\% a decrease of activity.\\
+We observe that 59\% of the relevant genes have an increase in gene activity and 41\% a decrease of activity.\\
 
 \begin{figure}[!h]
     \centering
     \includegraphics[height=\dfheightdouble]{figures/04_delta_tpm_relevant}
-    \caption{Distribution of $\Delta_{TPM}$ values for genes with the area for significant change in gene activity marked in red}
+    \caption{Distribution of $\Delta_{TPM}$ values for genes with the area for significant change in gene activity highlighted in red}
     \label{fig:04_delta_tpm_relevant}
 \end{figure}
 
