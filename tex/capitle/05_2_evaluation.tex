@@ -82,33 +82,57 @@ Another improvement could be to use an additional measure such as FPKM or RPKM t
 % PageRank
 \subsubsection*{Limitation of the PageRank score} \label{subsubsec:limit_pagerank}
 % How did it work?
-We calculated the PageRank score for each gene in our network to determine its importance within the network
+Pagerank is a well-established algorithm for ranking nodes in a network based on their connectivity.
+Our assumption was that genes with more connections to other genes over their proteins would have a higher PageRank score,
+meaning that their change in gene activity has a higher influential within the network.
+Therefore we calculated the PageRank score for each gene in our network to determine its importance within the network
 and find the most influential genes based on their connections.
 
+
 % Did it work well?
-As expected the distribution of the Pagerank scores was logarithmic / exponential with a few genes having a high score and most genes having a low score.
-Since
+However, upon examining the distribution of PageRank scores, we observed a logarithmic / exponential trend with a few genes having high scores and most genes having low scores.
+This distribution suggests that a small number of highly connected nodes dominate the network's topology.
 
-% Improve Ideas
-% Zu viel Gewicht auf den ersten Edges? Quasi nur abhängig von Anzahl der Kanten am Gen - da hätte man sich den Pagerank sparen können
-% It seems that the PageRank score is heavily influenced by the number of proteins a gene transcribes.
-% Meaning the number of first level edges a gene has in the network.
-% This could be because the number of second level edges (connections from a protein to another protein) is very constant.
-% If this is the case the PageRank score is not really needed as we could have just counted the number of proteins a gene transcribes.
+% While our analysis identified these top-scoring genes as having high connectivity within the network, this result relies on an assumption that may not hold in all cases.
+% TODO Meaning?!
 
-% TODO plot the distribution of interactions by protein
+Our analysis revealed some interesting insights into how the PageRank score is distributed in our setup.
+It appears that the score for a gene is largely influenced by the number of proteins it transcribes,
+which corresponds to the number of first-level edges from the gene in the network.
 
+This might be due to the relatively constant number of second-level edges (interactions between proteins),
+making the PageRank score less informative than expected.
 
+To address this issue, we propose exploring alternative approaches that consider multiple levels of interactions
+or incorporate weights into the edges and nodes.
 
-
+% TODO plot the distribution of interactions by protein - plot is quite left skewed
 
 % inital Data
 \subsubsection*{Limitation of the used base datasets} \label{subsubsec:limit_base_data}
-* Other datasets could be used like TCGA which is common in cancer research
-* CMP Dataset matched with ENS ID Names might be wrong - would be better to find a good dataset with ens IDs
 
-% Verallgemeinerung der Daten
-% gibt keine Inforamtion über Ethnie
-% Especially the focus on the older age range may affect the generalizability of our findings to other populations.
+The quality and limitations of the datasets used in this study are critical factors that impact the validity and generalizability of our results.
+While both the CMP and GTEx datasets provide valuable insights into gene expression and regulation,
+they have some inherent limitations.
+
+One notable aspect is that both datasets contain a large number of samples,
+which could facilitate generalization to other populations.
+However, it's essential to acknowledge that the age range of the participants in these studies might be biased towards older individuals.
+As a result, our findings may not be representative of younger populations.
+Since we were unable to find any information on ethnic diversity among the study participants for either the CMP or GTEx datasets,
+it is unclear whether the results can be generalized to diverse populations.
+
+Additionally, we have concerns about the accuracy of the matching of ensemble ID names in the CMP dataset,
+which could lead to incorrect gene assignments if not properly validated.
+To address these limitations and improve the generalizability of our findings,
+it could be an option to use alternative datasets such as TCGA, which is a widely used resource for cancer research.
+
+Furthermore, it would be beneficial to incorporate datasets with diverse age ranges
+and ethnic backgrounds to enhance the representativeness of our results.
 
 
+% Conclusion
+Our study provides a comprehensive analysis of the network of genes involved in lung cancer development.
+Nevertheless, there are several limitations that should be addressed in future research.
+One could be to investigate the correlation between the $\Delta_{TPM}$ and other measures such as fold change or enrichment scores
+another could be to use additional datasets to validate the results and improve the generalizability of our findings.
