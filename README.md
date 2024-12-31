@@ -8,16 +8,17 @@
 - docker
 - docker-compose version 2.22.0 or higher
 - python3
+- jupyter
 - pip3
 
 ## Setup
 - increased Docker VM memory to 16GB 
 
 ## Project structure
-- /code: contains the jupyter notebooks to prepare the data and create the Neo4j database
-- /tex: contains the LaTeX files for the thesis
-- /import_date: (not included in the repository) contains the data from the GTEx and CMP databases and will be downloaded automatically by the jupyter notebooks
-- /processed_data: (not included in the repository) contains the processed data from the GTEx and CMP databases and will be created automatically by the jupyter notebooks
+- **/code**: contains the jupyter notebooks to prepare the data and create the Neo4j database
+- **/tex**: contains the LaTeX files for the thesis
+- **/import_date**: (not included in the repository) contains the data from the GTEx and CMP databases and will be downloaded automatically by the jupyter notebooks
+- **/processed_data**: (not included in the repository) contains the processed data from the GTEx and CMP databases and will be created automatically by the jupyter notebooks
 
 ## Local start
 To start the project locally and reproduce the results, follow the steps below.
@@ -34,6 +35,8 @@ Start neo4j in the root directory of the project
 docker-compose up
 ```
 The neo4j database is now available at http://localhost:7474/browser/
+
+Initial login credentials:
 
 **Username:** neo4j
 
