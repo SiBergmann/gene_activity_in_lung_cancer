@@ -3,11 +3,10 @@
 
 # Data Folder
 /processed_data/
-# TODO: remove from git ignore - will be needed for reproducibility
-/import_data/
 
-# Model Folder
-/models/
+/import_data/CMP/
+/import_data/GTEx/
+/import_data/STRING/
 
 # latex files
 /tex/auxil
