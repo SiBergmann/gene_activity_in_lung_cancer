@@ -1,12 +1,12 @@
 # A Graph-Based Analysis of Gene Activity in Lung Cancer based on Protein-Interaction Networks
 
-
 ## System requirements
 - min. 16GB RAM
+- tested with Windows 11 and Ubuntu 22
 
 ## Pre requirements
 - docker
-- docker-compose
+- docker-compose version 2.22.0 or higher
 - python3
 - pip3
 
