@@ -10,8 +10,8 @@ including information about creating indexes, constraints, relationships between
 
 
 % PPI Network
-\subsubsection*{basic PPI network} \label{subsubsec:basic_ppi_network}
-To construct the \textbf{basic PPI network}, we need to create protein nodes and their interactions as edges.
+\subsubsection*{Basic PPI network} \label{subsubsec:basic_ppi_network}
+To construct the basic PPI network, we need to create protein nodes and their interactions as edges.
 To optimize query execution, we start with indexing the protein property $ID$.
 Next we load the data (\cref{subsubsec:protein_nodes}~-~Protein nodes) as a list and then create the nodes in batches for efficient processing.
 The graph database is populated with 104,235 protein nodes.
@@ -48,8 +48,8 @@ We now have a complete PPI network in place.\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Extending the Network with Genes
-\subsubsection*{extended PPI network} \label{subsubsec:extended_ppi_network}
-To construct our \textbf{extended PPI network} we need to integrate genes into the created protein network.
+\subsubsection*{Extended PPI network} \label{subsubsec:extended_ppi_network}
+To construct our extended PPI network we need to integrate genes into the created protein network.
 
 First, we implement an index on the gene property $ID$ for faster querying.
 We load the saved data (\cref{subsubsec:gene_nodes}~-~Gene nodes) as a list and create 17,626 gene nodes
