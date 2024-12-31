@@ -20,10 +20,9 @@ To perform the PageRank analysis, we use the following cypher query:
 \end{lstlisting}
 
 This query returns a list of nodes, including genes and proteins, along with their respective PageRank scores.
-% TODO - K - Here or in Result?
-By filtering out the proteins from this list, we isolated the genes and
+We select the genes by filtering out the proteins from this list, and
 further refined them to include only those exhibiting a significant change in gene activity,
 indicated by the value for $delta\_tpm\_relevant$.
 
 The resulting subset of genes represents a group that has not only high connectivity
-within the network but also exhibit a substantial difference in gene expression.
+within the network but also exhibit a substantial difference in gene expression.\\

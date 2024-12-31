@@ -1,6 +1,4 @@
 \subsection{Computational background} \label{subsec:computational_background}
-% TODO - K - noch mehr Quellen?
-
 % Graph databases
 \textbf{Graph databases} are an effective way to model and analyze graph-like data,
 which is in contrast to traditional relational databases well-suited for applications involving relationships between entities.
@@ -17,27 +15,24 @@ In our case, genes and proteins are represented as two different node types in t
 Each gene is, therefore, a node with properties, such as an $ID$, a $name$ or a $TPM value$ for its activity.
 
 Relationships between two nodes are represented by an edge, which also can be of different types.
-In our graph database, for example, there are “interactions” as edges between proteins and “connections” as edges between a gene and a protein.
+In our graph database, for example, there are $interactions$ as edges between proteins and $connections$ as edges between a gene and a protein.
 As in common graph theory, edges can represent structures like one-to-many or many-to-many relationships.
-Edges can also have weights, directions, or properties like $name$ or $type$\cite{graph_db_power_limitations}.
+Edges can also have weights, directions, or properties like $name$ or $type$~\cite{graph_db_power_limitations}.
 We do not use these additional metadata in our setup, but they could be used to model more complex relationships.
 
 We will implement our graph database using Neo4J, since it is a widely used graph database management system.
-% TODO - K - okay so?
 \\
 
-
-% TODO - K - Another Sentence?
 \textbf{Graph database algorithms} enable the efficient analysis and extraction of meaningful insights from large-scale network data.
 They can be broadly categorized into three primary groups, which provide different perspectives on graph structure.
 
 Traversal and Pathfinding Algorithms enable the identification of shortest or
 most optimal paths between nodes in the graph, thereby facilitating the exploration of network topology.
-Examples include Depth-First-Search, Breadth-First-Search, Shortest Path, and Max-Flow-Min-Cut\cite{neo4j_graph_algorithms}.
+Examples include Depth-First-Search, Breadth-First-Search, Shortest Path, and Max-Flow-Min-Cut~\cite{neo4j_graph_algorithms}.
 
 Centrality Algorithms are instrumental in understanding which nodes within a graph hold significant importance.
 By evaluating centrality measures such as degree centrality, closeness centrality, betweenness centrality,
-and PageRank, valuable insights into the underlying network structure is gained\cite{neo4j_graph_algorithms}.
+and PageRank, valuable insights into the underlying network structure is gained~\cite{neo4j_graph_algorithms}.
 
 Community Detection Algorithms, also known as clustering or partitioning algorithms,
 are essential for identifying groups of nodes within a graph that share similar characteristics
@@ -50,7 +45,7 @@ Examples include Label Propagation, Louvain Modularity, and Strongly Connected C
 In our analysis, we utilize the \textbf{PageRank algorithm} to identify influential nodes within the network
 based on their connectivity and centrality.
 The PageRank algorithm was originally a method for evaluating and prioritizing websites on the internet.
-It was developed by Larry Page and Sergey Brin in 1988 at Stanford University ~\cite{page1999pagerank},
+It was developed by Larry Page and Sergey Brin in 1988 at Stanford University~\cite{page1999pagerank},
 the founders of Google.
 The general idea behind the algorithm was that the more links pointing to a website, the more important it is.
 This concept is extended in the PageRank algorithm, which assigns a node's score by iteratively considering not only its direct connections
@@ -66,11 +61,3 @@ where $PR(A)$ is the PageRank score of node $A$,
 $T_1$ to $T_n$ are nodes with edges to $A$,
 $d$ is the damping factor,
 and $C(T_1)$ represents the number of edges to node $T_1$~\cite{neo4j_graph_algorithms}.
-
-
-% TODO - K - needed?
-%This allows us to identify key regulatory genes.
-%By leveraging Neo4J's graph database capabilities,
-%we can efficiently compute PageRank scores for our gene activity network,
-%providing valuable insights into the complex relationships between genes.
-

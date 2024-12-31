@@ -53,14 +53,14 @@ Since no additional attributes are required for this table, we do not need to pe
 % NUMBERS CHECKED!!!
 \subsubsection*{Gene-protein edges} \label{subsubsec:gene_protein_connections}
 To build the connections between genes and proteins, we need to link each gene to its corresponding protein translation.
-For this purpose, we downloaded a file from biomart containing Gene IDs and their Protein IDs for the human genome~\cite{bio_marts}
+For this purpose, we used a file from biomart containing Gene IDs and their Protein IDs for the human genome~\cite{bio_marts}
 The initial dataset comprised of 185,330 entries.
 
 First we drop any rows where either the Ensembl ID for gene or protein is missing, as these would represent incomplete edges.
-Next we built the intersection of rows where the gene ID matched an existing gene node (as described in \ref{subsubsec:gene_nodes}~-~Gene nodes)
+Next we built the intersection of rows where the gene ID matched an existing gene node (as described in~\cref{subsubsec:gene_nodes}~-~Gene nodes)
 
 The final gene-protein edge table~(\cref{fig:03_02_df_gene_protein_edges}) features 101,731 rows as edges and two columns:
-Ensembl ID for the gene and Ensembl ID for the protein.
+Gene ID and Protein ID in form of Ensembl IDs.
 
 \begin{figure}[h]
     \centering
@@ -83,14 +83,15 @@ The new dataset only contains genes with TPM values for both conditions.
 % TODO Code - put code for gene-protein to gene file?!
 Next we want to filter for genes that are translated into proteins.
 Because other types of genes would have no connection to the protein nodes in the network.
-Therefor we build a new subset of genes that also occur in the gene-protein edge table (\ref{subsubsec:gene_protein_connections}~-~Gene-protein edges).
+Therefor we build a new subset of genes that also occur in the gene-protein edge table
+(\cref{subsubsec:gene_protein_connections}~-~Gene-protein edges).
 
 Now we have all rows we need for our gene nodes, and we want to focus on the columns that we will need as attributes.
 When examining the mean TPM values per dataset, we observe a right-skewed distribution, with most values close to zero
 and a long tail extending towards higher values.
 The cancerous TPM values vary from 0 to approximately 41,173 and the healthy TPM values range from 0 to around 36,200.
 
-To fulfill our first objective~\ref{obj:delta_tpm} for these genes,
+To fulfill our \ref{obj:delta_tpm}. objective for these genes,
 we want to calculate a measure that captures significant changes between cancerous and healthy gene activity.
 First we normalize the TPM values from both datasets by performing a common log scaling between 0 and 1 for all TPM values.
 
@@ -152,7 +153,7 @@ where $x$ is the $\Delta_{TPM}$ value, $\mu$ is the mean of all $\Delta_{TPM}$ v
 We define a threshold of $z score = 1.96$ to indicate significant changes in gene activity,
 which corresponds to a confidence level of 95\% (p = 0.05).
 Genes with $\Delta_{TPM}$ values exceeding this threshold will be flagged as $true$ in the $\Delta_{TPM\_relevant}$ column.
-By this we fulfilled our first objective~\ref{obj:delta_tpm} by finding 1,034 genes with significant changes in gene activity.
+By this we fulfilled our first objective by finding 1,034 genes with significant changes in gene activity.
 
 The resulting table contains 17,627 gene nodes as rows with their associated attributes,
 including TPM values and derived metrics such as $\Delta_{TPM}$ or $z score$.
@@ -166,14 +167,12 @@ The head of the table is shown in~\cref{fig:03_02_df_gene_nodes}.
 \end{figure}
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % NUMBERS CHECKED!!!
 \subsubsection*{Protein nodes} \label{subsubsec:protein_nodes}
 Lastly we create the table for the protein nodes.
-To collect all protein nodes for our database creation we use the gene-protein edges(\cref{subsubsec:gene_protein_connections}~-~Gene-protein edges)
-and the protein-protein edges (\ref{subsubsec:protein_protein_edges}~-~Protein-protein-edges), which we already created.
+To collect all protein nodes for our database creation we use the gene-protein edges \cref{subsubsec:gene_protein_connections}~-~Gene-protein edges)
+and the protein-protein edges (\cref{subsubsec:protein_protein_edges}~-~Protein-protein-edges), which we already created.
 
 From the gene-protein edge table, we extract all unique protein Ensembl IDs.
 From the protein-protein edge table, we concat both columns of protein Ensembl IDs and extract all unique values.
@@ -181,12 +180,11 @@ We then merge both tables and drop duplicates again to get a list of all unique 
 
 The resulting table is a list of 104,235 unique Protein Ensembl IDs as shown in \cref{fig:03_02_df_protein_nodes}.
 
+
+% TODO Final Check for columns!!
 \begin{figure}[h]
     \centering
     \includegraphics[height=\dfheight]{figures/03_02_protein_nodes}
     \caption{Example data of protein nodes that will be used in the graph database}
     \label{fig:03_02_df_protein_nodes}
 \end{figure}
-
-
-% TODO Protein Nodes is single column - can library also save this?

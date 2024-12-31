@@ -1,8 +1,8 @@
 \subsection{Data} \label{subsec:data}
 
-Our study consists of two main datasets.
-One includes healthy tissue data from the Genotype-Tissue Expression (GTEx) project,
-and the other includes cancerous tissue data from the Cell Model Passport (CMP) project.
+For our study we choose two main datasets, each containing gene expression data for healthy and cancerous tissues.
+The first one includes healthy tissue data from the Genotype-Tissue Expression (GTEx) project,
+and the second one includes cancerous tissue data from the Cell Model Passport (CMP) project.
 While these resources are widely used and well-established in research, they do have limitations in terms of their scope and coverage.
 The GTEx dataset consists of only adult postmortem donor samples, with 2/3 of them between 50 and 69 years old and 2/3 being male~\cite{GTEX_modelannotation}.
 The Cell Model Passport dataset contains data from donors who are predominantly male (60\%)
@@ -14,10 +14,10 @@ where each row contains a unique Ensemble ID along with one value representing h
 \\
 
 % Genotype-Tissue Expression (GTEx) dataset
-% TODO - K - i und j als numnber of genes und tissues oder als variable dafür?!
+\subsubsection*{GTEx} \label{subsubsec:GTEx}
 For the healthy tissue samples used in this study,
-we utilized the $"$GTEx\_Analysis\_2017-06-05\_v8\_\newline
-RNASeQCv1.1.9\_gene\_tpm$"$ dataset from the GTEx portal~\cite{gtex_download}.
+we utilized the \texttt{GTEx\_Analysis\_2017-06-05\_v8\_\newline
+RNASeQCv1.1.9\_gene\_tpm} dataset from the GTEx portal~\cite{gtex_download}.
 The \textbf{GTEx portal} is a large-scale, publicly available resource for studying gene activity.
 The Adult GTEx project aims to characterize the gene expression patterns in healthy tissues across different individuals,
 providing valuable insights into the underlying biology of human development and disease.
@@ -57,8 +57,8 @@ To process this data into a suitable format, we employed the following steps:
         \hline
         & & & \\[1mm] % adding more space to the row
         $\begin{aligned}
-        i & : \text{number of genes} \\
-        j & : \text{number of tissues} \\
+        i & : \text{gene} \\
+        j & : \text{tissue} \\
         a_{ij} & : \text{TPM for gene } i \text{ in tissue } j
         \end{aligned}$ &
         $ A_{\text{long}} = (\text{Gen}_i, \text{Tissue}_j, a_{ij}) $ &
@@ -141,6 +141,7 @@ and a mean TPM value $M_i$ was saved as a CSV file for further processing.\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Cell Model Passport
+\subsubsection*{CMP} \label{subsubsec:CMP}
 For the purpose of the analysis of gene activity in lung cancer, we utilized data from the \textbf{CMP project},
 a comprehensive resource for studying cancer-related gene expression.
 
@@ -152,12 +153,12 @@ and additional information.
 
 However, the CMP dataset lacked Ensemble IDs, which were crucial for our analysis.
 So we needed to add the Ensemble IDs to the dataset to ensure consistency and accuracy in our analysis.
-To focus on lung cancer-specific data, we loaded an additional file containing tissue-specific annotations. \cite{cmp_tissue_models}
+To focus on lung cancer-specific data, we loaded an additional file containing tissue-specific annotations~\cite{cmp_tissue_models}.
 Then we filtered the CMP dataset to include only tissues from the annotation file with lung cancer as the cancer type.
 Specifically, we filtered the dataset to include only lung cancer-specific models labeled as
 Small Cell Lung Carcinoma, Non-Small Cell Lung Carcinoma or Squamous Cell Lung Carcinoma in the $cancer\_type$ column.
 
-The resulting dataset comprises 7,564,389 rows containing genes and tissues
+The resulting dataset comprises 7,564,389 rows containing genes $i$ and tissues $j$
 with associated TPM values for lung cancer (see~\cref{tab:cmp_table}.0).
 Specifically, the dataset includes information on 37,262 unique genes $i$ across 203 distinct tissue types $j$.
 The resulting dataset contains no missing values and the TPM values span a range of 0 and 132,676.
@@ -173,7 +174,7 @@ To prepare the data for further processing, we performed the following steps:
     The original dataset contained own IDs for the genes but lacked the universal Ensembl ID required for matching genes across datasets.
     We overcame this challenge by adding the required Ensembl IDs to our dataset using gene names as a reference point.
     For this purpose we downloaded an Ensemble file from biomart~\cite{bio_marts},
-    which contains the Ensembl ID and corresponding gene name.
+    which contains the Ensembl ID and corresponding name for a gene $x$.
 
     By analyzing the Ensemble file, we encountered an issue where some gene name were not unique within the file.
     To resolve this problem, we dropped all rows with duplicate gene names.
@@ -185,7 +186,6 @@ To prepare the data for further processing, we performed the following steps:
     we removed them from our dataset to ensure consistency and accuracy of our analysis (see~\cref{tab:cmp_table}.3).
 \end{enumerate}
 
-% TODO -K- Rest zusammen
 \begin{table}[!h]
     \centering
     \resizebox{\textwidth}{!}{
@@ -197,20 +197,30 @@ To prepare the data for further processing, we performed the following steps:
 
         % 1. Additional formulars
         $\begin{aligned}
-        i & : \text{number of genes} \\
-        j & : \text{number of tissues} \\
+        i & : \text{gene} \\
+        j & : \text{tissue} \\
         b_{ij} & : \text{TPM for gene } i \text{ in tissue } j
         \end{aligned}$ &
 
         $ M_i = \frac{1}{j}\sum_{j=1}^{j} b_{ij} $ &
-        &\\
+
+        $\text{EID}_i =
+        \begin{cases}
+            \text{EID}_x & \text{if } \exists x \in E_{\text{ens}}: \text{Name}_x = \text{Name}_i, \\
+            \text{NULL} & \text{if } \nexists x \in E_{\text{ens}} : \text{Name}_x = \text{Name}_i.
+        \end{cases}$ &
+
+        $ B_{\text{clean}} = B_{\text{ens}} \setminus \{ i \mid EID_i = \text{NULL} \} $
+        \\
 
         & & & \\[1mm] % adding more space to the row
 
         % 2. Row definitions
         $ B_{\text{orig}} = ( \text{ID}_i, \text{Name}_i, \text{Tissue}_j, b_{ij}, \dots) $ &
         $ B_{\text{agg}} =  ( \text{ID}_i, \text{Name}_i, M_i) $ &
-        $ B_{\text{ens}} =  ( \text{ID}_i, \text{Name}_i, \text{ENS ID}_i, M_i) $ &
+        \makecell{$ E_{\text{ens}} =  ( \text{EID}_x, \text{Name}_x) $ \\
+            $ B_{\text{ens}} =  ( \text{ID}_i, \text{Name}_i, \text{EID}_i, M_i) $} &
+        $ B_{\text{clean}} =  ( \text{ID}_i, \text{Name}_i, \text{EID}_i, M_i) $
         \\
 
         & & & \\[1mm] % adding more space to the row
@@ -230,11 +240,17 @@ To prepare the data for further processing, we performed the following steps:
             \text{ID}_i & \text{Name}_i & M_{i}
         \end{bmatrix} $ &
         $ B_{\text{ens}} = \begin{bmatrix}
-            \text{ID}_1 & \text{Name}_1 & \text{ENS ID}_1 & M_{1} \\
-            \text{ID}_2 & \text{Name}_2 & \text{ENS ID}_2 &  M_{2} \\
+            \text{ID}_1 & \text{Name}_1 & \text{EID}_1 & M_{1} \\
+            \text{ID}_2 & \text{Name}_2 & NULL &  M_{2} \\
             \vdots & \vdots & \vdots & \vdots \\
-            \text{ID}_i & \text{Name}_i & \text{ENS ID}_i & M_{i}
+            \text{ID}_i & \text{Name}_i & \text{EID}_i & M_{i}
         \end{bmatrix} $ &
+        $ B_{\text{clean}} = \begin{bmatrix}
+            \text{ID}_1 & \text{Name}_1 & \text{EID}_1 & M_{1} \\
+            \text{ID}_3 & \text{Name}_3 & \text{EID}_3 & M_{3} \\
+            \vdots & \vdots & \vdots & \vdots \\
+            \text{ID}_i & \text{Name}_i & \text{EID}_i & M_{i}
+        \end{bmatrix} $
         \\
 
 
@@ -254,6 +270,9 @@ To prepare the data for further processing, we performed the following steps:
         $ B_{\text{ens}, i} = \begin{bmatrix}
             \text{SIDG...16} & \text{CASP10} & \text{ENSG...400} & 5.017
         \end{bmatrix}$ &
+        $ B_{\text{clean}, i} = \begin{bmatrix}
+            \text{SIDG...16} & \text{CASP10} & \text{ENSG...400} & 5.017
+        \end{bmatrix}$
         \\
 
 
@@ -273,4 +292,3 @@ The resulting dataset (\cref{fig:03_01_df_CMP_cancer_mean}) contains 33,502 gene
     \caption{Example data of processed Cell Modell Passport dataset}
     \label{fig:03_01_df_CMP_cancer_mean}
 \end{figure}
-

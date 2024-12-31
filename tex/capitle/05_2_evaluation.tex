@@ -1,8 +1,4 @@
 \subsection{Study Evaluation} \label{subsec:evaluation}
-% Proofing out setup with cancer-associated genes
-% chosen algorithm - Pagerank
-% chosen measure - Delta TPM
-% chosen Dataset
 
 % Checking Cancer-Associated Genes
 \subsubsection*{Evaluation of the Network with cancer-associated Genes} \label{subsubsec:evaluation_known_genes}
@@ -27,11 +23,11 @@ and their respective $\Delta_{TPM}$ values and PageRank scores.
 \end{figure}
 
 When examining the placement of these cancer-associated genes within the network,
-we observed that only one gene (with a $\Delta_{TPM}$ value of 0.265) is classified as $delta TPM relevant$.
+we observed that only one gene (with a $\Delta_{TPM}$ value of 0.265) is classified as $\Delta_{TPM relevant}$.
 None of the others have a notable $\Delta_{TPM}$ value,
 with most being situated in the middle of the distribution and showing no clear pattern or outliers.
 
-Upon examining the placement of these cancer-associated genes, we observed that none of them have a pagerank score greater than 5,
+Upon examining the placement of these cancer-associated genes, we observed that none of them have a PageRank score greater than 5,
 which seems to be far away from the top 10 genes.
 However, as shown in \cref{fig:05_known_genes},
 4 of the 9 genes are situated within the top 10 percent of the distribution (PR score \> 3.67),
@@ -45,14 +41,15 @@ and all are above the median, indicating that they are relatively well-connected
     \minipage{0.45\textwidth}
       \includegraphics[width=\linewidth]{figures/05_01_pagerank_known_genes}
     \endminipage
-    \caption{Distribution of the Pagerank score and the $\Delta_{TPM}$ with highlighting of values for 9 known cancer-associated genes}
+    \caption{Distribution of the Pagerank score and the $\Delta_{TPM}$
+        with the area for significant change in gene activity highlighted in light red
+        and the values for 9 known cancer-associated genes marked as red bars}
     \label{fig:05_known_genes}
 \end{figure}
 
 Our analysis suggests that while our network construction and PageRank algorithm are robust,
 the placement of these cancer-associated genes within the network may not be directly indicative
 of their role in cancer development.\\
-% TODO longer
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Delta TPM relevant
@@ -74,7 +71,8 @@ by subtracting the log-scaled mean TPM values.
 Additionally, the log-scaled normalization method of TPM values might not be optimal,
 and could be improved by using a different, e.g. non-linear method such as quantile normalization.
 Furthermore, our measure may be too general, potentially leading to false negatives for genes that are more sensitive to smaller changes.
-To address these concerns, it could be a way to investigate the correlation between xxx with methods like fold change and enrichment scores.
+To address these concerns, it could be a way to investigate the correlation between cancerous and healthy tissues
+with methods like fold change and enrichment scores.
 Another improvement could be to use an additional measure such as FPKM or RPKM to validate the TPM results and not rely on only one measure.
 \\
 
@@ -82,7 +80,7 @@ Another improvement could be to use an additional measure such as FPKM or RPKM t
 % PageRank
 \subsubsection*{Limitation of the PageRank score} \label{subsubsec:limit_pagerank}
 % How did it work?
-Pagerank is a well-established algorithm for ranking nodes in a network based on their connectivity.
+PageRank is a well-established algorithm for ranking nodes in a network based on their connectivity.
 Our assumption was that genes with more connections to other genes over their proteins would have a higher PageRank score,
 meaning that their change in gene activity has a higher influential within the network.
 Therefore we calculated the PageRank score for each gene in our network to determine its importance within the network
@@ -90,11 +88,9 @@ and find the most influential genes based on their connections.
 
 
 % Did it work well?
-However, upon examining the distribution of PageRank scores, we observed a logarithmic / exponential trend with a few genes having high scores and most genes having low scores.
+However, upon examining the distribution of PageRank scores, we observed a trend with a few genes having high scores
+and most genes having low scores.
 This distribution suggests that a small number of highly connected nodes dominate the network's topology.
-
-% While our analysis identified these top-scoring genes as having high connectivity within the network, this result relies on an assumption that may not hold in all cases.
-% TODO Meaning?!
 
 Our analysis revealed some interesting insights into how the PageRank score is distributed in our setup.
 It appears that the score for a gene is largely influenced by the number of proteins it transcribes,
@@ -105,8 +101,6 @@ making the PageRank score less informative than expected.
 
 To address this issue, we propose exploring alternative approaches that consider multiple levels of interactions
 or incorporate weights into the edges and nodes.
-
-% TODO plot the distribution of interactions by protein - plot is quite left skewed
 
 % inital Data
 \subsubsection*{Limitation of the used base datasets} \label{subsubsec:limit_base_data}
@@ -135,4 +129,4 @@ and ethnic backgrounds to enhance the representativeness of our results.
 Our study provides a comprehensive analysis of the network of genes involved in lung cancer development.
 Nevertheless, there are several limitations that should be addressed in future research.
 One could be to investigate the correlation between the $\Delta_{TPM}$ and other measures such as fold change or enrichment scores
-another could be to use additional datasets to validate the results and improve the generalizability of our findings.
+another could be to use additional datasets to validate the results and improve the generalizability of our findings.\\

@@ -1,6 +1,4 @@
 \section{Results} \label{sec:results}
-% focus on the results, not on the analysis
-
 % intro
 Within this chapter, we present the crucial component of our study,
 where we distill the essence of the extended PPI network by identifying the top 10 genes that stand out as significant contributors.
@@ -12,15 +10,13 @@ it is essential to provide an overview of the distribution of PageRank scores an
 This will allow us to better understand the characteristics of our data and how they relate to one another.
 
 The PageRank distribution exhibit an initial peak at a score of approximately 67,
-which stands out as an outlier in comparison to other scores (see ~\cref{fig:04_hist_pagerank}).
+which stands out as an outlier in comparison to other scores (see~\cref{fig:04_hist_pagerank}).
 This peak is followed by a gradual decline to around 40, with subsequent scores showing progressively smaller differences
 as they approach the mid-30s range.
 Notably, once the scores fall to this level, the gaps between them become considerably narrower,
 suggesting a pattern of logarithmic decay.
-From the 1033 relevant genes 155 have the lowest Pagerank score of 0.151.
+From the 1,033 relevant genes 155 have the lowest Pagerank score of 0.151.
 These genes consist of only one edge with a single protein that has not that many connections to other proteins.\\
-
-% TODO add mean or something?
 
 \begin{figure}[h]
     \minipage{0.45\textwidth}
@@ -44,14 +40,15 @@ We observe that 59\% of the relevant genes have an increase in gene activity and
 \begin{figure}[!h]
     \centering
     \includegraphics[height=\dfheightdouble]{figures/04_delta_tpm_relevant}
-    \caption{Distribution of $\Delta_{TPM}$ values for genes with the area for significant change in gene activity highlighted in red}
+    \caption{Distribution of $\Delta_{TPM}$ values for genes with the area for significant change in gene activity highlighted in light red
+    and the top 10 genes with the highest PageRank scores marked as red bars}
     \label{fig:04_delta_tpm_relevant}
 \end{figure}
 
 
 % Presentation of the 10 Genes
-To identify the most significant genes, we extracted the \textbf{top 10 genes} with the highest PageRank scores from the list of relevant genes,
-as shown in \cref{fig:03_03_df_pagerank_relevant}.
+To identify the most significant genes, we choose to extract the \textbf{top 10 genes} with the highest PageRank scores from the list of relevant genes
+as representative examples, as shown in \cref{fig:03_03_df_pagerank_relevant}.
 These genes are not only highly connected within the network but also exhibit a substantial change in gene activity.
 The PageRank scores are between 25.635 and 11.090,
 while the $\Delta_{TPM}$ values span a range from 0.214719 to -0.317776, with only one gene showing a decrease in gene activity.\\

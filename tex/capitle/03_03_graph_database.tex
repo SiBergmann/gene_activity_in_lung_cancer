@@ -10,9 +10,10 @@ including information about creating indexes, constraints, relationships between
 
 
 % PPI Network
+\subsubsection*{basic PPI network} \label{subsubsec:basic_ppi_network}
 To construct the \textbf{basic PPI network}, we need to create protein nodes and their interactions as edges.
 To optimize query execution, we start with indexing the protein property $ID$.
-Next we load the data (\ref{subsubsec:protein_nodes}~-~Protein nodes) as a list and then create the nodes in batches for efficient processing.
+Next we load the data (\cref{subsubsec:protein_nodes}~-~Protein nodes) as a list and then create the nodes in batches for efficient processing.
 The graph database is populated with 104,235 protein nodes.
 
 Since these nodes are used solely for connections between genes, no additional properties are required.
@@ -22,7 +23,7 @@ The cypher query for creating protein nodes is:
 \end{lstlisting}
 \vspace{\baselineskip}
 
-We then create interaction edges by loading the saved data (\ref{subsubsec:protein_protein_edges}~-~Protein-protein edges)
+We then create interaction edges by loading the saved data (\cref{subsubsec:protein_protein_edges}~-~Protein-protein edges)
 as a list of protein tuples and searching for both protein nodes by their ID in the graph database.
 The edges are created in batches for efficient processing, resulting in 11,247,242 interactions between protein nodes.
 
@@ -47,10 +48,11 @@ We now have a complete PPI network in place.\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Extending the Network with Genes
+\subsubsection*{extended PPI network} \label{subsubsec:extended_ppi_network}
 To construct our \textbf{extended PPI network} we need to integrate genes into the created protein network.
 
 First, we implement an index on the gene property $ID$ for faster querying.
-We load the saved data (\ref{subsubsec:gene_nodes}~-~Gene nodes) as a list and create 17,626 gene nodes
+We load the saved data (\cref{subsubsec:gene_nodes}~-~Gene nodes) as a list and create 17,626 gene nodes
 in batches with their properties.
 
 The cypher query employed for creating these gene nodes is:
@@ -76,7 +78,7 @@ Although other attributes may be less relevant to our current investigation, the
 
 To model relationships between genes and proteins,
 we establish edges between these nodes by loading the gene-protein interaction data
-(\ref{subsubsec:gene_protein_connections}~-~Gene-protein edges) as a list of tuples.
+(\cref{subsubsec:gene_protein_connections}~-~Gene-protein edges) as a list of tuples.
 This involves matching gene and protein nodes based on their respective IDs,
 and creating edges in batches to optimize processing efficiency.
 The result is a comprehensive network of 101,731 connections between gene and protein nodes.
@@ -88,7 +90,6 @@ The cypher query for creating gene-protein connection edges is:
     CREATE (s)-[:connection]-(t)
 \end{lstlisting}
 
-% TODO Alternativ Verlinkung zu oben
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{figures/03_02_Network_2}

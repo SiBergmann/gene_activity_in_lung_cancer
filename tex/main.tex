@@ -19,7 +19,7 @@
 \usepackage{listings}
 \usepackage[noabbrev, capitalise]{cleveref}
 \setlength{\parindent}{0em}
-
+\usepackage{makecell}
 
 
 % Define Cypher syntax highlighting
@@ -42,7 +42,8 @@
 }
 
 %
-\usepackage{fancyhdr} % Paket für Kopf- und Fußzeilen
+\usepackage{fancyhdr}
+\usepackage{glossaries} % Paket für Kopf- und Fußzeilen
 \pagestyle{fancy}     % Aktiviert benutzerdefinierte Kopf- und Fußzeilen
 %\fancyhf{}            % Setzt alle Kopf- und Fußzeilen zurück - dann fehlt Seitenzahl
 
@@ -55,25 +56,46 @@
 \newcommand{\dfheightdouble}{5.5cm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Title and author
 \title{A Graph-Based Analysis of Gene Activity in Lung Cancer based on Protein-Interaction Networks}
-\author{
-Simone Bergmann\\
-\texttt{simone.bergmann@uni-bielefeld.de}%
-}
+\author{Simone Bergmann\\
+\texttt{simone.bergmann@uni-bielefeld.de}}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%
-% \twocolumn
 \begin{document}
-\maketitle
 
-% FACTS:
-% 15 bis 30 Seiten (exklusive Titel, Abstract, Inhaltsverzeichnis, Literaturverzeichnis, ...)
-% Deckblatt
-% Inhaltsverzeichnis
-% Nicht zu viele Unterkapitel / zu sehr verschachtelt
-% ca 30 Quellen
-% Jedes Kapitel am Anfang und am Ende zusammenfassen aber Fokus auf Ende
+\begin{titlepage}
+  %\maketitle
 
+  \begin{center}
+    \Huge{University of Bielefeld} \\
+
+    \vspace{.5cm}
+    \Large{Faculty of Technology}
+
+    \vspace{1cm}
+    \textbf{Bachelor's thesis}\\
+    in Computer Science
+    \vspace{2cm}
+
+    \Large{A Graph-Based Analysis of Gene Activity in Lung Cancer based on Protein-Interaction Networks}
+
+    \vspace{2cm}
+
+    Simone Bergmann\\
+    3957624\\
+    \texttt{simone.bergmann@uni-bielefeld.de}
+    \vspace{0.5cm}
+
+    \today
+    \vspace{0.5cm}
+
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
 
 % Task:
 % Creation of a data model and integration of genes and proteins with interactions in an appropriate form within a graph database,
@@ -83,6 +105,7 @@ Simone Bergmann\\
 % TODO
 % Abstact soll kursiv sein
 % check tenses in the text - present tense!!
+% Zeilenumbrüche nochmal checken
 
 % Clean up Code:
     % Write Intro for every jupyter file
@@ -112,7 +135,6 @@ Simone Bergmann\\
 
 \newpage
 \bibliographystyle{plain}
-% Style Types: abbrv, alpha, apalike, ieeetr, plain, unsrt
 \bibliography{refs} % Entries are in the refs.bib file
 
 \end{document}
