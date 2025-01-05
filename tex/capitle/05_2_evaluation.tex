@@ -30,7 +30,7 @@ with most being situated in the middle of the distribution and showing no clear 
 Upon examining the placement of these cancer-associated genes, we observed that none of them have a PageRank score greater than 5,
 which seems to be far away from the top 10 genes.
 However, as shown in \cref{fig:05_known_genes},
-4 of the 9 genes are situated within the top 10 percent of the distribution (PR score \> 3.67),
+4 of the 9 genes are situated within the top 10 percent of the distribution (PageRank score $>$ 3.67),
 and all are above the median, indicating that they are relatively well-connected nodes within our network.
 
 \begin{figure}[h]
@@ -41,7 +41,7 @@ and all are above the median, indicating that they are relatively well-connected
     \minipage{0.45\textwidth}
       \includegraphics[width=\linewidth]{figures/05_01_pagerank_known_genes}
     \endminipage
-    \caption{Distribution of the Pagerank score and the $\Delta_{TPM}$
+    \caption{Distribution of the PageRank score and the $\Delta_{TPM}$
         with the area for significant change in gene activity highlighted in light red
         and the values for 9 known cancer-associated genes marked as red bars}
     \label{fig:05_known_genes}
@@ -53,10 +53,10 @@ of their role in cancer development.\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Delta TPM relevant
-\subsubsection*{Limitation of the $\Delta_{TPM}$ and the $\Delta TPM relevant$ measure} \label{subsubsec:limit_delta_tpm}
+\subsubsection*{Limitation of the $\Delta_{TPM}$ and the $\Delta_{TPM relevant}$ measure} \label{subsubsec:limit_delta_tpm}
 The calculated $\Delta_{TPM}$ values represent the relative difference in gene expression between normalized mean cancerous and healthy states,
 indicating an increase or decrease in transcript abundance in the tumor compared to normal tissue.
-We classified the significant 5\% of the genes as $\Delta TPM relevant$ in our study.
+We classified the significant 5\% of the genes as $\Delta_{TPM relevant}$ in our study.
 
 The top 10 genes that we looked at all had a connection to cancer based on previous studies
 - even if not all of them had a connection to lung cancer.
@@ -103,7 +103,7 @@ To address this issue, we propose exploring alternative approaches that consider
 or incorporate weights into the edges and nodes.
 
 % inital Data
-\subsubsection*{Limitation of the used base datasets} \label{subsubsec:limit_base_data}
+\subsubsection*{Limitation of the used datasets} \label{subsubsec:limit_base_data}
 
 The quality and limitations of the datasets used in this study are critical factors that impact the validity and generalizability of our results.
 While both the CMP and GTEx datasets provide valuable insights into gene expression and regulation,
@@ -116,7 +116,7 @@ As a result, our findings may not be representative of younger populations.
 Since we were unable to find any information on ethnic diversity among the study participants for either the CMP or GTEx datasets,
 it is unclear whether the results can be generalized to diverse populations.
 
-Additionally, we have concerns about the accuracy of the matching of ensemble ID names in the CMP dataset,
+Additionally, we have concerns about the accuracy of the matching of Ensemble ID names in the CMP dataset,
 which could lead to incorrect gene assignments if not properly validated.
 To address these limitations and improve the generalizability of our findings,
 it could be an option to use alternative datasets such as TCGA, which is a widely used resource for cancer research.

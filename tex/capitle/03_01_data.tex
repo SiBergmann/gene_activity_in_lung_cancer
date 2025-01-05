@@ -5,7 +5,7 @@ The first one includes healthy tissue data from the Genotype-Tissue Expression (
 and the second one includes cancerous tissue data from the Cell Model Passport (CMP) project.
 While these resources are widely used and well-established in research, they do have limitations in terms of their scope and coverage.
 The GTEx dataset consists of only adult postmortem donor samples, with 2/3 of them between 50 and 69 years old and 2/3 being male~\cite{GTEX_modelannotation}.
-The Cell Model Passport dataset contains data from donors who are predominantly male (60\%)
+The CMP dataset contains data from donors who are predominantly male (60\%)
 and have an age range that is biased towards older adults (50-69 years old)~\cite{CMP_modelannotation}.
 
 The two datasets provide the foundation for our graph database, specifically for the gene nodes.
@@ -16,35 +16,35 @@ where each row contains a unique Ensemble ID along with one value representing h
 
 \subsubsection*{GTEx} \label{subsubsec:GTEx}
 For the healthy tissue samples used in this study,
-we utilized the \texttt{GTEx\_Analysis\_2017-06-05\_v8\_\newline
+we utilize the \texttt{GTEx\_Analysis\_2017-06-05\_v8\_\newline
 RNASeQCv1.1.9\_gene\_tpm} dataset from the GTEx portal~\cite{gtex_download}.
 The \textbf{GTEx portal} is a large-scale, publicly available resource for studying gene activity.
 The Adult GTEx project aims to characterize the gene expression patterns in healthy tissues across different individuals,
 providing valuable insights into the underlying biology of human development and disease.
 
-The used dataset $A_{orig}$ is in a .gct file format that contains TPM values for 56,156 genes $i$ identified by
+The dataset $A_{orig}$ is in a .gct file format that contains TPM values for 56,156 genes $i$ identified by
 Ensemble ID as rows in 17,382 different tissues $j$ as columns (see~\cref{tab:gtex_table}.0).
-The data was initially stored in a file in wide format where each tissue $j$ had its own column.
+The data is initially stored in a file in wide format where each tissue $j$ had its own column.
 The TPM values for these tissues range between 0 and 747,400.
-Since there are no missing values in the dataset, we did not need to handle any missing data.
-To process this data into a suitable format, we employed the following steps:
+Since there are no missing values in the dataset, we do not need to handle any missing data.
+To process this data into a suitable format, we employ the following steps:
 
 \begin{enumerate}
     \item \textbf{Reshaping to long format:}
     We read the data from the original format in chunks of 3,000 rows at a time due to RAM capacity constraints.
-    For each chunk of data, we transformed the columns for each tissue $j$ into individual rows,
-    resulting in a dataset with three columns and 976.103.592 ($i * j$) rows (see~\cref{tab:gtex_table}.1).
+    For each chunk of data, we transform the columns for each tissue $j$ into individual rows,
+    resulting in a dataset with three columns and 976,103,592 ($i * j$) rows (see~\cref{tab:gtex_table}.1).
 
     \item \textbf{Grouping by genes:}
-    Once all chunks had been processed, we separated the combined dataset again for RAM reasons
+    Once all chunks are processed, we separate the combined dataset again for RAM reasons
     in new chunks of approximately 200 million rows.
-    These chunks have been grouped by gene using an aggregate function that calculated
+    These chunks are grouped by gene using an aggregate function that calculates
     both the sum $S_i$ and count $C_i$ of TPM values for each gene $i$ (see~\cref{tab:gtex_table}.2).
 
     \item \textbf{Calculating mean TPM:}
-    To handle genes that had been split across multiple chunks,
-    we performed a global aggregation on the genes of the sum of the dataset.
-    Then we calculated the mean TPM value $M_i$ for each gene $i$ by dividing the sum $S_i$ by the count $C_i$
+    To handle genes that have been split across multiple chunks,
+    we performe a global aggregation on the genes of the sum of the dataset.
+    Then we calculate the mean TPM value $M_i$ for each gene $i$ by dividing the sum $S_i$ by the count $C_i$
     of each observation (see~\cref{tab:gtex_table}.3).
 \end{enumerate}
 
@@ -128,12 +128,12 @@ To process this data into a suitable format, we employed the following steps:
 \end{table}
 
 The resulting dataset (see~\cref{fig:03_01_df_GTEX_healthy_mean}) with 56,156 genes $i$
-and a mean TPM value $M_i$ was saved as a CSV file for further processing.\\
+and a mean TPM value $M_i$ is saved as a CSV file for further processing.\\
 
 \begin{figure}[h]
     \centering
     \includegraphics[height=\dfheight]{figures/03_01_GTEX_healthy_mean}
-    \caption{Example data of processed Genotype-Tissue Expression dataset}
+    \caption{Example data of processed GTEx dataset}
     \label{fig:03_01_df_GTEX_healthy_mean}
 \end{figure}
 
@@ -142,48 +142,48 @@ and a mean TPM value $M_i$ was saved as a CSV file for further processing.\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Cell Model Passport
 \subsubsection*{CMP} \label{subsubsec:CMP}
-For the purpose of the analysis of gene activity in lung cancer, we utilized data from the \textbf{CMP project},
+For the purpose of the analysis of gene activity in lung cancer, we utilize data from the \textbf{CMP project},
 a comprehensive resource for studying cancer-related gene expression.
 
-We obtained the dataset from the CMP portal~\cite{cmp_download} with the name \texttt{rnaseq\_all\_data\_20220624}.
+We obtain the dataset from the CMP portal~\cite{cmp_download} with the name \texttt{rnaseq\_all\_data\_20220624}.
 This dataset contains data from the Sanger Institute and the Broad Institute and
 consists of a file containing genes associated with diverse cancer types, including lung cancer.
-Initially, the data was stored in long format with columns for gene identifiers, tissues, TPM values,
+Initially, the data is stored in long format with columns for gene identifiers, tissues, TPM values,
 and additional information.
 
-However, the CMP dataset lacked Ensemble IDs, which were crucial for our analysis.
-So we needed to add the Ensemble IDs to the dataset to ensure consistency and accuracy in our analysis.
-To focus on lung cancer-specific data, we loaded an additional file containing tissue-specific annotations~\cite{cmp_tissue_models}.
-Then we filtered the CMP dataset to include only tissues from the annotation file with lung cancer as the cancer type.
-Specifically, we filtered the dataset to include only lung cancer-specific models labeled as
-Small Cell Lung Carcinoma, Non-Small Cell Lung Carcinoma or Squamous Cell Lung Carcinoma in the $cancer\_type$ column.
+However, the CMP dataset lacks Ensemble IDs, which are crucial for our analysis.
+So we need to add the Ensemble IDs to the dataset to ensure consistency and accuracy in our analysis.
+To focus on lung cancer-specific data, we load an additional file containing tissue-specific annotations~\cite{cmp_tissue_models}.
+Then we filter the CMP dataset to include only tissues from the annotation file with lung cancer as the cancer type.
+Specifically, we filter the dataset to include only lung cancer-specific models labeled as
+SCLC, NSCLC or Squamous Cell Lung Carcinoma in the $cancer\_type$ column.
 
 The resulting dataset comprises 7,564,389 rows containing genes $i$ and tissues $j$
 with associated TPM values for lung cancer (see~\cref{tab:cmp_table}.0).
 Specifically, the dataset includes information on 37,262 unique genes $i$ across 203 distinct tissue types $j$.
-The resulting dataset contains no missing values and the TPM values span a range of 0 and 132,676.
+The dataset contains no missing values and the TPM values span a range of 0 and 132,676.
 
-To prepare the data for further processing, we performed the following steps:
+To prepare the data for further processing, we perform the following steps:
 \begin{enumerate}
     \item \textbf{Grouping by genes:}
-    We grouped the dataset by genes to obtain a mean TPM value for every gene.
-    This step involved aggregating the data by gene names, resulting in a new dataset
+    We group the dataset by genes to obtain a mean TPM value for every gene.
+    This step involves aggregating the data by gene names, resulting in a new dataset
     with a mean TPM value for each gene (see~\cref{tab:cmp_table}.1).
 
     \item \textbf{Adding Ensembl ID:}
-    The original dataset contained own IDs for the genes but lacked the universal Ensembl ID required for matching genes across datasets.
-    We overcame this challenge by adding the required Ensembl IDs to our dataset using gene names as a reference point.
-    For this purpose we downloaded an Ensemble file from biomart~\cite{bio_marts},
+    The original dataset contains own IDs for the genes but lacks the universal Ensembl ID required for matching genes across datasets.
+    We overcome this challenge by adding the required Ensembl IDs to our dataset using gene names as a reference point.
+    For this purpose we download an Ensemble file from biomart~\cite{bio_marts},
     which contains the Ensembl ID and corresponding name for a gene $x$.
 
-    By analyzing the Ensemble file, we encountered an issue where some gene name were not unique within the file.
-    To resolve this problem, we dropped all rows with duplicate gene names.
-    We then merged the Ensemble table with our CMP data on the gene name to retrieve the Ensemble ID for each gene (see~\cref{tab:cmp_table}.2).
+    By analyzing the Ensemble file, we encounter an issue where some gene name were not unique within the file.
+    To resolve this problem, we drop all rows with duplicate gene names.
+    We then merge the Ensemble table with our CMP data on the gene name to retrieve the Ensemble ID for each gene (see~\cref{tab:cmp_table}.2).
 
     \item \textbf{Removing missing Ensembl ID:}
-    After merging the data, we found that 3,760 of our 37,262 genes still had no Ensembl ID associated with them.
-    Since these genes were likely duplicates or did not exist in the Ensemble file,
-    we removed them from our dataset to ensure consistency and accuracy of our analysis (see~\cref{tab:cmp_table}.3).
+    After merging the data, we find that 3,760 of our 37,262 genes still have no Ensembl ID associated with them.
+    Since these genes are likely duplicates or do not exist in the Ensemble file,
+    we remove them from our dataset to ensure consistency and accuracy of our analysis (see~\cref{tab:cmp_table}.3).
 \end{enumerate}
 
 \begin{table}[!h]
@@ -284,11 +284,12 @@ To prepare the data for further processing, we performed the following steps:
 \end{table}
 
 
-The resulting dataset (\cref{fig:03_01_df_CMP_cancer_mean}) contains 33,502 genes with mean TPM values for lung cancer and was saved as a CSV file for further processing.
+The resulting dataset (\cref{fig:03_01_df_CMP_cancer_mean}) contains 33,502 genes with mean TPM values for lung cancer and
+is saved as a CSV file for further processing.
 
 \begin{figure}[h]
     \centering
     \includegraphics[height=\dfheight]{figures/03_01_CMP_cancer_mean}
-    \caption{Example data of processed Cell Modell Passport dataset}
+    \caption{Example data of processed CMP dataset}
     \label{fig:03_01_df_CMP_cancer_mean}
 \end{figure}

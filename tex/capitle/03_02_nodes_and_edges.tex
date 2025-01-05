@@ -54,7 +54,7 @@ Since no additional attributes are required for this table, we do not need to pe
 % NUMBERS CHECKED!!!
 \subsubsection*{Gene-protein edges} \label{subsubsec:gene_protein_connections}
 To build the connections between genes and proteins, we need to link each gene to its corresponding protein translation.
-For this purpose, we used a file from biomart containing Gene IDs and their Protein IDs for the human genome~\cite{bio_marts}
+For this purpose, we use a file from biomart containing gene IDs and their protein IDs for the human genome~\cite{bio_marts}
 The initial dataset comprised of 185,330 entries.
 
 First we drop any rows where either the Ensembl ID for gene or protein is missing, as these would represent incomplete edges.
@@ -81,7 +81,6 @@ which contain mean TPM values for cancerous and healthy genes.
 We build the intersection of both datasets on their gene Ensemble ID to get a subset.
 The new dataset only contains genes with TPM values for both conditions.
 
-% TODO Code - put code for gene-protein to gene file?!
 Next we want to filter for genes that are translated into proteins.
 Because other types of genes would have no connection to the protein nodes in the network.
 Therefor we build a new subset of genes that also occur in the gene-protein edge table
@@ -153,7 +152,7 @@ where $x$ is the $\Delta_{TPM}$ value, $\mu$ is the mean of all $\Delta_{TPM}$ v
 
 We define a threshold of $z score = 1.96$ to indicate significant changes in gene activity,
 which corresponds to a confidence level of 95\% (p = 0.05).
-Genes with $\Delta_{TPM}$ values exceeding this threshold will be flagged as $true$ in the $\Delta_{TPM\_relevant}$ column.
+Genes with $\Delta_{TPM}$ values exceeding this threshold will be flagged as $true$ in the $\Delta_{TPM relevant}$ column.
 By this we fulfilled our first objective by finding 1,034 genes with significant changes in gene activity.
 
 The resulting table contains 17,627 gene nodes as rows with their associated attributes,
@@ -179,10 +178,9 @@ From the gene-protein edge table, we extract all unique protein Ensembl IDs.
 From the protein-protein edge table, we concat both columns of protein Ensembl IDs and extract all unique values.
 We then merge both tables and drop duplicates again to get a list of all unique protein Ensembl IDs from both tables.
 
-The resulting table is a list of 104,235 unique Protein Ensembl IDs as shown in \cref{fig:03_02_df_protein_nodes}.
+The resulting table is a list of 104,235 unique protein Ensembl IDs as shown in \cref{fig:03_02_df_protein_nodes}.
 
 
-% TODO Final Check for columns!!
 \begin{figure}[h]
     \centering
     \includegraphics[height=\dfheight]{figures/03_02_protein_nodes}
